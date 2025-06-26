@@ -1,4 +1,4 @@
-<template>
+ƒ<template>
     <div class="">
         <button @click.prevent="dropdown = !dropdown" type="button"
             class="flex items-center gap-x-1 text-base font-light text-gray-900" aria-expanded="false">
@@ -15,9 +15,7 @@
             enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
             leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
             <div v-if="dropdown" :class="[
-                'absolute top-full left-1/2 transform -translate-x-1/2 z-10 mt-3 w-screen overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-primary/5',
-                { 'max-w-4xl': item.grid },
-                { 'max-w-md': !item.grid },
+                'absolute top-full left-1/2 transform -translate-x-1/2 z-10 w-full overflow-hidden bg-white ring-1 shadow-lg ring-primary/5',
             ]">
                 <div :class="[
                     'p-4',
@@ -29,7 +27,7 @@
 
                 <div class="grid grid-cols-2 divide-x divide-secondary-900/5 bg-primary-50">
                     <a v-for="(cta, index) in item.ctas" :key="index" href="#"
-                        class="flex items-center justify-center gap-x-2.5 p-3 text-base font-light text-secondary-900 hover:bg-secondary-100">
+                        class="flex items-center justify-center gap-x-2.5 p-3 text-base font-light text-secondary-900 hover:bg-secondary hover:text-white">
                         <!-- <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor"
                             aria-hidden="true">
                             <path fill-rule="evenodd"

@@ -1,8 +1,8 @@
 <template>
     <div :class="[
-        'group relative flex items-center gap-x-4 rounded-lg p-4 text-base',
-        { 'bg-white hover:bg-primary-50': !item.featured },
-        { 'bg-gray-100 white hover:bg-secondary-50': item.featured },
+        'group relative flex items-center gap-x-4 rounded-lg p-4 text-base group',
+        { 'bg-white hover:bg-primary': !item.featured },
+        { 'bg-secondary': item.featured },
     ]">
         <div :class="[
             'flex size-16 flex-none items-center justify-center rounded-lg',
@@ -17,11 +17,17 @@
             <img v-if="item?.image" :src="item.image" :alt="item?.label" class="size-14 object-contain object-center">
         </div>
         <div class="flex-auto">
-            <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" class="block font-semibold text-secondary">
+            <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" :class="['block font-semibold',
+                { 'text-secondary': !item.featured },
+                { 'text-white': item.featured },
+            ]">
                 {{ item?.label }}
                 <span class="absolute inset-0"></span>
             </NuxtLink>
-            <p class="mt-1 text-gris-aluminio font-normal">{{ item.intro }}</p>
+            <p :class="['mt-1 font-normal',
+                { 'text-gris-aluminio group-hover:!text-secondary': !item.featured },
+                { 'text-white': item.featured },
+            ]">{{ item.intro }}</p>
             <!-- <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" class="absolute inset-0">
             </NuxtLink> -->
         </div>

@@ -1,42 +1,40 @@
 <template>
     <header v-motion-fadein-down-enter :duration="1000"
-        class="z-40 bg-white rounded-full fixed top-8 transform -translate-x-1/2 left-1/2 drop-shadow-xs shadow shadow-primary/5 max-w-7xl w-full">
+        class="z-40 bg-white fixed transform -translate-x-1/2 left-1/2 drop-shadow-xs shadow shadow-primary/5 w-full">
         <nav class="mx-auto flex  items-center justify-between p-4 lg:px-8 space-x-10 relative" aria-label="Global">
             <div class="flex lg:flex-1">
                 <NuxtLink to="/" class="-m-1.5 p-1.5">
                     <span class="sr-only">Concentra</span>
-                    <Logo class="h-11 w-auto" />
+                    <Logo class="h-8 lg:h-11 w-auto" />
                 </NuxtLink>
-                TEST
+                V2
             </div>
-            <div class="flex lg:hidden">
+            <div class="hidden xl:flex lg:gap-x-12 mr-0">
+                <client-only v-for="(item, index) in menu" :key="index">
+                    <a v-if="!item.float" href="#" class="text-base font-light text-gray-900">{{ item.label }}</a>
+                    <HeaderFloatMenu v-else :item="item" />
+                </client-only>
+            </div>
+            <div class="flex lg:flex-1 lg:justify-end space-x-16">
+                <NuxtLink to="/solicitudes/empleo"
+                    class="hidden sm:flex rounded-full bg-primary px-3.5 py-2.5 text-base font-light text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
+                    ¡Empléate!
+                </NuxtLink>
+
                 <button type="button"
-                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+                    class="xl:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-primary">
                     <span class="sr-only">Open main menu</span>
-                    <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                    <svg class="size-8 md:size-10" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                         aria-hidden="true" data-slot="icon">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
             </div>
-            <div class="hidden lg:flex lg:gap-x-12 mr-0">
-                <client-only v-for="(item, index) in menu" :key="index">
-                    <a v-if="!item.float" href="#" class="text-base font-light text-gray-900">{{ item.label }}</a>
-                    <HeaderFloatMenu v-else :item="item" />
-                </client-only>
-            </div>
-            <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                <NuxtLink to="/solicitudes/empleo"
-                    class="rounded-full bg-primary px-3.5 py-2.5 text-base font-light text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
-                    ¡Empléate!
-                </NuxtLink>
-            </div>
         </nav>
 
         <!-- Mobile menu, show/hide based on menu open state. -->
-        <div class="lg:hidden" role="dialog" aria-modal="true">
-            <!-- Background backdrop, show/hide based on slide-over state. -->
+        <!-- <div class="lg:hidden" role="dialog" aria-modal="true">
             <div class="fixed inset-0 z-10"></div>
             <div
                 class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
@@ -61,11 +59,6 @@
                                     class="flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                     aria-controls="disclosure-1" aria-expanded="false">
                                     Product
-                                    <!--
-                  Expand/collapse icon, toggle classes based on menu open state.
-
-                  Open: "rotate-180", Closed: ""
-                -->
                                     <svg class="size-5 flex-none" viewBox="0 0 20 20" fill="currentColor"
                                         aria-hidden="true" data-slot="icon">
                                         <path fill-rule="evenodd"
@@ -73,7 +66,6 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                 </button>
-                                <!-- 'Product' sub-menu, show/hide based on menu state. -->
                                 <div class="mt-2 space-y-2" id="disclosure-1">
                                     <a href="#"
                                         class="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50">Analytics</a>
@@ -108,7 +100,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </header>
 </template>
 
