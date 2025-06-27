@@ -25,7 +25,7 @@
                 <span class="absolute inset-0"></span>
             </NuxtLink>
             <p :class="['mt-1 font-normal',
-                { 'text-gris-aluminio group-hover:!text-secondary': !item.featured },
+                { 'text-paragraph group-hover:!text-secondary': !item.featured },
                 { 'text-white': item.featured },
             ]">{{ item.intro }}</p>
             <!-- <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" class="absolute inset-0">
