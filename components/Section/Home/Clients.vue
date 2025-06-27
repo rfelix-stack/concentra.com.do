@@ -3,7 +3,7 @@
         <div class="container mx-auto px-6 lg:max-w-7xl lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-16">
                 <div class="md:col-span-3">
-                    <p class="text-base/7 font-light text-primary tracking-wider uppercase" v-motion-fadein-up-once>
+                    <p class="text-base/7 font-semibold text-primary tracking-wider uppercase" v-motion-fadein-up-once>
                         Nuestros aliados estratégicos
                     </p>
                     <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
@@ -13,7 +13,7 @@
                 </div>
                 <div class="md:col-span-2" v-motion-fadein-up-once>
                     <div>
-                        <p class="mb-6 text-xl/8 text-balance text-gris-aluminio font-normal">
+                        <p class="mb-6 text-xl/8 text-balance text-paragraph font-normal">
                             Empresas que han puesto sus proyectos tecnológicos en nuestras manos.
                         </p>
                         <NuxtLink to="/clientes"
