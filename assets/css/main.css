@@ -59,10 +59,10 @@ html {
     scroll-behavior: smooth;
 }
 
-p,a,span,li {
-    font-family: var(--font-poppins);
+p,span,li {
+    font-family: var(--font-montserrat);
 }
 
-h1,h2,h3,h4,h5,h6 {
-    font-family: var(--font-montserrat);
+h1,h2,h3,h4,h5,h6, a, button {
+    font-family: var(--font-poppins);
 }

@@ -9,7 +9,7 @@
             { 'bg-primary-50 group-hover:bg-white': !item.featured },
             { 'bg-primary-50 group-hover:bg-primary-50': item.featured },
         ]">
-            <svg v-if="item?.icon" class="size-6 text-gray-600 group-hover:text-primary" fill="none" viewBox="0 0 24 24"
+            <svg v-if="item?.icon" class="size-6 text-paragraph group-hover:text-primary" fill="none" viewBox="0 0 24 24"
                 stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
@@ -17,7 +17,7 @@
             <img v-if="item?.image" :src="item.image" :alt="item?.label" class="size-14 lg:size-16 object-contain object-center">
         </div>
         <div class="flex-auto">
-            <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" :class="['block font-semibold',
+            <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" :class="['block font-semibold font-poppins',
                 { 'text-secondary': !item.featured },
                 { 'text-white': item.featured },
             ]">
@@ -25,7 +25,7 @@
                 <span class="absolute inset-0"></span>
             </NuxtLink>
             <p :class="['mt-1 font-normal',
-                { 'text-paragraph group-hover:!text-secondary': !item.featured },
+                { 'text-paragraph group-hover:!text-secondary font-montserrat': !item.featured },
                 { 'text-white': item.featured },
             ]">{{ item.intro }}</p>
             <!-- <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" class="absolute inset-0">

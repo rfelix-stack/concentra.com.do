@@ -1,6 +1,6 @@
 <template>
     <section id="clients" class="bg-white py-16">
-        <div class="container mx-auto px-6 lg:max-w-7xl lg:px-8">
+        <div class="container mx-auto px-5">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-16">
                 <div class="md:col-span-3">
                     <p class="text-base/7 font-semibold text-primary tracking-wider uppercase" v-motion-fadein-up-once>

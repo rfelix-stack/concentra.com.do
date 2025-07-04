@@ -15,36 +15,36 @@
                 </svg>
                 <rect width="100%" height="100%" stroke-width="0" fill="url(#1d4240dd-898f-445f-932d-e2872fd12de3)" />
             </svg>
-            <div class="mx-auto max-w-7xl px-6 pt-16 pb-8 sm:pt-24 lg:px-8 lg:pt-32">
+            <div class="mx-auto container px-5 pt-16 pb-8 sm:pt-24 lg:pt-32">
                 <div class="xl:grid xl:grid-cols-3 xl:gap-10">
                     <div>
                         <Logo class="h-12 brightness-0 invert" />
-                        <p class="mt-6 text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate
+                        <p class="mt-6 text-white text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate
                             ex quidem at</p>
                     </div>
                     <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-8">
                             <div>
-                                <h3 class="text-sm/6 font-semibold text-white">Soluciones</h3>
+                                <h3 class="text-xl font-semibold text-white">Soluciones</h3>
                                 <ul role="list" class="mt-6 space-y-4">
                                     <li>
                                         <a href="#"
-                                            class="text-sm/6 text-gris-aluminio hover:text-primary">SOFTEXPERT</a>
+                                            class="text-base text-white hover:text-primary">SOFTEXPERT</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="text-sm/6 text-gris-aluminio hover:text-primary">SOLARWIND</a>
+                                            class="text-base text-white hover:text-primary">SOLARWIND</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="text-sm/6 text-gris-aluminio hover:text-primary">CARNBONITE</a>
+                                            class="text-base text-white hover:text-primary">CARNBONITE</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">SHUFTI
+                                        <a href="#" class="text-base text-white hover:text-primary">SHUFTI
                                             PRO</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">CELONIS</a>
+                                        <a href="#" class="text-base text-white hover:text-primary">CELONIS</a>
                                     </li>
                                 </ul>
                             </div>
@@ -52,17 +52,17 @@
                                 <h3 class="text-sm/6 font-semibold text-white opacity-0">.</h3>
                                 <ul role="list" class="mt-6 space-y-4">
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">SAYSAID</a>
+                                        <a href="#" class="text-base text-white hover:text-primary">SAYSAID</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">VARONIS</a>
+                                        <a href="#" class="text-base text-white hover:text-primary">VARONIS</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">OBSERVE
+                                        <a href="#" class="text-base text-white hover:text-primary">OBSERVE
                                             IT</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">SERVICES
+                                        <a href="#" class="text-base text-white hover:text-primary">SERVICES
                                             BOX</a>
                                     </li>
                                 </ul>
@@ -70,36 +70,36 @@
                         </div>
                         <div class="md:grid md:grid-cols-2 md:gap-8">
                             <div>
-                                <h3 class="text-sm/6 font-semibold text-white">Servicios</h3>
+                                <h3 class="text-xl font-semibold text-white">Servicios</h3>
                                 <ul role="list" class="mt-6 space-y-4">
                                     <li>
                                         <a href="#"
-                                            class="text-sm/6 text-gris-aluminio hover:text-primary">Outsourcing</a>
+                                            class="text-base text-white hover:text-primary">Outsourcing</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">Soporte
+                                        <a href="#" class="text-base text-white hover:text-primary">Soporte
                                             técnico</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">Software
+                                        <a href="#" class="text-base text-white hover:text-primary">Software
                                             factory</a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="mt-10 md:mt-0">
-                                <h3 class="text-sm/6 font-semibold text-white">Legal</h3>
+                                <h3 class="text-xl font-semibold text-white">Legal</h3>
                                 <ul role="list" class="mt-6 space-y-4">
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">Terminos y
+                                        <a href="#" class="text-base text-white hover:text-primary">Terminos y
                                             condiciones</a>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-sm/6 text-gris-aluminio hover:text-primary">Políticas de
+                                        <a href="#" class="text-base text-white hover:text-primary">Políticas de
                                             privacidad</a>
                                     </li>
                                     <li>
                                         <a href="#"
-                                            class="text-sm/6 text-gris-aluminio hover:text-primary">Licencias</a>
+                                            class="text-base text-white hover:text-primary">Licencias</a>
                                     </li>
                                 </ul>
                             </div>
@@ -108,8 +108,8 @@
                 </div>
                 <div class="mt-16 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
                     <div>
-                        <h3 class="text-sm/6 font-semibold text-white">Suscríbete a nuestro boletín informativo</h3>
-                        <p class="mt-2 text-sm/6 text-gris-aluminio">Lorem ipsum dolor, sit amet consectetur adipisicing
+                        <h3 class="text-xl font-semibold text-white">Suscríbete a nuestro boletín informativo</h3>
+                        <p class="mt-2 text-base text-white">Lorem ipsum dolor, sit amet consectetur adipisicing
                             elit. Ut, ratione.</p>
                     </div>
                     <form class="mt-6 sm:flex sm:max-w-md lg:mt-0">
@@ -165,9 +165,9 @@
                             </svg>
                         </a>
                     </div>
-                    <p class="mt-8 text-sm/6 text-gris-aluminio md:order-1 md:mt-0">&copy; 2025 ConCentra, SRL. Todos
+                    <p class="mt-8 text-base text-white md:order-1 md:mt-0">&copy; 2025 ConCentra, SRL. Todos
                         los derechos reservados.</p>
-                    <p class="mt-8 text-sm/6 text-gris-aluminio md:order-1 md:mt-0">Desarrollador por <a
+                    <p class="mt-8 text-base text-white md:order-1 md:mt-0">Desarrollador por <a
                             href="https://zunamicorp.com" target="_blank" rel="noopener noreferrer"
                             class="hover:text-primary -underline-offset-8">ZunamiCorp</a></p>
                 </div>

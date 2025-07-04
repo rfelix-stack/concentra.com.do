@@ -1,5 +1,4 @@
 <template>
-    <!-- Hero banner -->
     <div>
         <section class="relative isolate bg-secondary h-screen flex items-center">
             <transition name="slide-fade" mode="out-in">
@@ -28,14 +27,15 @@
                 </svg>
             </a>
 
-            <div class="px-16 relative max-w-5xl">
-                <div class="flex items-center justify-start w-full">
+            <div class="px-5 mx-auto relative container">
+                <div class="flex items-center justify-start w-full max-w-5xl">
                     <div>
                         <div class="mt-24 sm:mt-32 lg:mt-16">
                             <div class="inline-flex space-x-4">
                                 <button @click="currentFeature = index" v-for="(item, index) in features" :key="index"
-                                    v-motion-fadein-up-once :delay="200"
-                                    class="rounded-full bg-secondary px-3 py-1 text-base font-normal text-white hover:bg-white hover:text-secondary transition-color duration-300 ease-in.out ring-inset">
+                                    v-motion-fadein-up-once :delay="200" :class="['rounded-full bg-secondary px-3 py-1 text-base font-normal text-white hover:bg-white hover:text-secondary transition-color duration-300 ease-in.out ring-inset',
+                                    {'bg-white !text-secondary': currentFeature === index }
+                                    ]">
                                     {{ item.item }}
                                 </button>
                             </div>
@@ -55,7 +55,7 @@
                                         class="rounded-full bg-white px-3.5 py-2.5 text-sm font-normal text-secondary shadow-xs hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">Conocer
                                         más</a>
                                     <a href="#" v-motion-fadein-up-once :delay="1000"
-                                        class="text-sm/6 font-normal text-white hover:text-primary">Contáctanos
+                                        class="text-sm/6 font-normal text-white hover:text-secondary">Contáctanos
                                         <span aria-hidden="true">→</span></a>
                                 </div>
                             </div>
@@ -132,7 +132,7 @@
             </div>
         </section>
 
-        <section class="relative isolate bg-muted py-16 lg:py-36  bg-secondary">
+        <section class="relative isolate bg-muted py-16 lg:py-36 bg-secondary">
 
             <client-only>
                 <Vue3Lottie animationLink="/Animation-1751030345179.json" height="95vh" :width="auto" v-motion="{
@@ -174,7 +174,6 @@
 
         <SectionHomeClients />
     </div>
-
 </template>
 
 <script setup>
