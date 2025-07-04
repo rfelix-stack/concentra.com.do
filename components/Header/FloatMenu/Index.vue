@@ -56,7 +56,7 @@ const normalItems = computed(() => {
 
 const isOpen = ref(false);
 
-const dropdownRef = ref(null)
+const dropdownRef = ref(null);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value
