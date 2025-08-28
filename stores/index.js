@@ -1,13 +1,15 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
-export const useMainStore = defineStore('main', {
+export const useMainStore = defineStore('index', {
   state: () => ({
-    // define your state properties here
+    currentMenuFloatItem: {}
   }),
-  actions: {
-    // define your actions here
-  },
   getters: {
-    // define your getters here
-  }
-})
+    menuCardItem: state => state.currentMenuFloatItem
+  },
+  actions: {
+    setCurrentMenuFloatItem(item) {
+      this.currentMenuFloatItem = item
+    },
+  },
+});

@@ -19,7 +19,10 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   runtimeConfig: {
+    directusStaticToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
     public: {
+      directusUrl: "https://admin.concentra.com.do",
+      directusStaticToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
       motion: {
         directives: {
           "fadein-once": {

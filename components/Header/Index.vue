@@ -107,183 +107,129 @@
 </template>
 
 <script setup>
-const menu = ref([
-    {
-        float: false,
-        label: "Nosotros",
-        hash: "#"
-    },
-    {
-        float: true,
-        grid: true,
-        label: "Soluciones",
-        hash: "#",
-        options: [
-            {
-                label: "SOFTEXPERT",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://www.softexpert.com/_next/image/?url=https%3A%2F%2Fs3.us-east-1.amazonaws.
-                image: "icon-soft-expert.png",
-                intro: "Empresa líder de mercado en soluciones para la excelencia en la gestión."
-            },
-            {
-                label: "SAYSAID",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://cdn-ccchn.nitrocdn.com/eoxXytShChgscESECFYcqdYPaOaOGMwn/assets/images/source/rev-ebe85f2/cdn.sysaid.com/wp-content/uploads/
-                image: "icon-soft-expert.png",
-                intro: "Solución de gestión de service desk asequible para requisitos organizativos."
-            },
-            {
-                label: "SOLARWINDS",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://images.contentstack.io/v3/assets/blt28ff6c4a2cf43126/bltfed185f07ccab843/651f0a1c7bedef75ee94d61c/SW_Logo_Web_Orange.svg?
-                image: "icon-soft-expert.png",
-                intro: "Software galardonado de gestión de almacenamiento, aplicaciones, servidores y redes."
-            },
-            {
-                label: "VARONIS",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://concentra.com.do/images/2018/02/13/varonis-logo.png",
-                image: "icon-soft-expert.png",
-                intro: "Ofrece un marco para actualizar el proceso de gobierno de datos."
-            },
-            {
-                label: "CARBONITE",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://prod-cms.carbonite.com/globalassets/site-images/nav/carbonite-by-opentext---logo---normal.svg",
-                image: "icon-soft-expert.png",
-                intro: "Ofrece todas las herramientas necesarias para proteger los datos."
-            },
-            {
-                label: "OBSERVE IT",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://concentra.com.do/images/2018/02/13/logo-oberve-it.png",
-                image: "icon-soft-expert.png",
-                intro: "Proveedor de soluciones líder de control y análisis de amenazas de infiltrados."
-            },
-            {
-                label: "SHUFTI PRO",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://concentra.com.do/images/2021/04/13/shufti20pro_edited.png",
-                image: "icon-soft-expert.png",
-                intro: "SaaS de verificación de identidad para eliminar riesgos, delitos financieros y robo de identidad."
-            },
-            {
-                label: "SERVICESBOX",
-                hash: "/soluciones/softexpert",
-                featured: true,
-                // image: "https://concentra.com.do/images/2022/07/07/dia1.png",
-                image: "icon-soft-expert.png",
-                intro: "Solución tecnológica enfocada en trasformar digitalmente los servicios públicos de las instituciones gubernamentales."
-            },
-            {
-                label: "CELONIS",
-                hash: "/soluciones/softexpert",
-                featured: false,
-                // image: "https://concentra.com.do/images/2022/10/26/celonis2.png",
-                image: "icon-soft-expert.png",
-                icon: "",
-                intro: "Sistema de gestión de ejecución encuentra y corrige las ineficiencias ocultas rápidamente."
-            },
-        ],
-        ctas: [
-            {
-                label: "Soluciones",
-                hash: "#",
-                icon: ""
-            },
-            {
-                label: "Contácta con ventas",
-                hash: "#",
-                icon: ""
-            }
-        ]
-    },
-    {
-        float: true,
-        grid: false,
-        label: "Servicios",
-        hash: "#",
-        options: [
-            {
-                label: "Outsoursing",
-                hash: "/servicios/outsourcing",
-                featured: false,
-                icon: true,
-                intro: "Aumentar la eficiencia y la efectividad de tus servicios."
-            },
-            {
-                label: "Soporte técnico",
-                hash: "/servicios/soporte-tecnico",
-                featured: false,
-                icon: true,
-                intro: "Profesionales técnicos especializados en HW y SW con una elevada preparación y experiencia."
-            },
-            {
-                label: "Software factory",
-                hash: "/servicios/software-factory",
-                featured: false,
-                icon: true,
-                intro: "Desarrollo de productos o en proyectos para la obtención de aplicaciones a medida de las necesidades de nuestros clientes."
-            },
-        ],
-        ctas: [
-            {
-                label: "Lorem impsum",
-                hash: "#",
-                icon: ""
-            },
-            {
-                label: "Contáctanos",
-                hash: "#",
-                icon: ""
-            }
-        ]
-    },
-    {
-        float: true,
-        grid: false,
-        label: "Consultorías",
-        hash: "#",
-        options: [
-            {
-                label: "Prácticas TIC",
-                hash: "#",
-                icon: true,
-                intro: "Ayuda a implementar modelos y estándares para un buen gobierno de los procesos y decisiones empresariales."
-            },
-            {
-                label: "Prácticas corporativas",
-                hash: "#",
-                icon: true,
-                intro: "Consultoría integrada para la excelencia en la gestión y en el desempeño que habilita las organizaciones para pensar y actuar estratégicamente."
-            },
-        ],
-        ctas: [
-            {
-                label: "Nuestros clientes",
-                hash: "#",
-                icon: ""
-            },
-            {
-                label: "Contáctanos",
-                hash: "#",
-                icon: ""
-            }
-        ]
-    },
-    {
-        float: false,
-        label: "Capacitación",
-        hash: "#"
-    }
+const solutions = useSolutionsStore();
+const mainStore = useMainStore();
 
-])
+if (!solutions.loaded) {
+    await solutions.fetchAll()
+}
+
+const menu = computed(() => {
+    return [
+        {
+            float: false,
+            label: "Nosotros",
+            hash: "#"
+        },
+        {
+            float: true,
+            grid: true,
+            label: "Soluciones",
+            hash: "#",
+            options: solutions.list.map(s => ({
+                label: s.name,
+                hash: `/soluciones/${s.slug}`,
+                icon: false,
+                intro: s.intro || "",
+                image: s.isotipo,
+                featured: s.featured,
+                card: {
+                    title: s.card_title,
+                    intro: s.card_intro,
+                    image: s.card_image
+                }
+            })),
+            ctas: [
+                {
+                    label: "Soluciones",
+                    hash: "#",
+                    icon: ""
+                },
+                {
+                    label: "Contácta con ventas",
+                    hash: "#",
+                    icon: ""
+                }
+            ]
+        },
+        {
+            float: true,
+            grid: false,
+            label: "Servicios",
+            hash: "#",
+            options: [
+                {
+                    label: "Outsoursing",
+                    hash: "/servicios/outsourcing",
+                    featured: false,
+                    icon: true,
+                    intro: "Aumentar la eficiencia y la efectividad de tus servicios."
+                },
+                {
+                    label: "Soporte técnico",
+                    hash: "/servicios/soporte-tecnico",
+                    featured: false,
+                    icon: true,
+                    intro: "Profesionales técnicos especializados en HW y SW con una elevada preparación y experiencia."
+                },
+                {
+                    label: "Software factory",
+                    hash: "/servicios/software-factory",
+                    featured: false,
+                    icon: true,
+                    intro: "Desarrollo de productos o en proyectos para la obtención de aplicaciones a medida de las necesidades de nuestros clientes."
+                },
+            ],
+            ctas: [
+                {
+                    label: "Lorem impsum",
+                    hash: "#",
+                    icon: ""
+                },
+                {
+                    label: "Contáctanos",
+                    hash: "#",
+                    icon: ""
+                }
+            ]
+        },
+        {
+            float: true,
+            grid: false,
+            label: "Consultorías",
+            hash: "#",
+            options: [
+                {
+                    label: "Prácticas TIC",
+                    hash: "#",
+                    icon: true,
+                    intro: "Ayuda a implementar modelos y estándares para un buen gobierno de los procesos y decisiones empresariales."
+                },
+                {
+                    label: "Prácticas corporativas",
+                    hash: "#",
+                    icon: true,
+                    intro: "Consultoría integrada para la excelencia en la gestión y en el desempeño que habilita las organizaciones para pensar y actuar estratégicamente."
+                },
+            ],
+            ctas: [
+                {
+                    label: "Nuestros clientes",
+                    hash: "#",
+                    icon: ""
+                },
+                {
+                    label: "Contáctanos",
+                    hash: "#",
+                    icon: ""
+                }
+            ]
+        },
+        {
+            float: false,
+            label: "Capacitación",
+            hash: "#"
+        }
+    ]
+})
 </script>

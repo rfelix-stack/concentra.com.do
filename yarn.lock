@@ -289,6 +289,11 @@
   dependencies:
     mime "^3.0.0"
 
+"@directus/sdk@^20.0.3":
+  version "20.0.3"
+  resolved "https://registry.yarnpkg.com/@directus/sdk/-/sdk-20.0.3.tgz#19be00c490c052b3e62d18a7ba3c7c6b0b9cb225"
+  integrity sha512-PFTYx8QxYi36L9zjOVldwZ88Iln9pBGtEamEjLGFuYqy1jk5jKJ7qA7827KfeZJkz3EtNNZM6J605I7s/ayD2g==
+
 "@emnapi/core@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@emnapi/core/-/core-1.4.0.tgz#8844b02d799198158ac1fea21ae2bc81b881da9a"

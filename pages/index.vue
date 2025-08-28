@@ -1,3 +1,105 @@
+<script setup>
+const currentFeature = ref(0);
+const features = ref([
+    {
+        item: "IT Consulting",
+        title: "Smart IT Management, Simplified.",
+        description: "Expertos en consultoría IT para optimizar tus procesos y potenciar tu negocio",
+        slug: "it-consulting",
+        image: "https://img.freepik.com/fotos-premium/vista-lateral-joven-usando-telefono-movil-mientras-esta-sentado-cafeteria_1048944-21956158.jpg",
+    },
+    {
+        item: "Software Solutions",
+        title: "Lorem ipsum dolor sit amet.",
+        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto. Quam.",
+        slug: "software-solutions",
+        image: "https://img.freepik.com/foto-gratis/persona-que-trabaja-html-computadora_23-2150038853.jpg",
+    },
+    {
+        item: "Training",
+        title: "Lorem ipsum dolor sit amet dolor.",
+        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto. Quam.",
+        slug: "training",
+        image: "https://img.freepik.com/fotos-premium/holograma-programacion-hombre-equipo-computadora-noche-escribir-codigo-fuente-o-datos-graficos-grupo-desarrollo-software-desarrollador-web-analisis-ciberseguridad-pirateo-bases-datos-graficos_590464-465937.jpg",
+    },
+    {
+        item: "Outsourcing",
+        title: "Lorem ipsum dolor sit amet sequi.",
+        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio?",
+        slug: "outsorcing",
+        image: "https://img.freepik.com/foto-gratis/hombre-usando-tableta-trabajar-conectarse-otros_23-2149369110.jpg",
+    },
+    {
+        item: "IT Support",
+        title: "Lorem ipsum dolor sit amet illum sequi.",
+        description: "illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto",
+        slug: "it-support",
+        image: "https://img.freepik.com/foto-gratis/companeros-trabajo-enfocados-auriculares-escribiendo-computadoras-portatiles_74855-2777.jpg",
+    },
+]);
+
+let intervalId = null;
+
+const services = [
+    {
+        title: "Prácticas TIC",
+        description: "Ayudamos a las organizaciones en la realización de las evaluaciones e implementaciones de gobierno de TIC.",
+        image: "/practicas-tic.svg",
+        href: "#",
+    },
+    {
+        title: "Prácticas Corporativas",
+        description: "Con el objetivo de maximizar la rentabilidad, necesita una estrategia sólida y la capacidad de gestionar.",
+        image: "/practicas-corporativas.svg",
+        href: "#",
+    },
+    {
+        title: "Outsourcing",
+        description: "Nuestro servicio de outsourcing integral ayudará a aumentar la eficiencia y la efectividad de sus servicios.",
+        image: "/outsourcing.svg",
+        href: "#",
+    },
+    {
+        title: "Software Factory",
+        description: "Contamos con un equipo de ingenieros de software expertos en el uso de metodologías y herramientas de desarrollo.",
+        image: "software-factory.svg",
+        href: "#",
+    },
+];
+
+const stats = [
+    {
+        title: "Proyectos",
+        value: "200 +",
+    },
+    {
+        title: "Clientes",
+        value: "75 +",
+    },
+    {
+        title: "Profesionales",
+        value: "5,6 k",
+    },
+    {
+        title: "Años de experiencia",
+        value: "2 +",
+    },
+    {
+        title: "Tasas de satisfacción",
+        value: "98 %",
+    },
+    {
+        title: "Proyectos internacionales",
+        value: "30 +",
+    },
+    {
+        title: "Crecimiento anual",
+        value: "40 %",
+    },
+
+];
+</script>
+
 <template>
     <div>
         <section class="relative isolate bg-secondary h-screen flex items-center">
@@ -34,7 +136,7 @@
                             <div class="inline-flex space-x-4">
                                 <button @click="currentFeature = index" v-for="(item, index) in features" :key="index"
                                     v-motion-fadein-up-once :delay="200" :class="['rounded-full bg-secondary px-3 py-1 text-base font-normal text-white hover:bg-white hover:text-secondary transition-color duration-300 ease-in.out ring-inset',
-                                    {'bg-white !text-secondary': currentFeature === index }
+                                        { 'bg-white !text-secondary': currentFeature === index }
                                     ]">
                                     {{ item.item }}
                                 </button>
@@ -175,108 +277,6 @@
         <SectionHomeClients />
     </div>
 </template>
-
-<script setup>
-const currentFeature = ref(0);
-const features = ref([
-    {
-        item: "IT Consulting",
-        title: "Smart IT Management, Simplified.",
-        description: "Expertos en consultoría IT para optimizar tus procesos y potenciar tu negocio",
-        slug: "it-consulting",
-        image: "https://img.freepik.com/fotos-premium/vista-lateral-joven-usando-telefono-movil-mientras-esta-sentado-cafeteria_1048944-21956158.jpg",
-    },
-    {
-        item: "Software Solutions",
-        title: "Lorem ipsum dolor sit amet.",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto. Quam.",
-        slug: "software-solutions",
-        image: "https://img.freepik.com/foto-gratis/persona-que-trabaja-html-computadora_23-2150038853.jpg",
-    },
-    {
-        item: "Training",
-        title: "Lorem ipsum dolor sit amet dolor.",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto. Quam.",
-        slug: "training",
-        image: "https://img.freepik.com/fotos-premium/holograma-programacion-hombre-equipo-computadora-noche-escribir-codigo-fuente-o-datos-graficos-grupo-desarrollo-software-desarrollador-web-analisis-ciberseguridad-pirateo-bases-datos-graficos_590464-465937.jpg",
-    },
-    {
-        item: "Outsourcing",
-        title: "Lorem ipsum dolor sit amet sequi.",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio?",
-        slug: "outsorcing",
-        image: "https://img.freepik.com/foto-gratis/hombre-usando-tableta-trabajar-conectarse-otros_23-2149369110.jpg",
-    },
-    {
-        item: "IT Support",
-        title: "Lorem ipsum dolor sit amet illum sequi.",
-        description: "illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto",
-        slug: "it-support",
-        image: "https://img.freepik.com/foto-gratis/companeros-trabajo-enfocados-auriculares-escribiendo-computadoras-portatiles_74855-2777.jpg",
-    },
-]);
-
-let intervalId = null;
-
-const services = [
-    {
-        title: "Prácticas TIC",
-        description: "Ayudamos a las organizaciones en la realización de las evaluaciones e implementaciones de gobierno de TIC.",
-        image: "/practicas-tic.svg",
-        href: "#",
-    },
-    {
-        title: "Prácticas Corporativas",
-        description: "Con el objetivo de maximizar la rentabilidad, necesita una estrategia sólida y la capacidad de gestionar.",
-        image: "/practicas-corporativas.svg",
-        href: "#",
-    },
-    {
-        title: "Outsourcing",
-        description: "Nuestro servicio de outsourcing integral ayudará a aumentar la eficiencia y la efectividad de sus servicios.",
-        image: "/outsourcing.svg",
-        href: "#",
-    },
-    {
-        title: "Software Factory",
-        description: "Contamos con un equipo de ingenieros de software expertos en el uso de metodologías y herramientas de desarrollo.",
-        image: "software-factory.svg",
-        href: "#",
-    },
-];
-
-const stats = [
-    {
-        title: "Proyectos",
-        value: "200 +",
-    },
-    {
-        title: "Clientes",
-        value: "75 +",
-    },
-    {
-        title: "Profesionales",
-        value: "5,6 k",
-    },
-    {
-        title: "Años de experiencia",
-        value: "2 +",
-    },
-    {
-        title: "Tasas de satisfacción",
-        value: "98 %",
-    },
-    {
-        title: "Proyectos internacionales",
-        value: "30 +",
-    },
-    {
-        title: "Crecimiento anual",
-        value: "40 %",
-    },
-
-];
-</script>
 
 <style>
 /* Fade transition for images */

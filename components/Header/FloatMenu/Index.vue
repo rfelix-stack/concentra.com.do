@@ -1,7 +1,8 @@
 ƒ<template>
     <div ref="dropdownRef" class="w-full">
         <button @click.prevent="toggleDropdown" type="button"
-            class="flex items-center gap-x-1 text-lg lg:text-xl font-normal text-paragraph font-poppins" aria-expanded="false">
+            class="flex items-center gap-x-1 text-lg lg:text-xl font-normal text-paragraph font-poppins"
+            aria-expanded="false">
             {{ item.label }}
             <svg class="size-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
                 data-slot="icon">
@@ -25,13 +26,11 @@
                         <HeaderFloatMenuItem v-for="(subitem, index) in featuredItems" :key="index" :item="subitem"
                             @close-dropdown="toggleDropdown" />
                         <HeaderFloatMenuItem v-for="(subitem, index) in normalItems" :key="index" :item="subitem"
-                            @close-dropdown="toggleDropdown" />
+                            @close-dropdown="toggleDropdown"   />
                     </div>
 
-                    <div class="col-span-1 p-5">
-                        <div class="bg-primary-100 rounded-3xl h-full">
-
-                        </div>
+                    <div class="col-span-1 p-5 hidden lg:block">
+                        <HeaderFloatMenuCard  @close-dropdown="toggleDropdown" />
                     </div>
                 </div>
             </div>
@@ -40,6 +39,8 @@
 </template>
 
 <script setup>
+const mainStore = useMainStore();
+
 const props = defineProps({
     item: {
         type: Object,
@@ -59,20 +60,20 @@ const isOpen = ref(false);
 const dropdownRef = ref(null);
 
 const toggleDropdown = () => {
-  isOpen.value = !isOpen.value
+    isOpen.value = !isOpen.value
 }
 
 const handleClickOutside = (event) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    isOpen.value = false
-  }
+    if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+        isOpen.value = false
+    }
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
+    document.addEventListener('click', handleClickOutside)
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside)
+    document.removeEventListener('click', handleClickOutside)
 })
 </script>
