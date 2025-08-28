@@ -26,11 +26,11 @@
                         <HeaderFloatMenuItem v-for="(subitem, index) in featuredItems" :key="index" :item="subitem"
                             @close-dropdown="toggleDropdown" />
                         <HeaderFloatMenuItem v-for="(subitem, index) in normalItems" :key="index" :item="subitem"
-                            @close-dropdown="toggleDropdown"   />
+                            @close-dropdown="toggleDropdown" />
                     </div>
 
-                    <div class="col-span-1 p-5 hidden lg:block">
-                        <HeaderFloatMenuCard  @close-dropdown="toggleDropdown" />
+                    <div class="col-span-1 p-5 hidden lg:block" v-if="mainStore.menuCardItem">
+                        <HeaderFloatMenuCard @close-dropdown="toggleDropdown" />
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@ const props = defineProps({
     item: {
         type: Object,
         required: true
-    }
+    },
 });
 
 const featuredItems = computed(() => {

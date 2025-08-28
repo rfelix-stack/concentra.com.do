@@ -74,7 +74,7 @@ const { data: solution, pending, error } = await useAsyncData(
                         class="-mt-12 pb-16 px-5 lg:sticky lg:top-[144px] lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
                         <img v-if="solution?.media_type === 'image'"
                             class="w-[48rem] max-w-none rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
-                            :src="directusAsset(solution?.image)" :alt="solution?.title">
+                            :src="directusAsset(solution?.image)" :alt="solution?.title"  v-motion-fadein-up-once>
 
                         <iframe v-if="solution?.media_type === 'video' && solution?.video_type === 'youtube'"
                             width="100%" height="450" v-motion-fadein-up-once :src="solution?.youtube_video_url"
@@ -83,7 +83,7 @@ const { data: solution, pending, error } = await useAsyncData(
                             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
                             class="rounded-xl bg-primary-50 shadow-xl ring-1 ring-primary-50"></iframe>
 
-                        <div v-if="solution?.media_type === 'video' && solution?.video_type === 'local'">
+                        <div v-if="solution?.media_type === 'video' && solution?.video_type === 'local'"  v-motion-fadein-up-once>
                             <video :src="directusAsset(solution?.video)" controls playsinline=""
                                 class="rounded-xl bg-primary-50 shadow-xl ring-1 ring-primary-50"></video>
                         </div>

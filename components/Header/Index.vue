@@ -133,11 +133,11 @@ const menu = computed(() => {
                 intro: s.intro || "",
                 image: s.isotipo,
                 featured: s.featured,
-                card: {
-                    title: s.card_title,
-                    intro: s.card_intro,
-                    image: s.card_image
-                }
+
+                card_title: s.card_title,
+                card_intro: s.card_intro,
+                card_image: s.card_image
+
             })),
             ctas: [
                 {

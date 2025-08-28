@@ -18,13 +18,13 @@
                 class="size-14 lg:size-16 object-contain object-center">
         </div>
         <div class="flex-auto">
-            <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" :class="['block lg:hidden font-semibold font-poppins',
+            <!-- <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" :class="['block lg:hidden font-semibold font-poppins',
                 { 'text-secondary': !item.featured },
                 { 'text-white': item.featured },
             ]">
                 {{ item?.label }}
                 <span class="absolute inset-0"></span>
-            </NuxtLink>
+            </NuxtLink> -->
 
             <button type="button" @click.prevent="mainStore.setCurrentMenuFloatItem(item)" :class="['hidden lg:block font-semibold font-poppins',
                 { 'text-secondary': !item.featured },
