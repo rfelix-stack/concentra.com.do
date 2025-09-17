@@ -63,7 +63,7 @@ const { data: solution, pending, error } = await useAsyncData(
                                     {{ solution?.title }}
                                 </h1>
                                 <div v-if="solution?.content"
-                                    class="mt-6 text-base/7 text-gris-aluminio font-normal space-y-6"
+                                    class="mt-6 text-base/7 text-gris-aluminio font-normal space-y-6 content"
                                     v-html="solution?.content" v-motion-fadein-up-once>
                                 </div>
                             </div>

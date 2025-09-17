@@ -59,10 +59,59 @@ html {
     scroll-behavior: smooth;
 }
 
-p,span,li {
+p,
+span,
+li {
     font-family: var(--font-montserrat);
 }
 
-h1,h2,h3,h4,h5,h6, a, button {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button {
     font-family: var(--font-poppins);
+}
+
+.content {
+
+    & p,
+    span,
+    li {
+        font-family: var(--font-montserrat) !important;
+    }
+
+    & h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    a,
+    button {
+        font-family: var(--font-poppins) !important;
+    }
+
+    & ul {
+        @apply list-disc list-inside;
+    }
+
+    & ol {
+        @apply list-decimal list-inside;
+    }
+
+    & h1 {
+        @apply text-4xl lg:text-6xl;
+    }
+
+    & h2 {
+        @apply text-2xl lg:text-4xl;
+    }
+
+    & h3 {
+        @apply text-xl lg:text-2xl;
+    }
 }
