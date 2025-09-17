@@ -114,4 +114,8 @@ button {
     & h3 {
         @apply text-xl lg:text-2xl;
     }
+
+    & a {
+        @apply underline;
+    }
 }
