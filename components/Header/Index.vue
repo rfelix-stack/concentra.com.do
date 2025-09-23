@@ -11,12 +11,13 @@
             </div>
 
             <div class="hidden xl:flex lg:gap-x-8 xl:gap-x-10 mr-0">
-                <client-only v-for="(item, index) in menu" :key="index">
-                    <a v-if="!item.float" href="#" class="text-lg lg:text-xl font-normal text-paragraph font-poppins">
+                <ClientOnly v-for="(item, index) in menu" :key="index">
+                    <a v-if="!item.float" :href="item.hash"
+                        class="text-lg lg:text-xl font-normal text-paragraph font-poppins">
                         {{ item.label }}
                     </a>
                     <HeaderFloatMenu v-else :item="item" />
-                </client-only>
+                </ClientOnly>
             </div>
 
             <div class="flex lg:flex-1 lg:justify-end">
@@ -109,129 +110,117 @@
     </header>
 </template>
 
-<script setup>
-const solutions = useSolutionsStore();
-const mainStore = useMainStore();
+<script setup lang="ts">
 
-if (!solutions.loaded) {
-    await solutions.fetchAll()
+const dataStore = useDataStore();
+
+type MENU = {
+    id: number
+    name: string
+    slug: string
+    intro?: string | null
+    isotipo?: any
+    featured?: boolean
+    card_title?: string | null
+    card_intro?: string | null
+    card_image?: any
 }
 
+type InitPayload = {
+    solutions: MENU[]
+    services: MENU[]
+}
+
+const { data: init, pending, error, refresh } = await useAsyncData<InitPayload>(
+    'init-data',
+    () => $fetch('/api/directus/init', { method: 'POST' }),
+    {
+        default: () => ({ solutions: [], services: [] }),
+        server: false,
+        lazy: false,
+        immediate: true
+    }
+)
+
 const menu = computed(() => {
+
+    const solutions = dataStore.data.solutions = init.value?.solutions ?? []
+    const services = dataStore.data.services = init.value?.services ?? []
+    const consultancies = dataStore.data.consultancies = init.value?.consultancies ?? []
+
     return [
         {
             float: false,
-            label: "Nosotros",
-            hash: "#"
+            label: 'Nosotros',
+            hash: '#'
         },
         {
             float: true,
             grid: true,
-            label: "Soluciones",
-            hash: "#",
-            options: solutions.list.map(s => ({
+            label: 'Soluciones',
+            hash: '#',
+            options: solutions.map((s) => ({
                 label: s.name,
                 hash: `/soluciones/${s.slug}`,
                 icon: false,
-                intro: s.intro || "",
+                intro: s.intro || '',
                 image: s.isotipo,
                 featured: s.featured,
-
                 card_title: s.card_title,
                 card_intro: s.card_intro,
                 card_image: s.card_image
-
             })),
             ctas: [
-                {
-                    label: "Soluciones",
-                    hash: "#",
-                    icon: ""
-                },
-                {
-                    label: "Contácta con ventas",
-                    hash: "#",
-                    icon: ""
-                }
+                { label: 'Soluciones', hash: '#', icon: '' },
+                { label: 'Contácta con ventas', hash: '#', icon: '' }
             ]
         },
         {
             float: true,
             grid: false,
-            label: "Servicios",
-            hash: "#",
-            options: [
-                {
-                    label: "Outsoursing",
-                    hash: "/servicios/outsourcing",
-                    featured: false,
-                    icon: true,
-                    intro: "Aumentar la eficiencia y la efectividad de tus servicios."
-                },
-                {
-                    label: "Soporte técnico",
-                    hash: "/servicios/soporte-tecnico",
-                    featured: false,
-                    icon: true,
-                    intro: "Profesionales técnicos especializados en HW y SW con una elevada preparación y experiencia."
-                },
-                {
-                    label: "Software factory",
-                    hash: "/servicios/software-factory",
-                    featured: false,
-                    icon: true,
-                    intro: "Desarrollo de productos o en proyectos para la obtención de aplicaciones a medida de las necesidades de nuestros clientes."
-                },
-            ],
+            label: 'Servicios',
+            hash: '#',
+            options: services.map((s) => ({
+                label: s.name,
+                hash: `/servicios/${s.slug}`,
+                icon: false,
+                intro: s.intro || '',
+                image: s.isotipo,
+                featured: s.featured,
+                card_title: s.card_title,
+                card_intro: s.card_intro,
+                card_image: s.card_image
+            })),
             ctas: [
-                {
-                    label: "Lorem impsum",
-                    hash: "#",
-                    icon: ""
-                },
-                {
-                    label: "Contáctanos",
-                    hash: "#",
-                    icon: ""
-                }
+                { label: 'Servicios', hash: '#', icon: '' },
+                { label: 'Contácta con ventas', hash: '#', icon: '' }
             ]
         },
         {
             float: true,
             grid: false,
-            label: "Consultorías",
-            hash: "#",
-            options: [
-                {
-                    label: "Prácticas TIC",
-                    hash: "#",
-                    icon: true,
-                    intro: "Ayuda a implementar modelos y estándares para un buen gobierno de los procesos y decisiones empresariales."
-                },
-                {
-                    label: "Prácticas corporativas",
-                    hash: "#",
-                    icon: true,
-                    intro: "Consultoría integrada para la excelencia en la gestión y en el desempeño que habilita las organizaciones para pensar y actuar estratégicamente."
-                },
-            ],
+            label: 'Consultorías',
+            hash: '#',
+            options: consultancies.map((s) => ({
+                label: s.name,
+                hash: `/consultorias/${s.slug}`,
+                icon: false,
+                intro: s.intro || '',
+                image: s.isotipo,
+                featured: s.featured,
+                card_title: s.card_title,
+                card_intro: s.card_intro,
+                card_image: s.card_image
+            })),
             ctas: [
-                {
-                    label: "Nuestros clientes",
-                    hash: "#",
-                    icon: ""
-                },
-                {
-                    label: "Contáctanos",
-                    hash: "#",
-                    icon: ""
-                }
+                { label: 'Consultorías', hash: '#', icon: '' },
+                { label: 'Contácta con ventas', hash: '#', icon: '' }
             ]
         },
         {
             float: false,
-            label: "Capacitación",
-            hash: "#"
+            label: 'Capacitación',
+            hash: 'https://www.concentra.edu.do/'
         }
     ]
 })

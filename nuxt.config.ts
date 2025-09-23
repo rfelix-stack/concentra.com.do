@@ -19,7 +19,8 @@ compatibilityDate: "22025-07-15",
   css: ["~/assets/css/main.css"],
 
   runtimeConfig: {
-    directusStaticToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
+    directusUrl: "https://admin.concentra.com.do",
+    directusToken: "qatIDv-EeSN7j8OmRB8Ozl7IZ2qHcdWB",
     public: {
       directusUrl: "https://admin.concentra.com.do",
       directusStaticToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
@@ -78,15 +79,4 @@ compatibilityDate: "22025-07-15",
   //     optimizeTranslationDirective: false,
   //   },
   // },
-
-  nitro: {
-    routeRules: {
-      '/**': {
-        headers: {
-          'Content-Security-Policy':
-            "frame-ancestors 'self' https://admin.concentra.com.do"
-        }
-      }
-    }
-  }
 });

@@ -103,12 +103,12 @@ defineProps({
             </div>
         </div>
 
-        <div v-if="item?.related?.length > 0" class="container mx-auto px-5">
+        <!-- <div v-if="item?.related?.length > 0" class="container mx-auto px-5">
             <h6 class="mt-12 text-xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-2xl"
                 v-motion-fadein-up-once>
-                Otras soluciones relacionadas
+                Relacionados
             </h6>
-            <SlideritemsRelated :items="item?.related" class="pb-16" v-motion-fadein-up-once />
-        </div>
+            <SliderItemsRelated :items="item?.related" class="pb-16" v-motion-fadein-up-once />
+        </div> -->
     </div>
 </template>

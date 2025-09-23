@@ -1,29 +1,28 @@
 <script setup>
-const mainStore = useMainStore();
+const dataStore = useDataStore();
 const emit = defineEmits(['closeDropdown']);
 </script>
 
 <template>
-    <div v-if="mainStore.menuCardItem" class="bg-white shadow-sm shadow-secondary/15 rounded-3xl">
+    <div v-if="dataStore.menuCardItem" class="bg-white shadow-sm shadow-secondary/15 rounded-3xl">
         <div class="h-72 overflow-hidden rounded-t-lg">
-            <img class="h-full w-full object-cover object-center" :src="directusAsset(mainStore.menuCardItem?.card_image)" :alt="mainStore.menuCardItem?.card_title" />
+            <img class="h-full w-full object-cover object-center" :src="directusAsset(dataStore.menuCardItem?.card_image)" :alt="dataStore.menuCardItem?.card_title" />
         </div>
 
         <div class="p-5">
             <div>
-                
                 <a href="#">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-secondary">
-                        {{ mainStore.menuCardItem?.card_title }}
+                        {{ dataStore.menuCardItem?.card_title }}
                     </h5>
                 </a>
                 <p class="mb-3 font-normal text-paragraph">
-                    {{ mainStore.menuCardItem?.card_intro }}
+                    {{ dataStore.menuCardItem?.card_intro }}
                 </p>
             </div>
             <div class="mt-16">
 
-                <a :href="mainStore.menuCardItem?.hash" @click.native="emit('closeDropdown', true)"
+                <a :href="dataStore.menuCardItem?.hash" @click.native="emit('closeDropdown', true)"
                     class="hidden sm:flex items-center justify-center rounded-full bg-primary hover:bg-secondary px-3.5 py-2.5 text-lg lg:text-xl font-normal
                      text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
                     Conocer más

@@ -26,7 +26,7 @@
                 <span class="absolute inset-0"></span>
             </NuxtLink> -->
 
-            <button type="button" @click.prevent="mainStore.setCurrentMenuFloatItem(item)" :class="['hidden lg:block font-semibold font-poppins',
+            <button type="button" @click.prevent="dataStore.setCurrentMenuFloatItem(item)" :class="['hidden lg:block font-semibold font-poppins',
                 { 'text-secondary': !item.featured },
                 { 'text-white': item.featured },
             ]">
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-const mainStore = useMainStore();
+const dataStore = useDataStore();
 const props = defineProps({
     item: {
         type: Object,

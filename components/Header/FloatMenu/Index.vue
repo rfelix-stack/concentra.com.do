@@ -29,7 +29,7 @@
                             @close-dropdown="toggleDropdown" />
                     </div>
 
-                    <div class="col-span-1 p-5 hidden lg:block" v-if="mainStore.menuCardItem">
+                    <div class="col-span-1 p-5 hidden lg:block" v-if="dataStore.menuCardItem">
                         <HeaderFloatMenuCard @close-dropdown="toggleDropdown" />
                     </div>
                 </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-const mainStore = useMainStore();
+const dataStore = useDataStore();
 
 const props = defineProps({
     item: {
@@ -60,6 +60,7 @@ const isOpen = ref(false);
 const dropdownRef = ref(null);
 
 const toggleDropdown = () => {
+    dataStore.setCurrentMenuFloatItem(featuredItems.value?.[0] || normalItems.value?.[0])
     isOpen.value = !isOpen.value
 }
 

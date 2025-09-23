@@ -2,9 +2,6 @@
     <Carousel v-bind="carouselConfig">
         <Slide v-for="(solution, index) in items" :key="index">
             <div class="carousel__item relative group">
-                <!-- <pre>
-                    {{ solution.related_solutions_id }}
-                </pre> -->
                 <div :class="[
                     'group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 bg-white group-hover:bg-primary-50',
                 ]">

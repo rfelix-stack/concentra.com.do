@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia';
-const soluciones = useSolutionsStore();
 
-export const useMainStore = defineStore('index', {
+export const useDataStore = defineStore('index', {
   state: () => ({
+    data: {
+      solutions: [],
+      services: []
+    },
     currentMenuFloatItem: null
   }),
-  getters: {
-    menuCardItem: state => state.currentMenuFloatItem || soluciones.list[0]
+  getters: {  
+    menuCardItem: state => state.currentMenuFloatItem
   },
   actions: {
     setCurrentMenuFloatItem(item) {
