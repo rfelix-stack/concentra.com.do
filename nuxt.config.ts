@@ -2,7 +2,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2024-11-01",
+compatibilityDate: "22025-07-15",
   devtools: { enabled: true },
 
   app: {
@@ -11,9 +11,9 @@ export default defineNuxtConfig({
 
   modules: [
     "@vueuse/motion/nuxt",
-    "@nuxtjs/i18n",
-    "@pinia/nuxt",
+    // "@nuxtjs/i18n",
     "@nuxt/image",
+    "@pinia/nuxt",
   ],
 
   css: ["~/assets/css/main.css"],
@@ -72,4 +72,21 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+
+  // i18n: {
+  //   bundle: {
+  //     optimizeTranslationDirective: false,
+  //   },
+  // },
+
+  nitro: {
+    routeRules: {
+      '/**': {
+        headers: {
+          'Content-Security-Policy':
+            "frame-ancestors 'self' https://admin.concentra.com.do"
+        }
+      }
+    }
+  }
 });

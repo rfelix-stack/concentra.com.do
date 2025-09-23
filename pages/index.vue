@@ -102,7 +102,7 @@ const stats = [
 
 <template>
     <div>
-        <section class="relative isolate bg-secondary h-screen flex items-center">
+        <section class="relative isolate bg-secondary h-[calc(100vh-124px)] flex items-center">
             <transition name="slide-fade" mode="out-in">
                 <img :key="currentFeature" :src="`${features[currentFeature].image}`"
                     class="h-full w-full object-center object-cover absolute inset-0" alt="" v-motion-fadein-once>
@@ -237,7 +237,7 @@ const stats = [
         <section class="relative isolate bg-muted py-16 lg:py-36 bg-secondary">
 
             <client-only>
-                <Vue3Lottie animationLink="/Animation-1751030345179.json" height="95vh" :width="auto" v-motion="{
+                <Vue3Lottie animationLink="/Animation-1751030345179.json" height="95vh" width="auto" v-motion="{
                     enter: {
                         opacity: 0,
                         scale: 0.9,

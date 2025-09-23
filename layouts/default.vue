@@ -1,10 +1,12 @@
 <template>
-    <div class="">
-        <Header />
-        <slot />
-        <LazyWhatsapp />
-        <Footer />
+  <div class="">
+    <Header />
+    <div class="mt-[124px]">
+      <slot />
     </div>
+    <LazyWhatsapp />
+    <Footer />
+  </div>
 </template>
 
 <script setup>

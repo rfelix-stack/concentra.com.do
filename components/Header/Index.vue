@@ -1,24 +1,27 @@
 <template>
-    <header v-motion-fadein-down-enter :duration="1000"
+    <!-- <header v-motion-fadein-down-enter :duration="1000" -->
+    <header
         class="z-40 bg-white fixed transform top-0 -translate-x-1/2 left-1/2 drop-shadow-xs shadow shadow-primary/5 w-full">
         <nav class="mx-auto flex items-center container justify-between px-5 py-8 space-x-10" aria-label="Global">
             <div class="flex lg:flex-1">
                 <NuxtLink to="/" class="-m-1.5 p-1.5">
                     <span class="sr-only">Concentra</span>
-                    <Logo class="h-8 lg:h-14 w-auto" />
+                    <Logo class="h-10 lg:h-14 w-auto" />
                 </NuxtLink>
-                V2
             </div>
-            <div class="hidden xl:flex lg:gap-x-12 mr-0">
+
+            <div class="hidden xl:flex lg:gap-x-8 xl:gap-x-10 mr-0">
                 <client-only v-for="(item, index) in menu" :key="index">
-                    <a v-if="!item.float" href="#" class="text-lg lg:text-xl font-normal text-paragraph font-poppins">{{
-                        item.label }}</a>
+                    <a v-if="!item.float" href="#" class="text-lg lg:text-xl font-normal text-paragraph font-poppins">
+                        {{ item.label }}
+                    </a>
                     <HeaderFloatMenu v-else :item="item" />
                 </client-only>
             </div>
+
             <div class="flex lg:flex-1 lg:justify-end">
                 <NuxtLink to="/solicitudes/empleo"
-                    class="hidden sm:flex rounded-full bg-primary px-3.5 py-2.5 text-lg lg:text-xl font-normal
+                    class="hidden sm:flex items-center justify-center rounded-full bg-primary px-3.5 py-2.5 text-lg lg:text-xl font-normal
                      text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
                     ¡Empléate!
                 </NuxtLink>
