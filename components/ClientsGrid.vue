@@ -14,7 +14,8 @@
     ]">
       <!-- TARJETA SIN SELECCIONAR = solo logo -->
       <template v-if="!isSelected(c)">
-        <NuxtImg :src="c.logo" format="webp" :alt="`Logo de ${c.nombre}`" class="max-h-full max-w-full object-contain" />
+        <NuxtImg :src="c.logo" format="webp" :alt="`Logo de ${c.nombre}`"
+          class="max-h-full max-w-full object-contain text-xs text-paragraph/15" />
       </template>
 
       <!-- TARJETA EXPANDIDA -->
@@ -25,15 +26,16 @@
         </button>
 
         <div class="flex flex-col items-center text-center gap-2 w-full">
-          <NuxtImg :src="c.logo" format="webp" :alt="`Logo de ${c.nombre}`" class="w-24 h-auto object-contain" />
+          <NuxtImg v-if="c?.logo" :src="c.logo" format="webp" :alt="`Logo de ${c?.nombre}`"
+            class="w-24 h-auto object-contain" />
 
-          <h3 class="text-base font-semibold">{{ c.nombre }}</h3>
+          <h3 class="text-base font-semibold">{{ c?.nombre }}</h3>
 
           <ul class="text-sm space-y-0.5">
-            <li><strong>Segmento:</strong> {{ c.segmento }}</li>
-            <li><strong>Productos:</strong> {{ c.productos }}</li>
-            <li><strong>País:</strong> {{ c.pais }}</li>
-            <li><strong>Vendedor:</strong> {{ c.vendedor }}</li>
+            <li v-if="c?.segmento"><strong>Segmento:</strong> {{ c.segmento }}</li>
+            <li v-if="c?.productos"><strong>Productos:</strong> {{ c.productos }}</li>
+            <li v-if="c?.pais"><strong>País:</strong> {{ c.pais }}</li>
+            <li v-if="c?.vendedor"><strong>Vendedor:</strong> {{ c.vendedor }}</li>
           </ul>
         </div>
       </template>
