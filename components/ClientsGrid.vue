@@ -14,7 +14,7 @@
     ]">
       <!-- TARJETA SIN SELECCIONAR = solo logo -->
       <template v-if="!isSelected(c)">
-        <NuxtImg :src="c.logo" :alt="`Logo de ${c.nombre}`" class="max-h-full max-w-full object-contain" />
+        <NuxtImg :src="c.logo" format="webp" :alt="`Logo de ${c.nombre}`" class="max-h-full max-w-full object-contain" />
       </template>
 
       <!-- TARJETA EXPANDIDA -->
@@ -25,7 +25,7 @@
         </button>
 
         <div class="flex flex-col items-center text-center gap-2 w-full">
-          <NuxtImg :src="c.logo" :alt="`Logo de ${c.nombre}`" class="w-24 h-auto object-contain" />
+          <NuxtImg :src="c.logo" format="webp" :alt="`Logo de ${c.nombre}`" class="w-24 h-auto object-contain" />
 
           <h3 class="text-base font-semibold">{{ c.nombre }}</h3>
 

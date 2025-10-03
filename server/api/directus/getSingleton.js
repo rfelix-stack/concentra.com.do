@@ -1,5 +1,5 @@
 
-import { createDirectus, rest, staticToken, readItems } from '@directus/sdk'
+import { createDirectus, rest, staticToken, readSingleton } from '@directus/sdk'
 
 export default defineEventHandler(async (event) => {
 
@@ -14,22 +14,17 @@ export default defineEventHandler(async (event) => {
     const directus = directusToken ? base.with(staticToken(directusToken)) : base
 
     try {
-        const baseFilter = { status: { _eq: 'published' } }
-        const filter = body?.filter ? { _and: [baseFilter, body.filter] } : baseFilter
-
         const [response] = await Promise.all([
             directus.request(
-                readItems(body.collection, {
-                    filter,
+                readSingleton(body.collection, {
                     fields: body.fields,
-                    limit: -1,
                 })
             )
         ])
 
         return response
     } catch (err) {
-        console.error('Error fetching data </api/directus/getItems.js>:', err)
+        console.error('Error fetching data </api/directus/getItem.js>:', err)
         throw createError({
             statusCode: 500,
             statusMessage: err?.message || 'Failed querying Directus'

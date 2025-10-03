@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed bottom-10 right-10 w-16 h-16 z-10" v-motion="{
+    <div class="fixed bottom-5 md:bottom-10 right-5 md:right-10 w-10 md:w-16 h-10 md:h-16 z-10" v-motion="{
         initial: {
             opacity: 0,
             scale: 0.2,

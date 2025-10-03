@@ -1,27 +1,44 @@
 <template>
-    <div v-motion-fadein-up-once>
+    <div v-motion-fadein-up-once ref="root">
         <Carousel class="mt-12" v-bind="carouselConfig">
-            <Slide v-for="(logo, index) in logos.slice(0, 10)" :key="index">
-                <div class="carousel__item">
-                    <a href="https://google.com" target="_blank" rel="noopener noreferrer">
-                        <img class="w-full object-contain" :delay="200" :src="logo" alt="Logo name">
-                    </a>
-                </div>
-            </Slide>
+            <!-- Skeletons while loading -->
+            <template v-if="loading">
+                <Slide v-for="n in 10" :key="`s1-${n}`">
+                    <div class="carousel__item relative isolate h-24 md:h-28">
+                        <div class="skeleton absolute inset-0 rounded-xl"></div>
+                    </div>
+                </Slide>
+            </template>
+            <template v-else>
+                <Slide v-for="(logo, index) in logos.slice(0, 10)" :key="index">
+                    <div class="carousel__item relative isolate h-24 md:h-28">
+                        <NuxtImg :src="logo" alt="Logo" class="max-h-full max-w-full object-contain" />
+                    </div>
+                </Slide>
+            </template>
 
             <template #addons>
                 <!-- <Navigation /> -->
                 <!-- <Pagination /> -->
             </template>
         </Carousel>
+        <br>
         <Carousel class="" v-bind="carouselConfig">
-            <Slide v-for="(logo, index) in logos.slice(11, 20)" :key="index">
-                <div class="carousel__item">
-                    <a href="https://google.com" target="_blank" rel="noopener noreferrer">
-                        <img class="w-full max-h-32 object-contain" :delay="200" :src="logo" alt="Logo name">
-                    </a>
-                </div>
-            </Slide>
+            <!-- Skeletons while loading -->
+            <template v-if="loading">
+                <Slide v-for="n in 10" :key="`s2-${n}`">
+                    <div class="carousel__item relative isolate h-24 md:h-28">
+                        <div class="skeleton absolute inset-0 rounded-xl"></div>
+                    </div>
+                </Slide>
+            </template>
+            <template v-else>
+                <Slide v-for="(logo, index) in logos.slice(11, 20)" :key="index">
+                    <div class="carousel__item relative isolate h-24 md:h-28">
+                        <NuxtImg :src="logo" alt="Logo" class="max-h-full max-w-full object-contain" />
+                    </div>
+                </Slide>
+            </template>
 
             <template #addons>
                 <!-- <Navigation /> -->
@@ -34,6 +51,7 @@
 <script setup>
 import 'vue3-carousel/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
+import { directusAsset } from '~/utils/directusAsset'
 
 const carouselConfig = {
     autoplay: 2000,
@@ -52,50 +70,34 @@ const carouselConfig = {
     }
 }
 
-const logos = [
-    "https://concentra.com.do/images/clientes/45.jpg",
-    "https://concentra.com.do/images/clientes/46.jpg",
-    "https://concentra.com.do/images/clientes/39.jpg",
-    "https://concentra.com.do/images/clientes/13.jpg",
-    "https://concentra.com.do/images/clientes/22.jpg",
-    "https://concentra.com.do/images/clientes/32.jpg",
-    "https://concentra.com.do/images/clientes/21.jpg",
-    "https://concentra.com.do/images/clientes/5.jpg",
-    "https://concentra.com.do/images/clientes/9.jpg",
-    // "https://concentra.com.do/images/clientes/44.jpg",
-    "https://concentra.com.do/images/clientes/24.jpg",
-    "https://concentra.com.do/images/clientes/3.jpg",
-    "https://concentra.com.do/images/clientes/2.jpg",
-    "https://concentra.com.do/images/clientes/6.jpg",
-    "https://concentra.com.do/images/clientes/7.jpg",
-    "https://concentra.com.do/images/clientes/8.jpg",
-    "https://concentra.com.do/images/clientes/9.jpg",
-    "https://concentra.com.do/images/clientes/10.jpg",
-    "https://concentra.com.do/images/clientes/11.jpg",
-    "https://concentra.com.do/images/clientes/12.jpg",
-    "https://concentra.com.do/images/clientes/13.jpg",
-    "https://concentra.com.do/images/clientes/14.jpg",
-    "https://concentra.com.do/images/clientes/15.jpg",
-    "https://concentra.com.do/images/clientes/16.jpg",
-    "https://concentra.com.do/images/clientes/17.jpg",
-    "https://concentra.com.do/images/clientes/18.jpg",
-    "https://concentra.com.do/images/clientes/19.jpg",
-    "https://concentra.com.do/images/clientes/20.jpg",
-    "https://concentra.com.do/images/clientes/21.jpg",
-    "https://concentra.com.do/images/clientes/22.jpg",
-    "https://concentra.com.do/images/clientes/23.jpg",
-    "https://concentra.com.do/images/clientes/24.jpg",
-    "https://concentra.com.do/images/clientes/25.jpg",
-    "https://concentra.com.do/images/clientes/26.jpg",
-    "https://concentra.com.do/images/clientes/27.jpg",
-    "https://concentra.com.do/images/clientes/28.jpg",
-    "https://concentra.com.do/images/clientes/29.jpg",
-    "https://concentra.com.do/images/clientes/30.jpg",
-    "https://concentra.com.do/images/clientes/31.jpg",
-    "https://concentra.com.do/images/clientes/32.jpg",
-    "https://concentra.com.do/images/clientes/33.jpg",
-    "https://concentra.com.do/images/clientes/34.jpg"
-];
+const store = useDataStore()
+const root = ref(null)
+const hasRequested = ref(false)
+const loading = ref(false)
+
+const logos = computed(() =>
+    (store.data.featuredClients || [])
+        .map((c) => directusAsset(c.logo, { width: 320, height: 160, fit: 'cover', format: 'webp' }))
+        .filter(Boolean)
+)
+
+onMounted(() => {
+    if (!root.value) return
+    const observer = new IntersectionObserver(async (entries) => {
+        const entry = entries[0]
+        if (entry?.isIntersecting && !hasRequested.value) {
+            hasRequested.value = true
+            try {
+                loading.value = true
+                await store.fetchFeaturedClients()
+            } finally {
+                loading.value = false
+            }
+            observer.disconnect()
+        }
+    }, { rootMargin: '200px' })
+    observer.observe(root.value)
+})
 </script>
 
 <style>
@@ -114,5 +116,42 @@ const logos = [
 .carousel__pagination li button:hover,
 .carousel__pagination-button--active {
     background-color: var(--color-secondary);
+}
+
+/* Ensure transparent backgrounds for carousel internals */
+.carousel,
+.carousel__track,
+.carousel__slides,
+.carousel__slide {
+    background: transparent !important;
+}
+
+/* Basic skeleton shimmer */
+.skeleton {
+    background: #eee;
+    border-radius: 0.375rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150px;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(300%);
+    }
 }
 </style>

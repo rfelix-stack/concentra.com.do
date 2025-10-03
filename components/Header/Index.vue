@@ -126,27 +126,10 @@ type MENU = {
     card_image?: any
 }
 
-type InitPayload = {
-    solutions: MENU[]
-    services: MENU[]
-}
-
-const { data: init, pending, error, refresh } = await useAsyncData<InitPayload>(
-    'init-data',
-    () => $fetch('/api/directus/init', { method: 'POST' }),
-    {
-        default: () => ({ solutions: [], services: [] }),
-        server: false,
-        lazy: false,
-        immediate: true
-    }
-)
-
 const menu = computed(() => {
-
-    const solutions = dataStore.data.solutions = init.value?.solutions ?? []
-    const services = dataStore.data.services = init.value?.services ?? []
-    const consultancies = dataStore.data.consultancies = init.value?.consultancies ?? []
+    const solutions = dataStore.data.solutions ?? []
+    const services = dataStore.data.services ?? []
+    const consultancies = dataStore.data.consultancies ?? []
 
     return [
         {
@@ -216,11 +199,6 @@ const menu = computed(() => {
                 { label: 'Consultorías', hash: '#', icon: '' },
                 { label: 'Contácta con ventas', hash: '#', icon: '' }
             ]
-        },
-        {
-            float: false,
-            label: 'Capacitación',
-            hash: 'https://www.concentra.edu.do/'
         }
     ]
 })

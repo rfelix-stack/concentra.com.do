@@ -1,176 +1,169 @@
 <script setup>
-const currentFeature = ref(0);
-const features = ref([
-    {
-        item: "IT Consulting",
-        title: "Smart IT Management, Simplified.",
-        description: "Expertos en consultoría IT para optimizar tus procesos y potenciar tu negocio",
-        slug: "it-consulting",
-        image: "https://img.freepik.com/fotos-premium/vista-lateral-joven-usando-telefono-movil-mientras-esta-sentado-cafeteria_1048944-21956158.jpg",
-    },
-    {
-        item: "Software Solutions",
-        title: "Lorem ipsum dolor sit amet.",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto. Quam.",
-        slug: "software-solutions",
-        image: "https://img.freepik.com/foto-gratis/persona-que-trabaja-html-computadora_23-2150038853.jpg",
-    },
-    {
-        item: "Training",
-        title: "Lorem ipsum dolor sit amet dolor.",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto. Quam.",
-        slug: "training",
-        image: "https://img.freepik.com/fotos-premium/holograma-programacion-hombre-equipo-computadora-noche-escribir-codigo-fuente-o-datos-graficos-grupo-desarrollo-software-desarrollador-web-analisis-ciberseguridad-pirateo-bases-datos-graficos_590464-465937.jpg",
-    },
-    {
-        item: "Outsourcing",
-        title: "Lorem ipsum dolor sit amet sequi.",
-        description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus ad, illum sequi nostrum beatae odio?",
-        slug: "outsorcing",
-        image: "https://img.freepik.com/foto-gratis/hombre-usando-tableta-trabajar-conectarse-otros_23-2149369110.jpg",
-    },
-    {
-        item: "IT Support",
-        title: "Lorem ipsum dolor sit amet illum sequi.",
-        description: "illum sequi nostrum beatae odio? Dolorum sed magnam recusandae architecto",
-        slug: "it-support",
-        image: "https://img.freepik.com/foto-gratis/companeros-trabajo-enfocados-auriculares-escribiendo-computadoras-portatiles_74855-2777.jpg",
-    },
-]);
+import 'vue3-carousel/carousel.css'
+import { Carousel, Slide, Navigation, Pagination } from 'vue3-carousel'
+import { directusAsset } from '~/utils/directusAsset'
 
-let intervalId = null;
+const currentSlide = ref(0)
+// Slideshow items computed from Directus (home.slideshow -> slides)
+let slides = ref([])
 
-const services = [
-    {
-        title: "Prácticas TIC",
-        description: "Ayudamos a las organizaciones en la realización de las evaluaciones e implementaciones de gobierno de TIC.",
-        image: "/practicas-tic.svg",
-        href: "#",
-    },
-    {
-        title: "Prácticas Corporativas",
-        description: "Con el objetivo de maximizar la rentabilidad, necesita una estrategia sólida y la capacidad de gestionar.",
-        image: "/practicas-corporativas.svg",
-        href: "#",
-    },
-    {
-        title: "Outsourcing",
-        description: "Nuestro servicio de outsourcing integral ayudará a aumentar la eficiencia y la efectividad de sus servicios.",
-        image: "/outsourcing.svg",
-        href: "#",
-    },
-    {
-        title: "Software Factory",
-        description: "Contamos con un equipo de ingenieros de software expertos en el uso de metodologías y herramientas de desarrollo.",
-        image: "software-factory.svg",
-        href: "#",
-    },
-];
+const heroCarousel = {
+    itemsToShow: 1,
+    wrapAround: true,
+    autoplay: 5000,
+    pauseAutoplayOnHover: false,
+}
 
-const stats = [
-    {
-        title: "Proyectos",
-        value: "200 +",
-    },
-    {
-        title: "Clientes",
-        value: "75 +",
-    },
-    {
-        title: "Profesionales",
-        value: "5,6 k",
-    },
-    {
-        title: "Años de experiencia",
-        value: "2 +",
-    },
-    {
-        title: "Tasas de satisfacción",
-        value: "98 %",
-    },
-    {
-        title: "Proyectos internacionales",
-        value: "30 +",
-    },
-    {
-        title: "Crecimiento anual",
-        value: "40 %",
-    },
+const activeSlide = computed(() => {
+    if (!slides.value?.length) {
+        return { title: '', description: '', button_text: 'Conocer más', button_link: '#', link_text: 'Contáctanos', link_url: '#', image: '' }
+    }
+    const idx = Math.abs(currentSlide.value) % slides.value.length
+    return slides.value[idx]
+})
 
-];
+// Fetch slideshow from Directus (home singleton with m2a to slides)
+const { data: homeData } = await useAsyncData(
+    'home',
+    () => $fetch('/api/directus/getSingleton', {
+        method: 'POST',
+        body: {
+            collection: 'home',
+            fields: [
+                'slideshow.collection',
+                'slideshow.item.title',
+                'slideshow.item.intro',
+                'slideshow.item.button_text',
+                'slideshow.item.button_link',
+                'slideshow.item.link_text',
+                'slideshow.item.link_url',
+                'slideshow.item.image',
+                // services cards (m2a -> cards)
+                'cards.collection',
+                'cards.item.title',
+                'cards.item.intro',
+                'cards.item.icon',
+                // services section titles
+                'service_uppertitle',
+                'service_title',
+                // stats section titles
+                'stats_uppertitle',
+                'stats_title',
+                // stats items (m2a -> stats)
+                'stats.collection',
+                'stats.item.title',
+                'stats.item.stat'
+            ]
+        }
+    }),
+    { server: true, lazy: false, default: () => ({}) }
+)
+
+// Map M2A slides -> slides consumables for the hero
+const slidesM2A = computed(() => Array.isArray(homeData.value?.slideshow) ? homeData.value.slideshow : [])
+slides = computed(() =>
+    slidesM2A.value
+        .filter((s) => s?.collection === 'slides')
+        .map((s) => {
+            const i = s?.item || {}
+            return {
+                title: i?.title || '',
+                description: i?.intro || '',
+                button_text: i?.button_text || 'Conocer más',
+                button_link: i?.button_link || '#',
+                link_text: i?.link_text || 'Contáctanos',
+                link_url: i?.link_url || '#',
+                image: directusAsset(i?.image, { format: 'webp', fit: 'cover' })
+            }
+        })
+)
+
+// Services cards from Directus (home.cards -> cards)
+const cardsM2A = computed(() => Array.isArray(homeData.value?.cards) ? homeData.value.cards : [])
+const services = computed(() =>
+    cardsM2A.value
+        .filter((c) => c?.collection === 'cards')
+        .map((c) => {
+            const i = c?.item || {}
+            return {
+                title: i?.title || '',
+                description: i?.intro || '',
+                image: directusAsset(i?.icon, { format: 'webp' }),
+                href: '#'
+            }
+        })
+)
+
+// Services section titles
+const serviceUpperTitle = computed(() => homeData.value?.service_uppertitle || 'Soluciones y Servicios')
+const serviceTitle = computed(() => homeData.value?.service_title || 'Mayor productividad a menor coste mediante métodos sistemáticos')
+
+// Stats (uppertitle, title, and items)
+const statsUpperTitle = computed(() => homeData.value?.stats_uppertitle || 'Nuestros números')
+const statsTitle = computed(() => homeData.value?.stats_title || 'Lorem ipsum dolor sit amet.')
+const stats = computed(() => {
+    const m2a = Array.isArray(homeData.value?.stats) ? homeData.value.stats : []
+    return m2a
+        .filter((it) => it?.collection === 'stats')
+        .map((it) => ({
+            title: it?.item?.title || '',
+            value: it?.item?.stat || ''
+        }))
+})
 </script>
 
 <template>
     <div>
-        <section class="relative isolate bg-secondary h-[calc(100vh-124px)] flex items-center">
-            <transition name="slide-fade" mode="out-in">
-                <img :key="currentFeature" :src="`${features[currentFeature].image}`"
-                    class="h-full w-full object-center object-cover absolute inset-0" alt="" v-motion-fadein-once>
-            </transition>
+        <section id="hero" class="relative isolate bg-secondary h-[calc(100vh-124px)] overflow-hidden">
+            <Carousel v-model="currentSlide" class="absolute inset-0 h-full w-full" v-bind="heroCarousel">
+                <Slide v-for="(f, idx) in slides" :key="idx">
+                    <div class="h-full w-full flex items-center justify-center">
+                        <img :src="f.image" class="absolute inset-0 h-full w-full object-cover object-center" alt="" />
 
-            <div class="bg-gradient-to-r from-primary to-transparent h-full w-full absolute inset-0"></div>
-
-            <svg class="absolute inset-0 -z-10 size-full stroke-primary-100 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-                aria-hidden="true">
-                <defs>
-                    <pattern id="0787a7c5-978c-4f66-83c7-11c213f99cb7" width="200" height="200" x="50%" y="-1"
-                        patternUnits="userSpaceOnUse">
-                        <path d="M.5 200V.5H200" fill="none" />
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" stroke-width="0" fill="url(#0787a7c5-978c-4f66-83c7-11c213f99cb7)" />
-            </svg>
-
-            <a href="#next"
-                class="absolute bottom-4 md:bottom-10 left-1/2 -translate-x-1/2 flex size-10 animate-bounce items-center justify-center rounded-full bg-transparent text-white p-2 ring-1 ring-white">
-                <svg class="size-6 text-violet-500" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="1" viewBox="0 0 24 24" stroke="currentColor">
-                    <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                </svg>
-            </a>
-
-            <div class="px-5 mx-auto relative container">
-                <div class="flex items-center justify-start w-full max-w-5xl">
-                    <div>
-                        <div class="mt-24 sm:mt-32 lg:mt-16">
-                            <div class="inline-flex space-x-4">
-                                <button @click="currentFeature = index" v-for="(item, index) in features" :key="index"
-                                    v-motion-fadein-up-once :delay="200" :class="['rounded-full bg-secondary px-3 py-1 text-base font-normal text-white hover:bg-white hover:text-secondary transition-color duration-300 ease-in.out ring-inset',
-                                        { 'bg-white !text-secondary': currentFeature === index }
-                                    ]">
-                                    {{ item.item }}
-                                </button>
-                            </div>
+                        <div
+                            class="bg-gradient-to-r from-primary to-transparent h-full w-full absolute inset-0 pointer-events-none">
                         </div>
 
-                        <transition name="slide-fade" mode="out-in">
-                            <div :key="currentFeature">
-                                <h2 class="mt-10 text-5xl font-semibold tracking-normal text-pretty text-white sm:text-5xl leading-tight"
-                                    v-motion-fadein-up-once :delay="700">
-                                    {{ features[currentFeature].title }}</h2>
-                                <p class="mt-8 text-lg font-normal text-pretty text-white sm:text-xl/8"
-                                    v-motion-fadein-up-once :delay="800">
-                                    {{ features[currentFeature].description }}
-                                </p>
-                                <div class="mt-10 flex items-center gap-x-6">
-                                    <a :href="features[currentFeature].slug" v-motion-fadein-up-once :delay="900"
-                                        class="rounded-full bg-white px-3.5 py-2.5 text-sm font-normal text-secondary shadow-xs hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">Conocer
-                                        más</a>
-                                    <a href="#" v-motion-fadein-up-once :delay="1000"
-                                        class="text-sm/6 font-normal text-white hover:text-secondary">Contáctanos
-                                        <span aria-hidden="true">→</span></a>
-                                </div>
+                        <div class="px-5 mx-auto relative container">
+                            <div class="flex items-center justify-start w-full md:w-1/2 lg:w-1/2 max-w-3xl z-10">
+                                <transition name="slide-fade" mode="out-in">
+                                    <div :key="currentSlide">
+                                        <h2 v-if="activeSlide?.title"
+                                            class="text-5xl font-semibold tracking-normal text-pretty text-white sm:text-5xl leading-tight"
+                                            v-motion-fadein-up-once :delay="700">
+                                            {{ activeSlide?.title }}</h2>
+                                        <p v-if="activeSlide?.description"
+                                            class="mt-8 text-lg font-normal text-pretty text-white sm:text-xl/8"
+                                            v-motion-fadein-up-once :delay="800">
+                                            {{ activeSlide?.description }}
+                                        </p>
+                                        <div class="mt-10 flex items-center gap-x-6">
+                                            <a v-if="activeSlide?.button_link && activeSlide?.button_text"
+                                                :href="activeSlide?.button_link" v-motion-fadein-up-once :delay="900"
+                                                class="rounded-full bg-white px-3.5 py-2.5 text-sm font-normal text-secondary shadow-xs hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
+                                                {{ activeSlide?.button_text || 'Conocer más' }}
+                                            </a>
+                                            <a v-if="activeSlide?.link_url && activeSlide?.link_text"
+                                                :href="activeSlide?.link_url || '#'" v-motion-fadein-up-once
+                                                :delay="1000"
+                                                class="text-sm/6 font-normal text-white hover:text-secondary">
+                                                {{ activeSlide?.link_text || 'Contáctanos' }}
+                                                <span aria-hidden="true">→</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </transition>
                             </div>
-                        </transition>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <span id="next"></span>
+                </Slide>
+                <template #addons>
+                    <Pagination />
+                </template>
+            </Carousel>
         </section>
 
-        <section class="relative isolate bg-muted py-16 lg:py-24 overflow-hidden">
-
+        <section id="services" class="relative isolate bg-muted py-16 lg:py-24 overflow-hidden">
             <client-only>
                 <Vue3Lottie animationLink="/Animation-1751023103783.json" height="auto" :width="1280" v-motion="{
                     enter: {
@@ -189,23 +182,19 @@ const stats = [
             <div class="container mx-auto px-5">
                 <div class="max-w-4xl mx-auto text-center">
                     <p class="text-base/7 font-semibold text-primary tracking-wider uppercase" v-motion-fadein-up-once>
-                        Soluciones y Servicios
+                        {{ serviceUpperTitle }}
                     </p>
                     <h2 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
                         v-motion-fadein-up-once :delay="300">
-                        Mayor productividad a menor coste mediante métodos sistemáticos
+                        {{ serviceTitle }}
                     </h2>
-                    <!-- <p class="mt-6 text-xl/8 text-balance text-paragraph font-normal" v-motion-fadein-up-once>
-                        Aliquetnec
-                        orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi, nibh dui, diam eget
-                        aliquam. Quisque id at vitae feugiat egestas.</p> -->
                 </div>
                 <div class="mt-16 flex" v-motion-fadein-up-once>
 
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
                         <div v-for="(service, index) in services" :key="index"
                             class="group relative rounded-3xl drop-shadow-md shadow-secondary bg-white overflow-hidden transform hover:scale-105 transition-all duration-300 ease-in-out">
-                            <a :href="service.href" class="absolute inset-0"></a>
+                            <!-- <a :href="service.href" class="absolute inset-0"></a> -->
                             <h3
                                 class="bg-primary group-hover:bg-secondary transition-colors duration-300 ease-in-out py-4 px-5 w-full uppercase font-bold text-white text-center text-lg">
                                 {{ service.title }}
@@ -223,14 +212,7 @@ const stats = [
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="flex justify-center mt-16">
-                    <a href="#"
-                        class="rounded-full bg-primary hover:bg-secondary px-3.5 py-2.5 text-lg font-normal text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
-                        Conoce más
-                    </a>
-                </div>
+                </div> 
             </div>
         </section>
 
@@ -255,11 +237,11 @@ const stats = [
             <div class="container mx-auto px-5">
                 <div class="max-w-4xl mx-auto text-center">
                     <p class="text-base/7 font-semibold text-white tracking-wider uppercase" v-motion-fadein-up-once>
-                        Nuestros números
+                        {{ statsUpperTitle }}
                     </p>
                     <h2 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-white leading-tight sm:text-5xl"
                         v-motion-fadein-up-once :delay="300">
-                        Lorem ipsum dolor sit amet.
+                        {{ statsTitle }}
                     </h2>
                 </div>
 
@@ -292,7 +274,7 @@ const stats = [
 
 /* Slide-fade transition for content */
 .slide-fade-enter-active {
-    transition: all 0.5s ease-out;
+    transition: all 0.2s ease-out;
 }
 
 .slide-fade-leave-active {
@@ -307,5 +289,51 @@ const stats = [
 .slide-fade-leave-to {
     opacity: 0;
     transform: translateY(-20px);
+}
+
+/* Hero carousel navigation styling */
+.carousel__next,
+.carousel__prev {
+    z-index: 20;
+    color: white;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(2px);
+    border-radius: 9999px;
+}
+
+/* Hero carousel pagination (dots) */
+#hero .carousel__pagination {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%);
+    z-index: 30;
+}
+
+#hero .carousel__pagination li {
+    margin: 0 6px;
+}
+
+#hero .carousel__pagination li button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 9999px;
+    width: 10px;
+    height: 10px;
+}
+
+#hero .carousel__pagination li button:hover,
+#hero .carousel__pagination-button--active {
+    background-color: var(--color-secondary);
+}
+</style>
+
+<style>
+/* Force hero carousel to fill section height */
+#hero .carousel,
+#hero .carousel__viewport,
+#hero .carousel__track,
+#hero .carousel__slides,
+#hero .carousel__slide {
+    height: 100% !important;
 }
 </style>
