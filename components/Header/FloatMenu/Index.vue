@@ -20,7 +20,7 @@
             ]">
                 <div class="grid grid-cols-3 gap-10">
                     <div :class="[
-                        'p-4 col-span-2 h-[75vh] overflow-y-auto pb-4',
+                        'p-4 col-span-2 h-[75vh] overflow-y-scroll pb-4',
                         item.grid ? 'grid grid-cols-2 gap-5' : 'space-y-4'
                     ]">
                         <HeaderFloatMenuItem v-for="(subitem, index) in featuredItems" :key="index" :item="subitem"

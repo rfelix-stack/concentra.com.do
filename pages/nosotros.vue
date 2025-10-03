@@ -98,10 +98,10 @@ const valores = computed(() => {
     <section class="relative isolate py-10 lg:py-14">
       <div class="container mx-auto px-5 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div v-for="(c, idx) in cards" :key="idx" :class="[
-          'rounded-3xl p-6 shadow-sm border',
+          'rounded-3xl p-6 shadow-sm shadow-secondary/10 border',
           c.variant === 'dark' ? 'bg-secondary text-white border-secondary-800' : 'bg-white text-paragraph border-gray-200'
         ]">
-          <h3 :class="c.variant === 'dark' ? 'text-white' : 'text-secondary'" class="font-semibold">{{ c.title }}</h3>
+          <h3 :class="c.variant === 'dark' ? '!text-white' : '!text-secondary'" class="font-semibold">{{ c.title }}</h3>
           <p class="mt-3 leading-relaxed">{{ c.text }}</p>
         </div>
       </div>
@@ -112,7 +112,7 @@ const valores = computed(() => {
       <div class="container mx-auto px-5">
         <h2 class="text-secondary font-semibold">Valores</h2>
         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div v-for="(v, i) in valores" :key="i" class="rounded-2xl bg-white p-6 shadow-xs">
+          <div v-for="(v, i) in valores" :key="i" class="rounded-2xl bg-white p-6 shadow-sm shadow-secondary/10">
             <h3 class="text-secondary font-semibold">{{ v.title }}</h3>
             <p class="mt-3 text-paragraph">{{ v.text }}</p>
           </div>

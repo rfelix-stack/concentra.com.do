@@ -61,7 +61,9 @@ html {
 
 p,
 span,
-li {
+li,
+input,
+dd {
     font-family: var(--font-montserrat);
 }
 
@@ -72,8 +74,23 @@ h4,
 h5,
 h6,
 a,
-button {
+button,
+label,
+dt {
     font-family: var(--font-poppins);
+}
+
+select,
+button,
+input[type="file"] {
+    @apply cursor-pointer;
+}
+
+.carousel__pagination {
+    transform: translateX(0%) !important;
+}
+.carousel__viewport {
+    @apply !pb-2.5;
 }
 
 .content {
@@ -98,7 +115,7 @@ button {
 
     & ul {
         /* Use outside markers to avoid overlap with multi-line text */
-        @apply list-disc list-outside pl-6; 
+        @apply list-disc list-outside pl-6;
     }
 
     & ol {
@@ -108,7 +125,7 @@ button {
 
     & li {
         /* Provide vertical rhythm for list items in long legal content */
-        @apply my-2; 
+        @apply my-2;
     }
 
     & h1 {

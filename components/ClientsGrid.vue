@@ -21,17 +21,17 @@
       <!-- TARJETA EXPANDIDA -->
       <template v-else>
         <!-- botón cerrar -->
-        <button @click.stop="selected = null" class="absolute top-2 right-2 text-gray-500 hover:text-black">
+        <button @click.stop="selected = null" class="absolute top-2 right-2 text-secondary hover:text-primary">
           ✕
         </button>
 
         <div class="flex flex-col items-center text-center gap-2 w-full">
           <NuxtImg v-if="c?.logo" :src="c.logo" format="webp" :alt="`Logo de ${c?.nombre}`"
-            class="w-24 h-auto object-contain" />
+            class="w-32 h-auto object-contain" />
 
-          <h3 class="text-base font-semibold">{{ c?.nombre }}</h3>
+          <h3 class="text-base font-semibold text-paragraph font-poppins">{{ c?.nombre }}</h3>
 
-          <ul class="text-sm space-y-0.5">
+          <ul class="text-sm space-y-0.5 text-paragraph font-montserrat">
             <li v-if="c?.segmento"><strong>Segmento:</strong> {{ c.segmento }}</li>
             <li v-if="c?.productos"><strong>Productos:</strong> {{ c.productos }}</li>
             <li v-if="c?.pais"><strong>País:</strong> {{ c.pais }}</li>

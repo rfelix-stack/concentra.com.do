@@ -1,0 +1,8 @@
+- [] Apply SEO
+- [] Apply Favicons
+- [] Optimice for Google
+- [] Supermenu on hover (*)
+- [] Editable home texts clients
+- [] Socials
+- [] Contact page
+- [] input file placeholder -> Sube un .pdf

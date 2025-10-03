@@ -1,8 +1,8 @@
 <template>
     <!-- <header v-motion-fadein-down-enter :duration="1000" -->
     <header
-        class="z-40 bg-white fixed transform top-0 -translate-x-1/2 left-1/2 drop-shadow-xs shadow shadow-primary/5 w-full">
-        <nav class="mx-auto flex items-center container justify-between px-5 py-8 space-x-10" aria-label="Global">
+        class="z-40 bg-white fixed transform top-0 -translate-x-1/2 left-1/2 drop-shadow-xs shadow-sm shadow-primary/5 w-full">
+        <nav class="mx-auto flex items-center coverer justify-between px-5 py-8 space-x-10" aria-label="Global">
             <div class="flex lg:flex-1">
                 <NuxtLink to="/" class="-m-1.5 p-1.5">
                     <span class="sr-only">Concentra</span>
@@ -63,7 +63,7 @@
 
                         <nav class="mt-4 space-y-6">
                             <NuxtLink to="/nosotros" @click="closeMobile"
-                                :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/nosotros') && 'bg-gray-50 text-primary font-medium']">
+                                :class="['flex w-full items-center gap-3 uppercase tracking-wide text-paragraph rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/nosotros') && 'bg-gray-50']">
                                 Nosotros</NuxtLink>
 
                             <div>
@@ -71,7 +71,7 @@
                                     :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/soluciones') && 'bg-gray-50']"
                                     @click="open.solutions = !open.solutions">
                                     <span
-                                        class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Soluciones</span>
+                                        class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">Soluciones</span>
                                     <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd"
                                             d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
@@ -83,8 +83,8 @@
                                         <NuxtLink :to="`/soluciones/${s.slug}`" @click="closeMobile"
                                             :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(`/soluciones/${s.slug}`) && 'bg-gray-50 text-primary font-medium']">
                                             <img v-if="s.isotipo"
-                                                :src="directusAsset(s.isotipo, { width: 28, height: 28, fit: 'contain' })"
-                                                :alt="s.name" class="h-7 w-7 object-contain" />
+                                                :src="directusAsset(s.isotipo, { width: 45, height: 45, fit: 'cover' })"
+                                                :alt="s.name" class="h-7 w-7 object-cover" />
                                             <span class="text-base text-paragraph">{{ s.name }}</span>
                                         </NuxtLink>
                                     </li>
@@ -96,7 +96,7 @@
                                     :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/servicios') && 'bg-gray-50']"
                                     @click="open.services = !open.services">
                                     <span
-                                        class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Servicios</span>
+                                        class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">Servicios</span>
                                     <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd"
                                             d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
@@ -108,8 +108,8 @@
                                         <NuxtLink :to="`/servicios/${s.slug}`" @click="closeMobile"
                                             :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(`/servicios/${s.slug}`) && 'bg-gray-50 text-primary font-medium']">
                                             <img v-if="s.isotipo"
-                                                :src="directusAsset(s.isotipo, { width: 28, height: 28, fit: 'contain' })"
-                                                :alt="s.name" class="h-7 w-7 object-contain" />
+                                                :src="directusAsset(s.isotipo, { width: 45, height: 45, fit: 'cover' })"
+                                                :alt="s.name" class="h-7 w-7 object-cover" />
                                             <span class="text-base text-paragraph">{{ s.name }}</span>
                                         </NuxtLink>
                                     </li>
@@ -121,7 +121,7 @@
                                     :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/consultorias') && 'bg-gray-50']"
                                     @click="open.consultancies = !open.consultancies">
                                     <span
-                                        class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Capacitaciones</span>
+                                        class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">Capacitaciones</span>
                                     <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd"
                                             d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
@@ -133,8 +133,8 @@
                                         <NuxtLink :to="`/consultorias/${c.slug}`" @click="closeMobile"
                                             :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(`/consultorias/${c.slug}`) && 'bg-gray-50 text-primary font-medium']">
                                             <img v-if="c.isotipo"
-                                                :src="directusAsset(c.isotipo, { width: 28, height: 28, fit: 'contain' })"
-                                                :alt="c.name" class="h-7 w-7 object-contain" />
+                                                :src="directusAsset(c.isotipo, { width: 45, height: 45, fit: 'cover' })"
+                                                :alt="c.name" class="h-7 w-7 object-cover" />
                                             <span class="text-base text-paragraph">{{ c.name }}</span>
                                         </NuxtLink>
                                     </li>

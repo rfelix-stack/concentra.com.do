@@ -1,11 +1,10 @@
 <template>
-    <div @click="setActive"
-        :class="[
+    <div @click="setActive" :class="[
         'group relative flex items-center gap-x-4 rounded-lg p-4 text-base cursor-pointer',
         { 'bg-white hover:bg-primary': !item.featured },
         { 'bg-secondary': item.featured },
         isActive && !item.featured ? 'ring-2 ring-primary' : '',
-        isActive && item.featured ? 'outline outline-2 outline-white/60' : ''
+        isActive && item.featured ? 'outline-2 outline-white/60' : ''
     ]">
         <div :class="[
             'flex size-16 lg:size-20 flex-none items-center justify-center rounded-lg',

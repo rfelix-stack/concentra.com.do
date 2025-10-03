@@ -70,17 +70,17 @@ const src = computed(() => {
 
                         <div v-if="item?.media_type === 'video' && item?.video_type === 'local'"
                             v-motion-fadein-up-once
-                            class="overflow-hidden isolate relative rounded-xl bg-secondary aspect-video shadow-xl ring-1 ring-primary-50">
+                            class="overflow-hidden isolate relative rounded-xl bg-secondary aspect-video shadow-sm shadow-secondary/10">
                             <video :src="directusAsset(item?.video)" controls playsinline=""
                                 class="w-full h-full object-center object-cover "></video>
                         </div>
 
                         <div class="mt-8" v-motion-fadein-up-once :delay="900">
                             <div
-                                class="relative isolate overflow-hidden bg-transparent px-6 py-12 text-center shadow-lg shadow-secondary/5 sm:rounded-3xl sm:px-16">
-                                <h2 v-if="item?.cta_title"
+                                class="relative isolate overflow-hidden px-6 py-12 text-center shadow-sm shadow-secondary/10 bg-white sm:rounded-3xl sm:px-16">
+                                <h2
                                     class="text-2xl font-semibold tracking-tight text-balance text-secondary sm:text-3xl">
-                                    {{ item?.cta_title }}
+                                    {{ item?.cta_title || 'Aumente su productividad hoy mismo' }}
                                 </h2>
                                 <div class="mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6">
                                     <NuxtLink v-if="item?.demo"

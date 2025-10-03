@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <Header />
-    <div class="mt-[124px]">
+    <div class="mt-[116px]">
       <slot />
     </div>
     <LazyWhatsapp />

@@ -1,5 +1,5 @@
 <template>
-    <section class="py-24">
+    <section class="pt-5 pb-16 lg:py-16">
         <div class="container mx-auto">
             <section class="space-y-6">
                 <!-- FILTROS -->

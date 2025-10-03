@@ -133,7 +133,7 @@ const stats = computed(() => {
 
 <template>
     <div>
-        <section id="hero" class="relative isolate bg-secondary h-[calc(100vh-124px)] overflow-hidden">
+        <section id="hero" class="relative isolate bg-secondary h-[calc(100vh-116px)] overflow-hidden">
             <Carousel v-model="currentSlide" class="absolute inset-0 h-full w-full" v-bind="heroCarousel">
                 <Slide v-for="(f, idx) in slides" :key="idx">
                     <div class="h-full w-full flex items-center justify-center">

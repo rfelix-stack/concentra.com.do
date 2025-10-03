@@ -1,6 +1,6 @@
 <template>
     <footer class="">
-        <div class="bg-secondary relative isolate overflow-hidden" v-motion-fadein-up-once>
+        <div class="bg-secondary relative isolate overflow-hidden">
             <svg class="absolute inset-0 -z-10 size-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
                 aria-hidden="true">
                 <defs>
@@ -29,7 +29,7 @@
                                 placeholder="Ingresa tu correo">
                             <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
                                 <button type="submit" :disabled="submitting"
-                                    class="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-secondary shadow-xs hover:bg-primary hover:text-white transition-colors disabled:opacity-60">{{
+                                    class="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-base font-semibold text-secondary shadow-xs hover:bg-primary hover:text-white transition-colors disabled:opacity-60">{{
                                         submitting ? 'Enviando…' : 'Suscribirme' }}</button>
                             </div>
                         </form>
@@ -48,7 +48,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="mt-10 md:mt-0">
+                            <div class="mt-6">
                                 <h3 class="sr-only">Soluciones</h3>
                                 <ul role="list" class="mt-6 space-y-4">
                                     <li v-for="s in solutionsChunks[1]" :key="s.slug">
