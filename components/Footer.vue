@@ -18,52 +18,43 @@
             <div class="mx-auto container px-5 pt-16 pb-8 sm:pt-24 lg:pt-32">
                 <div class="xl:grid xl:grid-cols-3 xl:gap-10">
                     <div>
-                        <Logo class="h-12 brightness-0 invert" />
-                        <p class="mt-6 text-white text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate
-                            ex quidem at</p>
+                        <h3 class="text-xl font-semibold text-white">Suscríbete a nuestro boletín informativo</h3>
+                        <p class="mt-2 text-base text-white/90">Recibe noticias, lanzamientos y oportunidades
+                            directamente en tu correo.</p>
+                        <form class="mt-6 sm:flex sm:max-w-md lg:mt-6" @submit.prevent="submitSubscription">
+                            <label for="newsletter-email" class="sr-only">Correo electrónico</label>
+                            <input v-model="email" type="email" name="newsletter-email" id="newsletter-email"
+                                autocomplete="email" required
+                                class="w-full min-w-0 rounded-full bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:w-56 sm:text-sm/6"
+                                placeholder="Ingresa tu correo">
+                            <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
+                                <button type="submit" :disabled="submitting"
+                                    class="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-secondary shadow-xs hover:bg-primary hover:text-white transition-colors disabled:opacity-60">{{
+                                        submitting ? 'Enviando…' : 'Suscribirme' }}</button>
+                            </div>
+                        </form>
+                        <p v-if="successMsg" class="mt-3 text-sm text-white/80">{{ successMsg }}</p>
+                        <p v-if="errorMsg" class="mt-3 text-sm text-primary">{{ errorMsg }}</p>
                     </div>
                     <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-8">
                             <div>
                                 <h3 class="text-xl font-semibold text-white">Soluciones</h3>
                                 <ul role="list" class="mt-6 space-y-4">
-                                    <li>
-                                        <a href="#"
-                                            class="text-base text-white hover:text-primary">SOFTEXPERT</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="text-base text-white hover:text-primary">SOLARWIND</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="text-base text-white hover:text-primary">CARNBONITE</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">SHUFTI
-                                            PRO</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">CELONIS</a>
+                                    <li v-for="s in solutionsChunks[0]" :key="s.slug">
+                                        <NuxtLink :to="`/soluciones/${s.slug}`"
+                                            :class="['text-base hover:text-primary', isActive(`/soluciones/${s.slug}`) ? 'text-primary underline' : 'text-white']">
+                                            {{ s.name }}</NuxtLink>
                                     </li>
                                 </ul>
                             </div>
                             <div class="mt-10 md:mt-0">
-                                <h3 class="text-sm/6 font-semibold text-white opacity-0">.</h3>
+                                <h3 class="sr-only">Soluciones</h3>
                                 <ul role="list" class="mt-6 space-y-4">
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">SAYSAID</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">VARONIS</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">OBSERVE
-                                            IT</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">SERVICES
-                                            BOX</a>
+                                    <li v-for="s in solutionsChunks[1]" :key="s.slug">
+                                        <NuxtLink :to="`/soluciones/${s.slug}`"
+                                            :class="['text-base hover:text-primary', isActive(`/soluciones/${s.slug}`) ? 'text-primary underline' : 'text-white']">
+                                            {{ s.name }}</NuxtLink>
                                     </li>
                                 </ul>
                             </div>
@@ -72,17 +63,10 @@
                             <div>
                                 <h3 class="text-xl font-semibold text-white">Servicios</h3>
                                 <ul role="list" class="mt-6 space-y-4">
-                                    <li>
-                                        <a href="#"
-                                            class="text-base text-white hover:text-primary">Outsourcing</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">Soporte
-                                            técnico</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">Software
-                                            factory</a>
+                                    <li v-for="s in services" :key="s.slug">
+                                        <NuxtLink :to="`/servicios/${s.slug}`"
+                                            :class="['text-base hover:text-primary', isActive(`/servicios/${s.slug}`) ? 'text-primary underline' : 'text-white']">
+                                            {{ s.name }}</NuxtLink>
                                     </li>
                                 </ul>
                             </div>
@@ -90,38 +74,43 @@
                                 <h3 class="text-xl font-semibold text-white">Legal</h3>
                                 <ul role="list" class="mt-6 space-y-4">
                                     <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">Terminos y
-                                            condiciones</a>
+                                        <NuxtLink to="/terminos-condiciones"
+                                            :class="['text-base hover:text-primary', isActive('/terminos-condiciones') ? 'text-primary underline' : 'text-white']">
+                                            Términos y condiciones</NuxtLink>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-base text-white hover:text-primary">Políticas de
-                                            privacidad</a>
-                                    </li>
-                                    <li>
-                                        <a href="#"
-                                            class="text-base text-white hover:text-primary">Licencias</a>
+                                        <NuxtLink to="/politicas-privacidad"
+                                            :class="['text-base hover:text-primary', isActive('/politicas-privacidad') ? 'text-primary underline' : 'text-white']">
+                                            Políticas de privacidad</NuxtLink>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-16 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
-                    <div>
-                        <h3 class="text-xl font-semibold text-white">Suscríbete a nuestro boletín informativo</h3>
-                        <p class="mt-2 text-base text-white">Lorem ipsum dolor, sit amet consectetur adipisicing
-                            elit. Ut, ratione.</p>
-                    </div>
-                    <form class="mt-6 sm:flex sm:max-w-md lg:mt-0">
-                        <label for="email-address" class="sr-only">Email address</label>
-                        <input type="email" name="email-address" id="email-address" autocomplete="email" required
-                            class="w-full min-w-0 rounded-full bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:w-56 sm:text-sm/6"
-                            placeholder="Enter your email">
-                        <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
-                            <button type="submit"
-                                class="flex w-full items-center justify-center rounded-full bg-white px-3 py-2 text-sm font-semibold text-secondary shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Subscribe</button>
+                <div class="mt-16 pt-8 sm:mt-20 lg:mt-24">
+                    <ClientOnly>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-semibold text-white">Certificaciones</h3>
                         </div>
-                    </form>
+                        <Carousel class="mt-6" v-bind="certCarousel">
+                            <template v-if="certsPending">
+                                <Slide v-for="n in 8" :key="`c-skel-${n}`">
+                                    <div class="carousel__item relative isolate h-24 md:h-28">
+                                        <div class="skeleton absolute inset-0 rounded-xl"></div>
+                                    </div>
+                                </Slide>
+                            </template>
+                            <template v-else>
+                                <Slide v-for="(c, idx) in certifications" :key="idx">
+                                    <div class="carousel__item relative isolate h-24 md:h-28">
+                                        <NuxtImg v-if="c?.image" :src="c?.image" :alt="c?.name"
+                                            class="max-h-full max-w-full object-contain" />
+                                    </div>
+                                </Slide>
+                            </template>
+                        </Carousel>
+                    </ClientOnly>
                 </div>
                 <div class="mt-8 border-t border-white/5 pt-8 md:flex md:items-center md:justify-between">
                     <div class="flex gap-x-6 md:order-2">
@@ -177,5 +166,138 @@
 </template>
 
 <script setup>
+import 'vue3-carousel/carousel.css'
+import { Carousel, Slide } from 'vue3-carousel'
+import { directusAsset } from '~/utils/directusAsset'
+const route = useRoute()
+const dataStore = useDataStore()
+const solutions = computed(() => dataStore.data.solutions ?? [])
+const services = computed(() => dataStore.data.services ?? [])
+const solutionsChunks = computed(() => {
+    const list = Array.isArray(solutions.value) ? solutions.value : []
+    const mid = Math.ceil(list.length / 2)
+    return [list.slice(0, mid), list.slice(mid)]
+})
+const isActive = (path) => route.path === path || route.path.startsWith(path + '/')
 
+// Fetch certifications (name, image)
+const { data: certsResp, pending: certsPending } = await useAsyncData(
+    'certifications',
+    () => $fetch('/api/directus/getItems', {
+        method: 'POST',
+        body: {
+            collection: 'certifications',
+            fields: ['name', 'image']
+        }
+    }),
+    { server: true, lazy: false, default: () => [] }
+)
+
+const certifications = computed(() => {
+    const rows = Array.isArray(certsResp.value) ? certsResp.value : []
+    return rows.map(r => ({
+        name: r?.name || '',
+        image: r?.image ? directusAsset(r.image, { format: 'webp', width: 300, height: 120, fit: 'cover' }) : ''
+    }))
+})
+
+const certCarousel = {
+    itemsToShow: 2,
+    wrapAround: true,
+    autoplay: 2500,
+    pauseAutoplayOnHover: false,
+    transition: 500,
+    breakpoints: {
+        768: { itemsToShow: 2 },
+        1024: { itemsToShow: 4 }
+    }
+}
+
+// Newsletter subscription state + handler
+const email = ref('')
+const submitting = ref(false)
+const successMsg = ref('')
+const errorMsg = ref('')
+
+const submitSubscription = async () => {
+    successMsg.value = ''
+    errorMsg.value = ''
+    const value = email.value?.trim()
+    const valid = /.+@.+\..+/.test(value || '')
+    if (!valid) {
+        errorMsg.value = 'Por favor, introduce un correo válido.'
+        return
+    }
+    try {
+        submitting.value = true
+        await $fetch('/api/directus/createItem', {
+            method: 'POST',
+            body: {
+                collection: 'subscriptions',
+                item: { email: value }
+            }
+        })
+        successMsg.value = '¡Gracias! Te has suscrito correctamente.'
+        email.value = ''
+    } catch (e) {
+        errorMsg.value = 'No pudimos procesar tu suscripción. Inténtalo nuevamente.'
+    } finally {
+        submitting.value = false
+    }
+}
 </script>
+
+<style>
+/* Match logos carousel look */
+.carousel__pagination li {
+    margin: 0 4px;
+}
+
+.carousel__pagination li button {
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.carousel__pagination li button:hover,
+.carousel__pagination-button--active {
+    background-color: var(--color-secondary);
+}
+
+.carousel,
+.carousel__track,
+.carousel__slides,
+.carousel__slide {
+    background: transparent !important;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+    background: #eee;
+    border-radius: 0.375rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150px;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .6), transparent);
+    animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(300%);
+    }
+}
+</style>

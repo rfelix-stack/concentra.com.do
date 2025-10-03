@@ -21,13 +21,14 @@
                                 fill="url(#83fd4e5a-9d52-42fc-97b6-718e5d7ee527)" />
                         </svg>
                     </div>
-                    <h2 class="text-4xl font-semibold tracking-tight text-pretty text-secondary sm:text-5xl" v-motion-fadein-up-once>Familia
-                        ConCentra
+                    <h2 class="text-4xl font-semibold tracking-tight text-pretty text-secondary sm:text-5xl"
+                        v-motion-fadein-up-once>ConCentra
                     </h2>
-                    <p class="mt-6 text-lg/8 text-gris-aluminio" v-motion-fadein-up-once>Somos una empresa de referencia en el sector de la
-                        externalización de servicios, Ingresa los datos de tu hoja de vida o curriculum (CV) para que
-                        queden registrados en nuestro portal y puedas ser considerado para las vacantes a las que
-                        aplique tu perfil profesional.
+                    <p class="mt-6 text-lg/8 text-gris-aluminio" v-motion-fadein-up-once>Somos una empresa de referencia
+                        en el sector de la externalización de servicios y en base a nuestro compromiso de
+                        Responsabilidad Social, queremos motivarte a enviar tu hoja de vida (CV) con la finalidad de ser
+                        evaluado para ocupar cualquiera de nuestras plazas vacantes a las que aplique tu perfil
+                        profesional.
                     </p>
                     <dl class="mt-10 space-y-4 text-base/7 text-gray-600">
                         <div class="flex gap-x-4" v-motion-fadein-up-once>
@@ -64,19 +65,21 @@
                                 </svg>
                             </dt>
                             <dd><a class="hover:text-secondary"
-                                    href="mailto:info@concentra.com.do">info@concentra.com.do</a>
+                                    href="mailto:vacantes@concentra.com.do">vacantes@concentra.com.do</a>
                             </dd>
                         </div>
                     </dl>
                 </div>
             </div>
-            <form action="#" method="POST" class="px-6 pt-20 pb-24 sm:pb-32 lg:px-8 lg:py-48">
+            <form @submit.prevent="submit" class="px-6 pt-20 pb-24 sm:pb-32 lg:px-8 lg:py-48">
                 <div class="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
+                    <p v-if="successMsg" class="mb-6 rounded-md bg-green-50 text-green-700 px-3 py-2 text-sm">{{ successMsg }}</p>
+                    <p v-if="errorMsg" class="mb-6 rounded-md bg-red-50 text-red-700 px-3 py-2 text-sm">{{ errorMsg }}</p>
                     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                         <div>
                             <label for="first-name" class="block text-sm/6 font-semibold text-secondary">Nombres</label>
                             <div class="mt-2.5">
-                                <input type="text" name="first-name" id="first-name" autocomplete="given-name"
+                                <input v-model="form.name" required type="text" name="first-name" id="first-name" autocomplete="given-name"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -84,7 +87,7 @@
                             <label for="last-name"
                                 class="block text-sm/6 font-semibold text-secondary">Apellidos</label>
                             <div class="mt-2.5">
-                                <input type="text" name="last-name" id="last-name" autocomplete="family-name"
+                                <input v-model="form.lastname" required type="text" name="last-name" id="last-name" autocomplete="family-name"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -92,7 +95,7 @@
                             <label for="email" class="block text-sm/6 font-semibold text-secondary">Correo
                                 Electrónico</label>
                             <div class="mt-2.5">
-                                <input type="email" name="email" id="email" autocomplete="email"
+                                <input v-model="form.email" required type="email" name="email" id="email" autocomplete="email"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -100,7 +103,7 @@
                             <label for="phone-number" class="block text-sm/6 font-semibold text-secondary">Número de
                                 Teléfono</label>
                             <div class="mt-2.5">
-                                <input type="tel" name="phone-number" id="phone-number" autocomplete="tel"
+                                <input v-model="form.phone" type="tel" name="phone-number" id="phone-number" autocomplete="tel"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -109,7 +112,7 @@
                             <label for="location" class="block text-sm/6 font-medium text-secondary">Nivel
                                 Académico</label>
                             <div class="mt-2 grid grid-cols-1">
-                                <select id="location" name="location"
+                                <select id="location" name="location" v-model="form.education"
                                     class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6">
                                     <option>Técnico</option>
                                     <option>Bachiller</option>
@@ -161,7 +164,7 @@
                             <label for="message" class="block text-sm/6 font-semibold text-secondary">Áreas de
                                 experiencia</label>
                             <div class="mt-2.5">
-                                <textarea name="message" id="message" rows="2"
+                                <textarea v-model="form.expertise" name="message" id="message" rows="2"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary"></textarea>
                             </div>
                         </div>
@@ -169,13 +172,13 @@
                             <label for="phone-number" class="block text-sm/6 font-semibold text-secondary">Currículum
                                 Vitae</label>
                             <div class="mt-2.5">
-                                <input type="file" id="field" autocomplete="tel"
+                                <input @change="onFileChange" type="file" id="field" accept="application/pdf" autocomplete="off"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
                     </div>
                     <div class="mt-8 flex justify-end">
-                        <button type="submit"
+                        <button type="submit" :disabled="submitting"
                             class="rounded-full bg-primary px-3.5 py-2.5 text-sm font-light text-white shadow-xs hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">Send
                             message</button>
                     </div>
@@ -187,5 +190,45 @@
 </template>
 
 <script setup>
+const form = reactive({ name: '', lastname: '', email: '', phone: '', company: '', education: 'Técnico', profession: 'Estudiante de Sistemas', expertise: '' })
+const file = ref(null)
+const submitting = ref(false)
+const successMsg = ref('')
+const errorMsg = ref('')
 
+const onFileChange = (e) => {
+  const f = e?.target?.files?.[0]
+  if (!f) { file.value = null; return }
+  if (f.type !== 'application/pdf') { errorMsg.value = 'El CV debe ser un PDF.'; file.value = null; return }
+  errorMsg.value = ''
+  file.value = f
+}
+
+const submit = async () => {
+  successMsg.value = ''
+  errorMsg.value = ''
+  if (!form.name || !form.lastname || !form.email) { errorMsg.value = 'Completa los campos requeridos.'; return }
+  if (!file.value) { errorMsg.value = 'Adjunta tu CV en PDF.'; return }
+  try {
+    submitting.value = true
+    const fd = new FormData()
+    fd.append('file', file.value)
+    const uploadResp = await $fetch('/api/directus/upload', { method: 'POST', body: fd })
+    const fileId = uploadResp?.id || uploadResp?.data?.id
+    await $fetch('/api/directus/createItem', {
+      method: 'POST',
+      body: { collection: 'job_leads', item: {
+        status: 'published', name: form.name, lastname: form.lastname, email: form.email, phone: form.phone,
+        company: form.company, Profession: form.profession, expertise: form.expertise, cv: fileId, technical_level: form.education
+      }}
+    })
+    successMsg.value = '¡Gracias! Hemos recibido tu aplicación.'
+    form.name = form.lastname = form.email = form.phone = form.company = form.expertise = ''
+    file.value = null
+  } catch (e) {
+    errorMsg.value = 'No pudimos enviar tu aplicación. Inténtalo de nuevo.'
+  } finally {
+    submitting.value = false
+  }
+}
 </script>

@@ -5,6 +5,13 @@ defineProps({
         required: true
     }
 })
+const route = useRoute()
+const src = computed(() => {
+    if (route.path.startsWith('/soluciones')) return 'solutions'
+    if (route.path.startsWith('/servicios')) return 'services'
+    if (route.path.startsWith('/consultorias')) return 'consultancies'
+    return 'solutions'
+})
 </script>
 
 <template>
@@ -75,22 +82,22 @@ defineProps({
                                     class="text-2xl font-semibold tracking-tight text-balance text-secondary sm:text-3xl">
                                     {{ item?.cta_title }}
                                 </h2>
-                                <div class="mt-10 flex items-center justify-center gap-x-6">
+                                <div class="mt-10 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6">
                                     <NuxtLink v-if="item?.demo"
-                                        :to="`/solicitudes/demo-soluciones?item=${item?.slug}`"
-                                        class="rounded-full bg-primary px-3.5 py-2.5 text-sm font-medium text-white shadow-xs hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
+                                        :to="`/solicitudes/demo?item=${item?.slug}&src=${src}`"
+                                        class="w-full md:w-auto rounded-full bg-primary px-3.5 py-2.5 text-sm font-medium text-white shadow-xs hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
                                         Solicita un demo
                                     </NuxtLink>
 
                                     <a v-if="item?.brochure" :href="directusAsset(item?.brochure)"
                                         target="_blank" download
-                                        class="rounded-full bg-secondary px-3.5 py-2.5 text-sm font-medium text-white shadow-xs hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
-                                        Descargar brochure
+                                        class="w-full md:w-auto rounded-full bg-secondary px-3.5 py-2.5 text-sm font-medium text-white shadow-xs hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
+                                        Ver brochure
                                     </a>
 
                                     <a v-if="item?.external_link" :href="item?.external_link" target="_blank"
                                         rel="noopener noreferrer"
-                                        class="text-sm/6 font-medium text-secondary hover:text-primary">
+                                        class="w-full md:w-auto text-sm/6 font-medium text-secondary hover:text-primary">
                                         Conoce más
                                         <span aria-hidden="true">→</span>
                                     </a>

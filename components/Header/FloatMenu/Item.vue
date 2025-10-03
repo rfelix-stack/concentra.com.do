@@ -1,8 +1,11 @@
 <template>
-    <div :class="[
-        'group relative flex items-center gap-x-4 rounded-lg p-4 text-base group',
+    <div @click="setActive"
+        :class="[
+        'group relative flex items-center gap-x-4 rounded-lg p-4 text-base cursor-pointer',
         { 'bg-white hover:bg-primary': !item.featured },
         { 'bg-secondary': item.featured },
+        isActive && !item.featured ? 'ring-2 ring-primary' : '',
+        isActive && item.featured ? 'outline outline-2 outline-white/60' : ''
     ]">
         <div :class="[
             'flex size-16 lg:size-20 flex-none items-center justify-center rounded-lg',
@@ -26,15 +29,17 @@
                 <span class="absolute inset-0"></span>
             </NuxtLink> -->
 
-            <button type="button" @click.prevent="dataStore.setCurrentMenuFloatItem(item)" :class="['hidden lg:block font-semibold font-poppins',
-                { 'text-secondary': !item.featured },
+            <button type="button" @click.prevent="setActive" :class="['hidden lg:block font-semibold font-poppins',
+                isActive && !item.featured ? 'text-primary' : '',
+                { 'text-secondary group-hover:!text-white': !item.featured },
                 { 'text-white': item.featured },
             ]">
                 {{ item?.label }}
-                 <span class="absolute inset-0"></span>
+                <span class="absolute inset-0"></span>
             </button>
             <p :class="['mt-1 font-normal',
-                { 'text-paragraph group-hover:!text-secondary font-montserrat': !item.featured },
+                isActive && !item.featured ? 'text-secondary' : '',
+                { 'text-paragraph group-hover:!text-white font-montserrat': !item.featured },
                 { 'text-white': item.featured },
             ]">{{ item.intro }}</p>
 
@@ -54,4 +59,14 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['closeDropdown']);
+
+const isActive = computed(() => {
+    const current = dataStore.menuCardItem
+    if (!current) return false
+    return current?.label === props.item?.label || current?.hash === props.item?.hash
+})
+
+const setActive = () => {
+    dataStore.setCurrentMenuFloatItem(props.item)
+}
 </script>

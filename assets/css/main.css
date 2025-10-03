@@ -93,14 +93,22 @@ button {
     a,
     button {
         font-family: var(--font-poppins) !important;
+        @apply text-secondary;
     }
 
     & ul {
-        @apply list-disc list-inside; 
+        /* Use outside markers to avoid overlap with multi-line text */
+        @apply list-disc list-outside pl-6; 
     }
 
     & ol {
-        @apply list-decimal list-inside;
+        /* Use outside markers to avoid overlap with multi-line text */
+        @apply list-decimal list-outside pl-6;
+    }
+
+    & li {
+        /* Provide vertical rhythm for list items in long legal content */
+        @apply my-2; 
     }
 
     & h1 {
@@ -117,5 +125,10 @@ button {
 
     & a {
         @apply underline;
+    }
+
+    & bold,
+    strong {
+        @apply text-secondary;
     }
 }

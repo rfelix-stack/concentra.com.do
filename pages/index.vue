@@ -14,6 +14,25 @@ const heroCarousel = {
     pauseAutoplayOnHover: false,
 }
 
+// Carousel config for Services (mobile only)
+const servicesCarousel = {
+    itemsToShow: 1,
+    wrapAround: true,
+    autoplay: 4000,
+    pauseAutoplayOnHover: true,
+}
+
+// Carousel config for Stats (mobile/tablet)
+const statsCarousel = {
+    itemsToShow: 1,
+    wrapAround: true,
+    autoplay: 3500,
+    pauseAutoplayOnHover: true,
+    breakpoints: {
+        640: { itemsToShow: 2 },
+    }
+}
+
 const activeSlide = computed(() => {
     if (!slides.value?.length) {
         return { title: '', description: '', button_text: 'Conocer más', button_link: '#', link_text: 'Contáctanos', link_url: '#', image: '' }
@@ -129,11 +148,11 @@ const stats = computed(() => {
                                 <transition name="slide-fade" mode="out-in">
                                     <div :key="currentSlide">
                                         <h2 v-if="activeSlide?.title"
-                                            class="text-5xl font-semibold tracking-normal text-pretty text-white sm:text-5xl leading-tight"
+                                            class="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-normal text-pretty text-white leading-tight"
                                             v-motion-fadein-up-once :delay="700">
                                             {{ activeSlide?.title }}</h2>
                                         <p v-if="activeSlide?.description"
-                                            class="mt-8 text-lg font-normal text-pretty text-white sm:text-xl/8"
+                                            class="mt-4 sm:mt-6 text-base sm:text-lg font-normal text-pretty text-white"
                                             v-motion-fadein-up-once :delay="800">
                                             {{ activeSlide?.description }}
                                         </p>
@@ -184,27 +203,51 @@ const stats = computed(() => {
                     <p class="text-base/7 font-semibold text-primary tracking-wider uppercase" v-motion-fadein-up-once>
                         {{ serviceUpperTitle }}
                     </p>
-                    <h2 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
+                    <h2 class="mt-2 text-3xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-4xl md:text-5xl"
                         v-motion-fadein-up-once :delay="300">
                         {{ serviceTitle }}
                     </h2>
                 </div>
-                <div class="mt-16 flex" v-motion-fadein-up-once>
+                <div class="mt-16" v-motion-fadein-up-once>
+                    <!-- Mobile: Carousel 1 per view -->
+                    <div class="block md:hidden">
+                        <Carousel v-bind="servicesCarousel">
+                            <Slide v-for="(service, index) in services" :key="index">
+                                <div
+                                    class="group relative rounded-3xl drop-shadow-md shadow-secondary bg-white overflow-hidden transform hover:scale-105 transition-all duration-300 ease-in-out mx-2">
+                                    <h3
+                                        class="bg-primary group-hover:bg-secondary transition-colors duration-300 ease-in-out py-4 px-5 w-full uppercase font-bold text-white text-center text-lg">
+                                        {{ service.title }}
+                                    </h3>
+                                    <div class="mt-6">
+                                        <img :src="service.image" :alt="service.title"
+                                            class="w-full h-24 object-contain object-center transition-transform duration-300 ease-in-out group-hover:scale-105">
+                                    </div>
+                                    <div class="py-6 px-4 text-center group-hover:bg-muted">
+                                        <p class="text-base font-normal text-paragraph px-4 py-2">
+                                            {{ service.description }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Slide>
+                            <template #addons>
+                                <Pagination />
+                            </template>
+                        </Carousel>
+                    </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+                    <!-- Tablet/Desktop: Grid (md:2, lg:4) -->
+                    <div class="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-10">
                         <div v-for="(service, index) in services" :key="index"
                             class="group relative rounded-3xl drop-shadow-md shadow-secondary bg-white overflow-hidden transform hover:scale-105 transition-all duration-300 ease-in-out">
-                            <!-- <a :href="service.href" class="absolute inset-0"></a> -->
                             <h3
                                 class="bg-primary group-hover:bg-secondary transition-colors duration-300 ease-in-out py-4 px-5 w-full uppercase font-bold text-white text-center text-lg">
                                 {{ service.title }}
                             </h3>
-
                             <div class="mt-6">
                                 <img :src="service.image" :alt="service.title"
                                     class="w-full h-24 object-contain object-center transition-transform duration-300 ease-in-out group-hover:scale-105">
                             </div>
-
                             <div class="py-6 px-4 text-center group-hover:bg-muted">
                                 <p class="text-base font-normal text-paragraph px-4 py-2">
                                     {{ service.description }}
@@ -212,11 +255,11 @@ const stats = computed(() => {
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </section>
 
-        <section class="relative isolate bg-muted py-16 lg:py-36 bg-secondary">
+        <section id="stats" class="relative isolate bg-muted py-16 lg:py-36 bg-secondary">
 
             <client-only>
                 <Vue3Lottie animationLink="/Animation-1751030345179.json" height="95vh" width="auto" v-motion="{
@@ -239,17 +282,32 @@ const stats = computed(() => {
                     <p class="text-base/7 font-semibold text-white tracking-wider uppercase" v-motion-fadein-up-once>
                         {{ statsUpperTitle }}
                     </p>
-                    <h2 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-white leading-tight sm:text-5xl"
+                    <h2 class="mt-2 text-3xl font-semibold tracking-tight text-pretty text-white leading-tight sm:text-4xl md:text-5xl"
                         v-motion-fadein-up-once :delay="300">
                         {{ statsTitle }}
                     </h2>
                 </div>
 
-                <div class="mt-16 lg:mt-32 flex items-center justify-center flex-wrap gap-y-28 gap-x-10 relative">
+                <!-- Mobile/Tablet: Carousel for stats -->
+                <div class="mt-12 block lg:hidden">
+                    <Carousel v-bind="statsCarousel">
+                        <Slide v-for="(stat, index) in stats" :key="index">
+                            <div class="text-white text-center space-y-4 px-4">
+                                <p class="text-5xl sm:text-6xl uppercase font-bold tracking-tight">{{ stat.value }}</p>
+                                <p class="text-xl sm:text-2xl">{{ stat.title }}</p>
+                            </div>
+                        </Slide>
+                        <template #addons>
+                            <Pagination />
+                        </template>
+                    </Carousel>
+                </div>
+
+                <!-- Desktop: existing layout -->
+                <div class="hidden lg:flex items-center justify-center flex-wrap gap-y-28 gap-x-10 relative mt-24">
                     <div v-for="(stat, index) in stats" :key="index" v-motion-fadein-up-once
                         class="text-white text-center space-y-6 w-1/2 md:w-1/5">
                         <p class="text-6xl uppercase font-bold tracking-tight">{{ stat.value }}</p>
-
                         <p class="text-2xl">{{ stat.title }}</p>
                     </div>
                 </div>
@@ -324,6 +382,15 @@ const stats = computed(() => {
 #hero .carousel__pagination li button:hover,
 #hero .carousel__pagination-button--active {
     background-color: var(--color-secondary);
+}
+
+/* Keep mobile carousels dots below content */
+#services .carousel__pagination,
+#stats .carousel__pagination {
+    position: static;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
 }
 </style>
 
