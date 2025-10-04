@@ -49,6 +49,7 @@ const { data: homeData } = await useAsyncData(
         body: {
             collection: 'home',
             fields: [
+                'seo',
                 'slideshow.collection',
                 'slideshow.item.title',
                 'slideshow.item.intro',
@@ -129,6 +130,14 @@ const stats = computed(() => {
             value: it?.item?.stat || ''
         }))
 })
+
+// SEO integration for Home
+const homeOg = computed(() => slides.value?.[0]?.image || '')
+const homeDesc = computed(() => slides.value?.[0]?.description || '')
+useDirectusSeo(
+    computed(() => homeData.value?.seo),
+    computed(() => ({ title: 'ConCentra', description: homeDesc.value, image: homeOg.value }))
+)
 </script>
 
 <template>

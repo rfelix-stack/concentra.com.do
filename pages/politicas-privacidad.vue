@@ -7,7 +7,7 @@ const { data } = await useAsyncData(
       method: 'POST',
       body: {
         collection: 'policies',
-        fields: ['title', 'content']
+        fields: ['title', 'content', 'seo']
       }
     }),
   { server: true, lazy: false, default: () => ({}) }
@@ -15,6 +15,12 @@ const { data } = await useAsyncData(
 
 const title = computed(() => data.value?.title || 'Políticas de Privacidad')
 const html = computed(() => data.value?.content || '')
+
+// SEO integration
+useDirectusSeo(
+  computed(() => data.value?.seo),
+  computed(() => ({ title: title.value }))
+)
 </script>
 
 <template>

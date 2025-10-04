@@ -16,7 +16,8 @@ const { data: solution, status, pending, error, refresh } = await useAsyncData(
                 'related.related_solutions_id.isotipo',
                 'related.related_solutions_id.intro',
                 'related.related_solutions_id.slug',
-                'demo', 'external_link', 'brochure', 'cta_title'
+                'demo', 'external_link', 'brochure', 'cta_title',
+                'seo'
             ]
         }
     }),
@@ -27,6 +28,15 @@ const { data: solution, status, pending, error, refresh } = await useAsyncData(
         watch: [() => slug.value],
         transform: (data) => data?.[0]
     }
+)
+
+// SEO integration
+useDirectusSeo(
+    computed(() => solution.value?.seo),
+    computed(() => ({
+        title: solution.value?.title || solution.value?.name || 'Solución',
+        description: solution.value?.intro || ''
+    }))
 )
 </script>
 

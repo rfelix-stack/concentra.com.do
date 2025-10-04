@@ -191,6 +191,21 @@
 </template>
 
 <script setup>
+// Page SEO (singleton: empleo)
+const { data: empleoPage } = await useAsyncData(
+  'empleo_page',
+  () => $fetch('/api/directus/getSingleton', {
+    method: 'POST',
+    body: { collection: 'empleo', fields: ['seo'] }
+  }),
+  { server: true, lazy: false, default: () => ({}) }
+)
+
+useDirectusSeo(
+  computed(() => empleoPage.value?.seo),
+  { title: 'Empléate', description: 'Envía tu hoja de vida para futuras vacantes.' }
+)
+
 const form = reactive({ name: '', lastname: '', email: '', phone: '', company: '', education: 'Técnico', profession: 'Estudiante de Sistemas', expertise: '' })
 const file = ref(null)
 const submitting = ref(false)

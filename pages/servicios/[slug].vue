@@ -16,7 +16,8 @@ const { data: service, status, pending, error, refresh } = await useAsyncData(
                 'related.related_services_id.isotipo',
                 'related.related_services_id.intro',
                 'related.related_services_id.slug',
-                'demo', 'external_link', 'brochure', 'cta_title'
+                'demo', 'external_link', 'brochure', 'cta_title',
+                'seo'
             ]
         }
     }),
@@ -27,6 +28,15 @@ const { data: service, status, pending, error, refresh } = await useAsyncData(
         watch: [() => slug.value],
         transform: (data) => data?.[0]
     }
+)
+
+// SEO integration
+useDirectusSeo(
+    computed(() => service.value?.seo),
+    computed(() => ({
+        title: service.value?.title || service.value?.name || 'Servicio',
+        description: service.value?.intro || ''
+    }))
 )
 </script>
 

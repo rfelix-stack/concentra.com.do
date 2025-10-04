@@ -122,6 +122,21 @@ const ensureBase = async () => {
 }
 await ensureBase()
 
+// Page SEO (singleton: booking)
+const { data: bookingPage } = await useAsyncData(
+  'booking_page',
+  () => $fetch('/api/directus/getSingleton', {
+    method: 'POST',
+    body: { collection: 'booking', fields: ['seo'] }
+  }),
+  { server: true, lazy: false, default: () => ({}) }
+)
+
+useDirectusSeo(
+  computed(() => bookingPage.value?.seo),
+  { title: 'Agenda una demostración', description: 'Completa el formulario para coordinar tu demo.' }
+)
+
 const mapRows = (rows) => (rows || []).map((s) => ({
   label: s.name,
   slug: s.slug,

@@ -62,84 +62,36 @@
                         </div>
 
                         <nav class="mt-4 space-y-6">
-                            <NuxtLink to="/nosotros" @click="closeMobile"
-                                :class="['flex w-full items-center gap-3 uppercase tracking-wide text-paragraph rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/nosotros') && 'bg-gray-50']">
-                                Nosotros</NuxtLink>
-
-                            <div>
-                                <button type="button"
-                                    :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/soluciones') && 'bg-gray-50']"
-                                    @click="open.solutions = !open.solutions">
-                                    <span
-                                        class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">Soluciones</span>
-                                    <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <ul v-show="open.solutions" class="mt-2 grid grid-cols-1 gap-2">
-                                    <li v-for="(s, i) in solutions" :key="`m-sol-${i}`">
-                                        <NuxtLink :to="`/soluciones/${s.slug}`" @click="closeMobile"
-                                            :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(`/soluciones/${s.slug}`) && 'bg-gray-50 text-primary font-medium']">
-                                            <img v-if="s.isotipo"
-                                                :src="directusAsset(s.isotipo, { width: 45, height: 45, fit: 'cover' })"
-                                                :alt="s.name" class="h-7 w-7 object-cover" />
-                                            <span class="text-base text-paragraph">{{ s.name }}</span>
-                                        </NuxtLink>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <button type="button"
-                                    :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/servicios') && 'bg-gray-50']"
-                                    @click="open.services = !open.services">
-                                    <span
-                                        class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">Servicios</span>
-                                    <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <ul v-show="open.services" class="mt-2 grid grid-cols-1 gap-2">
-                                    <li v-for="(s, i) in services" :key="`m-serv-${i}`">
-                                        <NuxtLink :to="`/servicios/${s.slug}`" @click="closeMobile"
-                                            :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(`/servicios/${s.slug}`) && 'bg-gray-50 text-primary font-medium']">
-                                            <img v-if="s.isotipo"
-                                                :src="directusAsset(s.isotipo, { width: 45, height: 45, fit: 'cover' })"
-                                                :alt="s.name" class="h-7 w-7 object-cover" />
-                                            <span class="text-base text-paragraph">{{ s.name }}</span>
-                                        </NuxtLink>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <button type="button"
-                                    :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isActive('/consultorias') && 'bg-gray-50']"
-                                    @click="open.consultancies = !open.consultancies">
-                                    <span
-                                        class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">Capacitaciones</span>
-                                    <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                                <ul v-show="open.consultancies" class="mt-2 grid grid-cols-1 gap-2">
-                                    <li v-for="(c, i) in consultancies" :key="`m-cons-${i}`">
-                                        <NuxtLink :to="`/consultorias/${c.slug}`" @click="closeMobile"
-                                            :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(`/consultorias/${c.slug}`) && 'bg-gray-50 text-primary font-medium']">
-                                            <img v-if="c.isotipo"
-                                                :src="directusAsset(c.isotipo, { width: 45, height: 45, fit: 'cover' })"
-                                                :alt="c.name" class="h-7 w-7 object-cover" />
-                                            <span class="text-base text-paragraph">{{ c.name }}</span>
-                                        </NuxtLink>
-                                    </li>
-                                </ul>
-                            </div>
+                            <template v-for="(item, i) in menu" :key="`m-${i}`">
+                                <NuxtLink v-if="!item.float" :to="item.hash" @click="closeMobile"
+                                    :class="['flex w-full items-center gap-3 uppercase tracking-wide text-paragraph rounded-lg px-3 py-2 hover:bg-gray-50', isActive(item.hash) && 'bg-gray-50']">
+                                    {{ item.label }}
+                                </NuxtLink>
+                                <div v-else>
+                                    <button type="button"
+                                        :class="['flex w-full items-center justify-between rounded-lg px-3 py-2 hover:bg-gray-50', isGroupActive(item) && 'bg-gray-50']"
+                                        @click="openFloat[i] = !openFloat[i]">
+                                        <span
+                                            class="flex w-full items-center gap-3 uppercase font-medium tracking-wide text-paragraph rounded-lg hover:bg-gray-50">{{
+                                            item.label }}</span>
+                                        <svg class="size-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.25 8.27a.75.75 0 01-.02-1.06z" />
+                                        </svg>
+                                    </button>
+                                    <ul v-show="openFloat[i]" class="mt-2 grid grid-cols-1 gap-2">
+                                        <li v-for="(opt, j) in item.options" :key="`m-sub-${i}-${j}`">
+                                            <NuxtLink :to="opt.hash" @click="closeMobile"
+                                                :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(opt.hash) && 'bg-gray-50 text-primary font-medium']">
+                                                <img v-if="opt.image"
+                                                    :src="directusAsset(opt.image, { width: 45, height: 45, fit: 'cover' })"
+                                                    :alt="opt.label" class="h-7 w-7 object-cover" />
+                                                <span class="text-base text-paragraph">{{ opt.label }}</span>
+                                            </NuxtLink>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </template>
 
                             <div class="pt-4">
                                 <NuxtLink to="/solicitudes/empleo" @click="closeMobile"
@@ -166,8 +118,8 @@ const solutions = computed(() => dataStore.data.solutions ?? [])
 const services = computed(() => dataStore.data.services ?? [])
 const consultancies = computed(() => dataStore.data.consultancies ?? [])
 
-// collapsible state
-const open = reactive({ solutions: false, services: false, consultancies: false })
+// collapsible state (mobile float groups)
+const openFloat = reactive<Record<number, boolean>>({})
 
 const closeMobile = () => { mobileOpen.value = false }
 
@@ -175,6 +127,11 @@ const isActive = (path: string) => {
     if (!path) return false
     if (path === '/') return route.path === '/'
     return route.path === path || route.path.startsWith(path + '/')
+}
+
+const isGroupActive = (item: any) => {
+    if (!item?.options) return false
+    return item.options.some((o: any) => isActive(o.hash))
 }
 
 type MENU = {
@@ -262,7 +219,12 @@ const menu = computed(() => {
                 { label: 'Consultorías', hash: '#', icon: '' },
                 { label: 'Contácta con ventas', hash: '#', icon: '' }
             ]
-        }
+        },
+        {
+            float: false,
+            label: 'Contacto',
+            hash: '/contacto'
+        },
     ]
 })
 </script>

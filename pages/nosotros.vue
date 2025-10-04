@@ -14,6 +14,7 @@ const { data: aboutData } = await useAsyncData(
           'lead',
           'body',
           'image',
+          'seo',
           // Cards (m2a -> card_content)
           'content.collection',
           'content.item.title',
@@ -70,6 +71,16 @@ const valores = computed(() => {
       text: it?.item?.text || ''
     }))
 })
+
+// SEO integration
+useDirectusSeo(
+  computed(() => aboutData.value?.seo),
+  computed(() => ({
+    title: heroTitle.value,
+    description: heroLead.value,
+    image: heroImage.value
+  }))
+)
 </script>
 
 <template>

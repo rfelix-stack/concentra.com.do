@@ -16,7 +16,8 @@ const { data: consultance, status, pending, error, refresh } = await useAsyncDat
                 'related.related_consultancies_id.isotipo',
                 'related.related_consultancies_id.intro',
                 'related.related_consultancies_id.slug',
-                'demo', 'external_link', 'brochure', 'cta_title'
+                'demo', 'external_link', 'brochure', 'cta_title',
+                'seo'
             ]
         }
     }),
@@ -27,6 +28,15 @@ const { data: consultance, status, pending, error, refresh } = await useAsyncDat
         watch: [() => slug.value],
         transform: (data) => data?.[0]
     }
+)
+
+// SEO integration
+useDirectusSeo(
+    computed(() => consultance.value?.seo),
+    computed(() => ({
+        title: consultance.value?.title || consultance.value?.name || 'Consultoría',
+        description: consultance.value?.intro || ''
+    }))
 )
 </script>
 

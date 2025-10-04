@@ -1,4 +1,14 @@
 <script setup>
+// Page SEO (singleton: clientes)
+const { data: clientesPage } = await useAsyncData(
+    'clientes_page',
+    () => $fetch('/api/directus/getSingleton', {
+        method: 'POST',
+        body: { collection: 'clientes', fields: ['seo'] }
+    }),
+    { server: true, lazy: false, default: () => ({}) }
+)
+
 const { data: clients, status, pending, error, refresh } = await useAsyncData(
     'clients',
     () => $fetch('/api/directus/getItems', {
@@ -34,6 +44,12 @@ const { data: clients, status, pending, error, refresh } = await useAsyncData(
             }))
         }
     }
+)
+
+// SEO integration
+useDirectusSeo(
+    computed(() => clientesPage.value?.seo),
+    { title: 'Clientes' }
 )
 </script>
 
