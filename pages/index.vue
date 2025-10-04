@@ -72,7 +72,11 @@ const { data: homeData } = await useAsyncData(
                 // stats items (m2a -> stats)
                 'stats.collection',
                 'stats.item.title',
-                'stats.item.stat'
+                'stats.item.stat',
+                // clients section titles
+                'client_uppertitle',
+                'client_title',
+                'client_intro'
             ]
         }
     }),
@@ -138,6 +142,11 @@ useDirectusSeo(
     computed(() => homeData.value?.seo),
     computed(() => ({ title: 'ConCentra', description: homeDesc.value, image: homeOg.value }))
 )
+
+// Clients section titles
+const clientUpperTitle = computed(() => homeData.value?.client_uppertitle || 'Nuestros aliados estratégicos')
+const clientTitle = computed(() => homeData.value?.client_title || 'Lorem ipsum dolor sit amet.')
+const clientIntro = computed(() => homeData.value?.client_intro || 'Empresas que han puesto sus proyectos tecnológicos en nuestras manos.')
 </script>
 
 <template>
@@ -323,7 +332,7 @@ useDirectusSeo(
             </div>
         </section>
 
-        <SectionHomeClients />
+        <SectionHomeClients :upper-title="clientUpperTitle" :title="clientTitle" :intro="clientIntro" />
     </div>
 </template>
 

@@ -19,7 +19,7 @@ const emit = defineEmits(['closeDropdown']);
                     {{ dataStore.menuCardItem?.card_intro }}
                 </p>
             </div>
-            <div class="mt-16">
+            <!-- <div class="mt-16">
                 <a :href="dataStore.menuCardItem?.hash" @click.native="emit('closeDropdown', true)"
                     class="hidden sm:flex items-center justify-center rounded-full bg-primary hover:bg-secondary px-3.5 py-2.5 text-lg lg:text-xl font-normal
                      text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
@@ -30,7 +30,7 @@ const emit = defineEmits(['closeDropdown']);
                             d="M1 5h12m0 0L9 1m4 4L9 9" />
                     </svg>
                 </a>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>

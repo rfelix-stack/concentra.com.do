@@ -6,7 +6,8 @@ export const useDataStore = defineStore('index', {
       solutions: [],
       services: [],
       consultancies: [],
-      featuredClients: []
+      featuredClients: [],
+      configs: {}
     },
     currentMenuFloatItem: null
   }),
@@ -21,6 +22,7 @@ export const useDataStore = defineStore('index', {
       this.data.solutions = payload?.solutions ?? []
       this.data.services = payload?.services ?? []
       this.data.consultancies = payload?.consultancies ?? []
+      this.data.configs = payload?.configs ?? {}
     },
     async fetchFeaturedClients() {
       // avoid refetch if already present

@@ -4,17 +4,17 @@
             <div class="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-16">
                 <div class="md:col-span-3">
                     <p class="text-base/7 font-semibold text-primary tracking-wider uppercase" v-motion-fadein-up-once>
-                        Nuestros aliados estratégicos
+                        {{ upperTitle }}
                     </p>
                     <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
                         v-motion-fadein-up-once :delay="300">
-                        Lorem ipsum dolor sit amet.</h1>
+                        {{ title }}</h1>
 
                 </div>
                 <div class="md:col-span-2" v-motion-fadein-up-once>
                     <div>
                         <p class="mb-6 text-xl/8 text-balance text-paragraph font-normal">
-                            Empresas que han puesto sus proyectos tecnológicos en nuestras manos.
+                            {{ intro }}
                         </p>
                         <NuxtLink to="/clientes"
                             class="rounded-full bg-primary px-3.5 py-2.5 text-sm font-light text-white shadow-xs hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">
@@ -29,5 +29,18 @@
     </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+    upperTitle?: string
+    title?: string
+    intro?: string
+}>(), {
+    upperTitle: 'Nuestros aliados estratégicos',
+    title: 'Lorem ipsum dolor sit amet.',
+    intro: 'Empresas que han puesto sus proyectos tecnológicos en nuestras manos.'
+})
+
+const upperTitle = computed(() => props.upperTitle)
+const title = computed(() => props.title)
+const intro = computed(() => props.intro)
 </script>

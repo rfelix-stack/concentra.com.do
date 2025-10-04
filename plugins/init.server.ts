@@ -3,8 +3,10 @@ import { useDataStore } from '~/stores/data'
 export default defineNuxtPlugin(async () => {
   try {
     const dataStore = useDataStore()
-    // If already populated (e.g., client nav), skip fetch
-    if (dataStore.data?.solutions?.length || dataStore.data?.services?.length || dataStore.data?.consultancies?.length) return
+    // Fetch when base lists or configs are missing
+    const hasBase = !!(dataStore.data?.solutions?.length && dataStore.data?.services?.length && dataStore.data?.consultancies?.length)
+    const hasConfigs = !!(dataStore.data?.configs && Object.keys(dataStore.data.configs).length)
+    if (hasBase && hasConfigs) return
 
     const payload = await $fetch('/api/directus/init', { method: 'POST' })
     dataStore.setBaseData(payload)

@@ -22,50 +22,44 @@
                         </svg>
                     </div>
                     <h2 class="text-4xl font-semibold tracking-tight text-pretty text-secondary sm:text-5xl"
-                        v-motion-fadein-up-once>ConCentra
-                    </h2>
-                    <p class="mt-6" v-motion-fadein-up-once>Somos una empresa de referencia
-                        en el sector de la externalización de servicios y en base a nuestro compromiso de
-                        Responsabilidad Social, queremos motivarte a enviar tu hoja de vida (CV) con la finalidad de ser
-                        evaluado para ocupar cualquiera de nuestras plazas vacantes a las que aplique tu perfil
-                        profesional.
-                    </p>
+                        v-motion-fadein-up-once>{{ empleoTitle }}</h2>
+                    <p class="mt-6" v-motion-fadein-up-once>{{ empleoIntro }}</p>
                     <dl class="mt-10 space-y-4 text-base/7 text-gray-600">
                         <div class="flex gap-x-4" v-motion-fadein-up-once>
                             <dt class="flex-none">
                                 <span class="sr-only">Address</span>
-                                <svg class="h-7 w-6 text-paragraph" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <svg class="h-7 w-6 text-paragraph" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" aria-hidden="true" data-slot="icon">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
                                 </svg>
                             </dt>
-                            <dd>Acrópolis Center, Piso 8, <br>
-                                Av. Winston Churchill, esquina Av. Rafael A. Sanchez <br>
-                                Santo Domingo, Républica Dominicana</dd>
+                            <dd class="whitespace-pre-line">{{ empleoAddressText }}</dd>
                         </div>
                         <div class="flex gap-x-4" v-motion-fadein-up-once>
                             <dt class="flex-none">
                                 <span class="sr-only">Telephone</span>
-                                <svg class="h-7 w-6 text-paragraph" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <svg class="h-7 w-6 text-paragraph" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" aria-hidden="true" data-slot="icon">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                                 </svg>
                             </dt>
-                            <dd><a class="hover:text-secondary" href="tel:+1 809-731-8115">+1 809-731-8115</a></dd>
+                            <dd>
+                              <a class="hover:text-secondary" :href="empleoPhoneHref">{{ empleoPhoneText }}</a>
+                            </dd>
                         </div>
                         <div class="flex gap-x-4" v-motion-fadein-up-once>
                             <dt class="flex-none">
                                 <span class="sr-only">Email</span>
-                                <svg class="h-7 w-6 text-paragraph" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <svg class="h-7 w-6 text-paragraph" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" aria-hidden="true" data-slot="icon">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                                 </svg>
                             </dt>
-                            <dd><a class="hover:text-secondary"
-                                    href="mailto:vacantes@concentra.com.do">vacantes@concentra.com.do</a>
+                            <dd>
+                              <a class="hover:text-secondary" :href="empleoEmailHref">{{ empleoEmailText }}</a>
                             </dd>
                         </div>
                     </dl>
@@ -73,13 +67,16 @@
             </div>
             <form @submit.prevent="submit" class="px-6 py-16 lg:px-8">
                 <div class="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
-                    <p v-if="successMsg" class="mb-6 rounded-md bg-green-50 text-green-700 px-3 py-2 text-sm">{{ successMsg }}</p>
-                    <p v-if="errorMsg" class="mb-6 rounded-md bg-red-50 text-red-700 px-3 py-2 text-sm">{{ errorMsg }}</p>
+                    <p v-if="successMsg" class="mb-6 rounded-md bg-green-50 text-green-700 px-3 py-2 text-sm">{{
+                        successMsg }}</p>
+                    <p v-if="errorMsg" class="mb-6 rounded-md bg-red-50 text-red-700 px-3 py-2 text-sm">{{ errorMsg }}
+                    </p>
                     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                         <div>
                             <label for="first-name" class="block text-sm/6 font-semibold text-secondary">Nombres</label>
                             <div class="mt-2.5">
-                                <input v-model="form.name" required type="text" name="first-name" id="first-name" autocomplete="given-name"
+                                <input v-model="form.name" required type="text" name="first-name" id="first-name"
+                                    autocomplete="given-name"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -87,7 +84,8 @@
                             <label for="last-name"
                                 class="block text-sm/6 font-semibold text-secondary">Apellidos</label>
                             <div class="mt-2.5">
-                                <input v-model="form.lastname" required type="text" name="last-name" id="last-name" autocomplete="family-name"
+                                <input v-model="form.lastname" required type="text" name="last-name" id="last-name"
+                                    autocomplete="family-name"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -95,7 +93,8 @@
                             <label for="email" class="block text-sm/6 font-semibold text-secondary">Correo
                                 Electrónico</label>
                             <div class="mt-2.5">
-                                <input v-model="form.email" required type="email" name="email" id="email" autocomplete="email"
+                                <input v-model="form.email" required type="email" name="email" id="email"
+                                    autocomplete="email"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -103,7 +102,8 @@
                             <label for="phone-number" class="block text-sm/6 font-semibold text-secondary">Número de
                                 Teléfono</label>
                             <div class="mt-2.5">
-                                <input v-model="form.phone" type="tel" name="phone-number" id="phone-number" autocomplete="tel"
+                                <input v-model="form.phone" type="tel" name="phone-number" id="phone-number"
+                                    autocomplete="tel"
                                     class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
                             </div>
                         </div>
@@ -169,11 +169,17 @@
                             </div>
                         </div>
                         <div class="sm:col-span-2">
-                            <label for="phone-number" class="block text-sm/6 font-semibold text-secondary">Currículum
+                            <label class="block text-sm/6 font-semibold text-secondary">Currículum
                                 Vitae</label>
                             <div class="mt-2.5">
-                                <input @change="onFileChange" type="file" id="field" accept="application/pdf" autocomplete="off"
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
+                                <label
+                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base outline-1 -outline-offset-1 outline-primary-100 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary cursor-pointer">
+                                    <input @change="onFileChange" type="file" id="cv" accept="application/pdf"
+                                        autocomplete="off" class="sr-only">
+                                    <span :class="fileName ? 'text-secondary' : 'text-paragraph'">
+                                        {{ fileName || 'Sube un .pdf' }}
+                                    </span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -191,12 +197,12 @@
 </template>
 
 <script setup>
-// Page SEO (singleton: empleo)
+// Page content + SEO (singleton: empleo)
 const { data: empleoPage } = await useAsyncData(
   'empleo_page',
   () => $fetch('/api/directus/getSingleton', {
     method: 'POST',
-    body: { collection: 'empleo', fields: ['seo'] }
+    body: { collection: 'empleo', fields: ['title', 'intro', 'seo'] }
   }),
   { server: true, lazy: false, default: () => ({}) }
 )
@@ -206,45 +212,62 @@ useDirectusSeo(
   { title: 'Empléate', description: 'Envía tu hoja de vida para futuras vacantes.' }
 )
 
+const empleoTitle = computed(() => empleoPage.value?.title || 'ConCentra')
+const empleoIntro = computed(() => empleoPage.value?.intro || 'Somos una empresa de referencia en el sector de la externalización de servicios y en base a nuestro compromiso de Responsabilidad Social, queremos motivarte a enviar tu hoja de vida (CV) con la finalidad de ser evaluado para ocupar cualquiera de nuestras plazas vacantes a las que aplique tu perfil profesional.')
+
 const form = reactive({ name: '', lastname: '', email: '', phone: '', company: '', education: 'Técnico', profession: 'Estudiante de Sistemas', expertise: '' })
 const file = ref(null)
+const fileName = computed(() => file.value?.name || '')
 const submitting = ref(false)
 const successMsg = ref('')
 const errorMsg = ref('')
 
+// Contact info for empleo from configs
+const dataStore = useDataStore()
+const cfg = computed(() => dataStore.data?.configs || {})
+const empleoPhoneRaw = computed(() => cfg.value?.empleo_contact_phone || '+1 809-731-8115')
+const empleoEmailRaw = computed(() => cfg.value?.empleo_contact_email || 'vacantes@concentra.com.do')
+const empleoPhoneText = computed(() => empleoPhoneRaw.value)
+const empleoEmailText = computed(() => empleoEmailRaw.value)
+const empleoPhoneHref = computed(() => `tel:${String(empleoPhoneRaw.value).replace(/\s+/g, '')}`)
+const empleoEmailHref = computed(() => `mailto:${empleoEmailRaw.value}`)
+const empleoAddressText = computed(() => cfg.value?.address || 'Acrópolis Center, Piso 8,\nAv. Winston Churchill, esquina Av. Rafael A. Sanchez\nSanto Domingo, República Dominicana')
+
 const onFileChange = (e) => {
-  const f = e?.target?.files?.[0]
-  if (!f) { file.value = null; return }
-  if (f.type !== 'application/pdf') { errorMsg.value = 'El CV debe ser un PDF.'; file.value = null; return }
-  errorMsg.value = ''
-  file.value = f
+    const f = e?.target?.files?.[0]
+    if (!f) { file.value = null; return }
+    if (f.type !== 'application/pdf') { errorMsg.value = 'El CV debe ser un PDF.'; file.value = null; return }
+    errorMsg.value = ''
+    file.value = f
 }
 
 const submit = async () => {
-  successMsg.value = ''
-  errorMsg.value = ''
-  if (!form.name || !form.lastname || !form.email) { errorMsg.value = 'Completa los campos requeridos.'; return }
-  if (!file.value) { errorMsg.value = 'Adjunta tu CV en PDF.'; return }
-  try {
-    submitting.value = true
-    const fd = new FormData()
-    fd.append('file', file.value)
-    const uploadResp = await $fetch('/api/directus/upload', { method: 'POST', body: fd })
-    const fileId = uploadResp?.id || uploadResp?.data?.id
-    await $fetch('/api/directus/createItem', {
-      method: 'POST',
-      body: { collection: 'job_leads', item: {
-        status: 'published', name: form.name, lastname: form.lastname, email: form.email, phone: form.phone,
-        company: form.company, Profession: form.profession, expertise: form.expertise, cv: fileId, technical_level: form.education
-      }}
-    })
-    successMsg.value = '¡Gracias! Hemos recibido tu aplicación.'
-    form.name = form.lastname = form.email = form.phone = form.company = form.expertise = ''
-    file.value = null
-  } catch (e) {
-    errorMsg.value = 'No pudimos enviar tu aplicación. Inténtalo de nuevo.'
-  } finally {
-    submitting.value = false
-  }
+    successMsg.value = ''
+    errorMsg.value = ''
+    if (!form.name || !form.lastname || !form.email) { errorMsg.value = 'Completa los campos requeridos.'; return }
+    if (!file.value) { errorMsg.value = 'Adjunta tu CV en PDF.'; return }
+    try {
+        submitting.value = true
+        const fd = new FormData()
+        fd.append('file', file.value)
+        const uploadResp = await $fetch('/api/directus/upload', { method: 'POST', body: fd })
+        const fileId = uploadResp?.id || uploadResp?.data?.id
+        await $fetch('/api/directus/createItem', {
+            method: 'POST',
+            body: {
+                collection: 'job_leads', item: {
+                    status: 'published', name: form.name, lastname: form.lastname, email: form.email, phone: form.phone,
+                    company: form.company, Profession: form.profession, expertise: form.expertise, cv: fileId, technical_level: form.education
+                }
+            }
+        })
+        successMsg.value = '¡Gracias! Hemos recibido tu aplicación.'
+        form.name = form.lastname = form.email = form.phone = form.company = form.expertise = ''
+        file.value = null
+    } catch (e) {
+        errorMsg.value = 'No pudimos enviar tu aplicación. Inténtalo de nuevo.'
+    } finally {
+        submitting.value = false
+    }
 }
 </script>

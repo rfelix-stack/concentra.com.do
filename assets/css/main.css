@@ -89,9 +89,9 @@ input[type="file"] {
 .carousel__pagination {
     transform: translateX(0%) !important;
 }
-.carousel__viewport {
+/* .carousel__viewport {
     @apply !pb-2.5;
-}
+} */
 
 .content {
 

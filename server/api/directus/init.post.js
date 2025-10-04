@@ -1,5 +1,5 @@
 
-import { createDirectus, rest, staticToken, readItems } from '@directus/sdk'
+import { createDirectus, rest, staticToken, readItems, readSingleton } from '@directus/sdk'
 
 export default defineEventHandler(async (event) => {
 
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     const directus = directusToken ? base.with(staticToken(directusToken)) : base
 
     try {
-        const [solutionsResponse, servicesResponse, consultanciesResponse] = await Promise.all([
+        const [solutionsResponse, servicesResponse, consultanciesResponse, configsResponse] = await Promise.all([
             directus.request(
                 readItems('solutions', {
                     fields: [
@@ -39,13 +39,32 @@ export default defineEventHandler(async (event) => {
                     filter: { status: { _eq: 'published' } },
                     sort: ['-sort']
                 }),
+            ),
+            directus.request(
+                readSingleton('configs', {
+                    fields: [
+                        'whatsapp_number',
+                        'whatsapp_message',
+                        'socials',
+                        'address',
+                        'contact_phone',
+                        'contact_email',
+                        'empleo_contact_phone',
+                        'empleo_contact_email',
+                        'suscribe_title',
+                        'suscribe_intro',
+                        'suscribe_btn_text',
+                    ]
+                }),
             )
         ])
 
         return {
             solutions: solutionsResponse ?? [],
             services: servicesResponse ?? [],
-            consultancies: consultanciesResponse ?? []
+            consultancies: consultanciesResponse ?? [],
+            // configs: Array.isArray(configsResponse) ? (configsResponse[0] || {}) : (configsResponse?.[0] || {})
+            configs: configsResponse ?? [],
         }
     } catch (err) {
         console.error('Error fetching data </api/directus/init.post.js>:', err)

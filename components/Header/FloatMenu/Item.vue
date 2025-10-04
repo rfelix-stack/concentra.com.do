@@ -1,5 +1,5 @@
 <template>
-    <div @click="setActive" :class="[
+    <div @mouseenter="setActive" :class="[
         'group relative flex items-center gap-x-4 rounded-lg p-4 text-base cursor-pointer',
         { 'bg-white hover:bg-primary': !item.featured },
         { 'bg-secondary': item.featured },
@@ -28,22 +28,21 @@
                 <span class="absolute inset-0"></span>
             </NuxtLink> -->
 
-            <button type="button" @click.prevent="setActive" :class="['hidden lg:block font-semibold font-poppins',
+            <span :class="['hidden lg:block font-semibold font-poppins',
                 isActive && !item.featured ? 'text-primary' : '',
                 { 'text-secondary group-hover:!text-white': !item.featured },
                 { 'text-white': item.featured },
             ]">
                 {{ item?.label }}
-                <span class="absolute inset-0"></span>
-            </button>
+            </span>
             <p :class="['mt-1 font-normal',
                 isActive && !item.featured ? 'text-secondary' : '',
                 { 'text-paragraph group-hover:!text-white font-montserrat': !item.featured },
                 { 'text-white': item.featured },
             ]">{{ item.intro }}</p>
 
-            <!-- <NuxtLink :to="item.hash" @click.native="emit('closeDropdown', true)" class="absolute inset-0">
-            </NuxtLink> -->
+            <NuxtLink :to="item.hash" @click="emit('closeDropdown', true)" class="absolute inset-0">
+            </NuxtLink>
         </div>
     </div>
 </template>

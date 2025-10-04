@@ -18,23 +18,78 @@
             <div class="mx-auto container px-5 pt-16 pb-8 sm:pt-24 lg:pt-32">
                 <div class="xl:grid xl:grid-cols-3 xl:gap-10">
                     <div>
-                        <h3 class="text-xl font-semibold text-white">Suscríbete a nuestro boletín informativo</h3>
-                        <p class="mt-2 text-base text-white/90">Recibe noticias, lanzamientos y oportunidades
-                            directamente en tu correo.</p>
-                        <form class="mt-6 sm:flex sm:max-w-md lg:mt-6" @submit.prevent="submitSubscription">
-                            <label for="newsletter-email" class="sr-only">Correo electrónico</label>
-                            <input v-model="email" type="email" name="newsletter-email" id="newsletter-email"
-                                autocomplete="email" required
-                                class="w-full min-w-0 rounded-full bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:w-56 sm:text-sm/6"
-                                placeholder="Ingresa tu correo">
-                            <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
-                                <button type="submit" :disabled="submitting"
-                                    class="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-base font-semibold text-secondary shadow-xs hover:bg-primary hover:text-white transition-colors disabled:opacity-60">{{
-                                        submitting ? 'Enviando…' : 'Suscribirme' }}</button>
-                            </div>
-                        </form>
-                        <p v-if="successMsg" class="mt-3 text-sm text-white/80">{{ successMsg }}</p>
-                        <p v-if="errorMsg" class="mt-3 text-sm text-primary">{{ errorMsg }}</p>
+                        <div>
+                            <h3 class="text-xl font-semibold text-white">{{ subscribeTitle }}</h3>
+                            <p class="mt-2 text-base text-white/90">{{ subscribeIntro }}</p>
+                            <form class="mt-6 sm:flex sm:max-w-md lg:mt-6" @submit.prevent="submitSubscription">
+                                <label for="newsletter-email" class="sr-only">Correo electrónico</label>
+                                <input v-model="email" type="email" name="newsletter-email" id="newsletter-email"
+                                    autocomplete="email" required
+                                    class="w-full min-w-0 rounded-full bg-white/5 px-3 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:w-56 sm:text-sm/6"
+                                    placeholder="Ingresa tu correo">
+                                <div class="mt-4 sm:mt-0 sm:ml-4 sm:shrink-0">
+                                    <button type="submit" :disabled="submitting"
+                                        class="flex w-full items-center justify-center rounded-full bg-white px-4 py-2 text-base font-semibold text-secondary shadow-xs hover:bg-primary hover:text-white transition-colors disabled:opacity-60">{{
+                                            submitting ? 'Enviando…' : subscribeBtnText }}</button>
+                                </div>
+                            </form>
+                            <p v-if="successMsg" class="mt-3 text-sm text-white/80">{{ successMsg }}</p>
+                            <p v-if="errorMsg" class="mt-3 text-sm text-primary">{{ errorMsg }}</p>
+                        </div>
+
+                        <div v-if="certifications.length > 0" class="mt-10">
+                            <ClientOnly>
+                                <template v-if="certsPending">
+                                    <Carousel class="mt-6 block lg:hidden" v-bind="certCarouselMobile">
+                                        <Slide v-for="n in 6" :key="`c-skel-m-${n}`">
+                                            <div class="carousel__item relative isolate h-20">
+                                                <div class="skeleton absolute inset-0 rounded-xl"></div>
+                                            </div>
+                                        </Slide>
+                                    </Carousel>
+                                    <div class="hidden lg:flex items-center gap-6">
+                                        <div v-for="n in 3" :key="`c-skel-d-${n}`"
+                                            class="h-20 w-40 skeleton rounded-xl"></div>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <!-- Mobile: 1 per view, autoplay -->
+                                    <div class="block lg:hidden">
+                                        <Carousel class="mt-6" v-bind="certCarouselMobile">
+                                            <Slide v-for="(c, idx) in certifications" :key="`m-${idx}`">
+                                                <div class="carousel__item relative isolate h-20">
+                                                    <NuxtImg v-if="c?.image" :src="c?.image" :alt="c?.name"
+                                                        class="max-h-full max-w-full object-contain" />
+                                                </div>
+                                            </Slide>
+                                        </Carousel>
+                                    </div>
+
+                                    <!-- Desktop: up to 3 visible, left-aligned; autoplay only if > 3 -->
+                                    <div class="hidden lg:block">
+                                        <div v-if="certifications.length <= 3" class="grid grid-cols-3 gap-6">
+                                            <div v-for="(c, idx) in certificationsDesktop" :key="`d-${idx}`">
+                                                <div v-if="c && c.image"
+                                                    class="h-20 lg:h-24 w-40 bg-white/5 rounded-3xl flex items-center justify-center">
+                                                    <NuxtImg :src="c.image" :alt="c.name"
+                                                        class="max-h-full max-w-full object-contain" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else>
+                                            <Carousel class="mt-6" v-bind="certCarouselDesktop">
+                                                <Slide v-for="(c, idx) in certifications" :key="`d-slide-${idx}`">
+                                                    <div class="carousel__item relative isolate h-20">
+                                                        <NuxtImg v-if="c?.image" :src="c?.image" :alt="c?.name"
+                                                            class="max-h-full max-w-full object-contain" />
+                                                    </div>
+                                                </Slide>
+                                            </Carousel>
+                                        </div>
+                                    </div>
+                                </template>
+                            </ClientOnly>
+                        </div>
                     </div>
                     <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-8">
@@ -88,32 +143,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-16 pt-8 sm:mt-20 lg:mt-24">
-                    <ClientOnly>
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-xl font-semibold text-white">Certificaciones</h3>
-                        </div>
-                        <Carousel class="mt-6" v-bind="certCarousel">
-                            <template v-if="certsPending">
-                                <Slide v-for="n in 8" :key="`c-skel-${n}`">
-                                    <div class="carousel__item relative isolate h-24 md:h-28">
-                                        <div class="skeleton absolute inset-0 rounded-xl"></div>
-                                    </div>
-                                </Slide>
-                            </template>
-                            <template v-else>
-                                <Slide v-for="(c, idx) in certifications" :key="idx">
-                                    <div class="carousel__item relative isolate h-24 md:h-28">
-                                        <NuxtImg v-if="c?.image" :src="c?.image" :alt="c?.name"
-                                            class="max-h-full max-w-full object-contain" />
-                                    </div>
-                                </Slide>
-                            </template>
-                        </Carousel>
-                    </ClientOnly>
-                </div>
+
                 <div class="mt-8 border-t border-white/5 pt-8 md:flex md:items-center md:justify-between">
-                    <div class="flex gap-x-6 md:order-2">
+                    <div class="flex gap-x-6 md:order-2" v-if="socials.length">
+                        <a v-for="(s, i) in socials" :key="i" :href="s.href" target="_blank" rel="noopener noreferrer"
+                            class="text-gris-aluminio hover:text-primary" :aria-label="s.label">
+                            <component :is="s.icon" class="size-6" />
+                        </a>
+                    </div>
+                    <div class="flex gap-x-6 md:order-2" v-else>
                         <a href="#" class="text-gris-aluminio hover:text-primary">
                             <span class="sr-only">Facebook</span>
                             <svg class="size-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -169,6 +207,7 @@
 import 'vue3-carousel/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
 import { directusAsset } from '~/utils/directusAsset'
+import { h } from 'vue'
 const route = useRoute()
 const dataStore = useDataStore()
 const solutions = computed(() => dataStore.data.solutions ?? [])
@@ -201,16 +240,29 @@ const certifications = computed(() => {
     }))
 })
 
-const certCarousel = {
-    itemsToShow: 2,
+// Ensure desktop layout always reserves space for 3 slots
+const certificationsDesktop = computed(() => {
+    const list = Array.isArray(certifications.value) ? certifications.value : []
+    const out = list.slice(0, 3)
+    while (out.length < 3) out.push(null)
+    return out
+})
+
+const certCarouselMobile = {
+    itemsToShow: 1,
     wrapAround: true,
     autoplay: 2500,
     pauseAutoplayOnHover: false,
     transition: 500,
-    breakpoints: {
-        768: { itemsToShow: 2 },
-        1024: { itemsToShow: 4 }
-    }
+}
+
+const certCarouselDesktop = {
+    itemsToShow: 3,
+    wrapAround: true,
+    autoplay: 2500,
+    pauseAutoplayOnHover: false,
+    transition: 500,
+    snapAlign: 'start',
 }
 
 // Newsletter subscription state + handler
@@ -244,6 +296,82 @@ const submitSubscription = async () => {
     } finally {
         submitting.value = false
     }
+}
+
+// Socials from configs with icon mapping
+const cfg = computed(() => dataStore.data?.configs || {})
+const socials = computed(() => {
+    const rows = Array.isArray(cfg.value?.socials) ? cfg.value.socials : []
+    return rows
+        .map((r) => String(r?.social_link || ''))
+        .filter(Boolean)
+        .map((href) => ({ href, label: detectLabel(href), icon: resolveIcon(href) }))
+})
+
+function detectLabel(href) {
+    try {
+        const host = new URL(href).hostname.toLowerCase()
+        if (host.includes('instagram')) return 'Instagram'
+        if (host.includes('facebook')) return 'Facebook'
+        if (host.includes('linkedin')) return 'LinkedIn'
+        if (host.includes('youtube')) return 'YouTube'
+        if (host.includes('x.com') || host.includes('twitter')) return 'X'
+        if (host.includes('github')) return 'GitHub'
+        return host.replace('www.', '')
+    } catch { return 'Social' }
+}
+
+// Newsletter copy from configs
+const subscribeTitle = computed(() => cfg.value?.suscribe_title || 'Suscríbete a nuestro boletín informativo')
+const subscribeIntro = computed(() => cfg.value?.suscribe_intro || 'Recibe noticias, lanzamientos y oportunidades directamente en tu correo.')
+const subscribeBtnText = computed(() => cfg.value?.suscribe_btn_text || 'Suscribirme ahora')
+
+const IconFacebook = {
+    render() {
+        return h('svg', { class: 'size-6', fill: 'currentColor', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, [
+            h('path', { 'fill-rule': 'evenodd', d: 'M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z', 'clip-rule': 'evenodd' })
+        ])
+    }
+}
+const IconInstagram = {
+    render() {
+        return h('svg', { class: 'size-6', fill: 'currentColor', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, [
+            h('path', { 'fill-rule': 'evenodd', d: 'M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z', 'clip-rule': 'evenodd' })
+        ])
+    }
+}
+const IconX = {
+    render() {
+        return h('svg', { class: 'size-6', fill: 'currentColor', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, [
+            h('path', { d: 'M13.6823 10.6218L20.2391 3H18.6854L12.9921 9.61788L8.44486 3H3.2002L10.0765 13.0074L3.2002 21H4.75404L10.7663 14.0113L15.5685 21H20.8131L13.6819 10.6218H13.6823ZM11.5541 13.0956L10.8574 12.0991L5.31391 4.16971H7.70053L12.1742 10.5689L12.8709 11.5655L18.6861 19.8835H16.2995L11.5541 13.096V13.0956Z' })
+        ])
+    }
+}
+const IconLinkedIn = {
+    render() {
+        return h('svg', { class: 'size-6', fill: 'currentColor', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, [
+            h('path', { d: 'M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-1 1.8-2.2 3.8-2.2 4.1 0 4.9 2.7 4.9 6.3V24h-4v-7.1c0-1.7 0-3.8-2.3-3.8s-2.7 1.8-2.7 3.7V24h-4V8z' })
+        ])
+    }
+}
+const IconYouTube = {
+    render() {
+        return h('svg', { class: 'size-6', fill: 'currentColor', viewBox: '0 0 24 24', 'aria-hidden': 'true' }, [
+            h('path', { 'fill-rule': 'evenodd', d: 'M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z', 'clip-rule': 'evenodd' })
+        ])
+    }
+}
+
+function resolveIcon(href) {
+    try {
+        const host = new URL(href).hostname.toLowerCase()
+        if (host.includes('facebook')) return IconFacebook
+        if (host.includes('instagram')) return IconInstagram
+        if (host.includes('linkedin')) return IconLinkedIn
+        if (host.includes('youtube')) return IconYouTube
+        if (host.includes('x.com') || host.includes('twitter')) return IconX
+        return IconLinkedIn
+    } catch { return IconLinkedIn }
 }
 </script>
 
