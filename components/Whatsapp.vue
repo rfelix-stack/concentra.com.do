@@ -1,6 +1,6 @@
 <template>
     <div v-if="waLink" id="whatsapp-btn"
-        class="fixed bottom-5 md:bottom-10 right-5 md:right-10 w-10 md:w-16 h-10 md:h-16 z-10" v-motion="{
+        class="fixed bottom-5 right-5 w-10 md:w-12 h-10 md:h-16 z-10" v-motion="{
             initial: {
                 opacity: 0,
             },
