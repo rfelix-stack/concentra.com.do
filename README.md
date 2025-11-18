@@ -180,10 +180,19 @@ Contenido del `.env`:
 ```bash
 # Directus CMS
 NUXT_PUBLIC_DIRECTUS_URL=https://admin.concentra.com.do
-DIRECTUS_STATIC_TOKEN=tu_token_aqui
+
+# Token público (cliente - solo lectura)
+DIRECTUS_STATIC_TOKEN=tu_token_publico_aqui
+
+# Token privado (servidor - permisos completos)
+DIRECTUS_TOKEN=tu_token_privado_aqui
 ```
 
 > ⚠️ **Importante**: Nunca commitees el archivo `.env` al repositorio. Ya está incluido en `.gitignore`.
+>
+> **Nota sobre tokens**: El proyecto usa dos tokens diferentes para mayor seguridad:
+> - `DIRECTUS_STATIC_TOKEN`: Token público con permisos de solo lectura, usado en el cliente
+> - `DIRECTUS_TOKEN`: Token privado con permisos completos, usado solo en el servidor
 
 ### 4. Iniciar servidor de desarrollo
 
@@ -202,7 +211,8 @@ El sitio estará disponible en: **http://localhost:3000**
 | Variable | Tipo | Descripción |
 |----------|------|-------------|
 | `NUXT_PUBLIC_DIRECTUS_URL` | Público | URL de la instancia de Directus |
-| `DIRECTUS_STATIC_TOKEN` | Privado | Token de autenticación para Directus |
+| `DIRECTUS_STATIC_TOKEN` | Público | Token de solo lectura para operaciones cliente |
+| `DIRECTUS_TOKEN` | Privado (Server) | Token con permisos completos para operaciones servidor |
 
 ### nuxt.config.ts
 
@@ -229,12 +239,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Privado (solo server)
     directusUrl: process.env.NUXT_PUBLIC_DIRECTUS_URL,
-    directusToken: process.env.DIRECTUS_STATIC_TOKEN,
+    directusToken: process.env.DIRECTUS_TOKEN,  // Token privado con permisos completos
 
     // Público (client + server)
     public: {
       directusUrl: process.env.NUXT_PUBLIC_DIRECTUS_URL,
-      directusStaticToken: process.env.DIRECTUS_STATIC_TOKEN
+      directusStaticToken: process.env.DIRECTUS_STATIC_TOKEN  // Token público de solo lectura
     }
   }
 })
@@ -1060,48 +1070,155 @@ xl:  1280px  /* Desktop grande */
 
 ## 🔍 SEO
 
-### Composable: useDirectusSeo
+El proyecto tiene un sistema de SEO completo y optimizado con generación automática de meta tags, sitemap dinámico y structured data.
 
-**Propósito**: Configurar SEO dinámico desde datos de Directus
+### 1. Composable: useDirectusSeo
+
+**Propósito**: Configurar SEO dinámico desde datos de Directus con canonical URLs automáticos
+
+**Características**:
+- ✅ Meta tags completos (title, description, robots)
+- ✅ Open Graph completo (Facebook, LinkedIn, WhatsApp)
+- ✅ Twitter Cards
+- ✅ Canonical URLs con auto-generación
+- ✅ Optimización de imágenes OG (1200x630 WebP)
+- ✅ Validación de meta tags adicionales
 
 **Uso**:
 
 ```vue
 <script setup>
-import { useDirectusSeo } from '~/composables/useDirectusSeo'
-
 const { data: pageData } = await useFetch('/api/directus/getSingleton', {
-  query: {
+  method: 'POST',
+  body: {
     collection: 'nosotros',
     fields: ['seo.*']
   }
 })
 
-useDirectusSeo(pageData.value?.seo)
+useDirectusSeo(
+  computed(() => pageData.value?.seo),
+  computed(() => ({
+    title: 'Fallback Title',
+    description: 'Fallback description...'
+  }))
+)
 </script>
 ```
 
 **Campos SEO en Directus**:
 
-| Campo | Tipo | Propósito |
-|-------|------|-----------|
-| `meta_title` | String | Título de la página |
-| `meta_description` | String | Descripción meta |
-| `og_image` | File | Imagen Open Graph |
-| `canonical_url` | String | URL canónica |
-| `robots_index` | Boolean | index/noindex |
-| `robots_follow` | Boolean | follow/nofollow |
-| `meta_additional_fields` | JSON | Campos meta adicionales |
+| Campo | Tipo | Descripción | Requerido |
+|-------|------|-------------|-----------|
+| `meta_title` | String | Título de la página (50-60 caracteres) | ✅ Sí |
+| `meta_description` | String | Descripción meta (150-160 caracteres) | ✅ Sí |
+| `og_image` | File (UUID) | Imagen Open Graph (mín. 1200x630px) | ⚠️ Recomendado |
+| `canonical_url` | String | URL canónica (se auto-genera si no existe) | ❌ Opcional |
+| `robots_index` | Boolean | `true` = index, `false` = noindex (default: `true`) | ❌ Opcional |
+| `robots_follow` | Boolean | `true` = follow, `false` = nofollow (default: `true`) | ❌ Opcional |
+| `meta_additional_fields` | JSON | Meta tags adicionales permitidos | ❌ Opcional |
+
+**Meta tags generados**:
+
+```html
+<!-- Basic -->
+<title>Título - ConCentra</title>
+<meta name="description" content="Descripción...">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Título">
+<meta property="og:description" content="Descripción">
+<meta property="og:image" content="https://admin.concentra.com.do/assets/ID?format=webp&width=1200&height=630">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://concentra.com.do/pagina">
+<meta property="og:site_name" content="ConCentra">
+<meta property="og:locale" content="es_DO">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Título">
+<meta name="twitter:description" content="Descripción">
+<meta name="twitter:image" content="https://...">
+<meta name="twitter:site" content="@ConCentraRD">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://concentra.com.do/pagina">
+```
+
+### 2. Sitemap Dinámico
+
+**Módulo**: `@nuxtjs/sitemap`
+
+El sitemap se genera automáticamente en `/sitemap.xml` e incluye:
+- Páginas estáticas (home, nosotros, contacto, clientes, etc.)
+- Rutas dinámicas desde Directus (soluciones, servicios, consultorías)
+
+**Configuración**: `nuxt.config.ts`
+
+```typescript
+sitemap: {
+  hostname: 'https://concentra.com.do',
+  gzip: true,
+  defaults: {
+    changefreq: 'weekly',
+    priority: 0.7
+  },
+  // URLs dinámicas se generan desde Directus
+}
+```
+
+**Acceso**: `https://concentra.com.do/sitemap.xml`
+
+### 3. Structured Data (JSON-LD)
+
+**Composable**: `useOrganizationSchema()`
+
+Genera Schema.org Organization markup para Google Knowledge Graph.
+
+**Implementación**: Se aplica globalmente en `layouts/default.vue`
+
+```typescript
+useOrganizationSchema() // Automático en todas las páginas
+```
 
 **Output**:
 
-```html
-<title>Título - ConCentra</title>
-<meta name="description" content="Descripción...">
-<meta property="og:title" content="Título">
-<meta property="og:image" content="https://...">
-<link rel="canonical" href="https://concentra.com.do/pagina">
-<meta name="robots" content="index, follow">
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "ConCentra",
+  "url": "https://concentra.com.do",
+  "logo": "https://concentra.com.do/logo.png",
+  "description": "Consultoría Tecnológica...",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "DO"
+  }
+}
+```
+
+### 4. robots.txt
+
+**Ubicación**: `/public/robots.txt`
+
+```txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /solicitudes/
+
+Sitemap: https://concentra.com.do/sitemap.xml
+```
+
+### 5. Variables de Entorno SEO
+
+```bash
+# .env
+NUXT_PUBLIC_SITE_URL=https://concentra.com.do
 ```
 
 ### SEO Manual
@@ -1170,7 +1287,8 @@ Asegúrate de configurar las variables de entorno en tu plataforma de hosting:
 
 ```bash
 NUXT_PUBLIC_DIRECTUS_URL=https://admin.concentra.com.do
-DIRECTUS_STATIC_TOKEN=tu_token_de_produccion
+DIRECTUS_STATIC_TOKEN=tu_token_publico_de_produccion
+DIRECTUS_TOKEN=tu_token_privado_de_produccion
 ```
 
 ### Optimizaciones
