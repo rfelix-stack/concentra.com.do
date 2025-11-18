@@ -2,11 +2,11 @@
 
 > Sitio web corporativo oficial de ConCentra - Consultoría Tecnológica en República Dominicana
 
-[![Nuxt 3](https://img.shields.io/badge/Nuxt-3.x-00DC82?logo=nuxt.js&logoColor=white)](https://nuxt.com)
+[![Nuxt 4](https://img.shields.io/badge/Nuxt-4.1.2-00DC82?logo=nuxt.js&logoColor=white)](https://nuxt.com)
 [![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
-[![Directus](https://img.shields.io/badge/Directus-CMS-263238?logo=directus&logoColor=white)](https://directus.io)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0.9-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Directus](https://img.shields.io/badge/Directus-20.0.3-263238?logo=directus&logoColor=white)](https://directus.io)
 
 ---
 
@@ -86,7 +86,7 @@ Este proyecto es la **segunda versión del sitio web corporativo**, construido c
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
-| [Nuxt 3](https://nuxt.com) | 4.1.2 | Meta-framework Vue.js con SSR/SSG |
+| [Nuxt 4](https://nuxt.com) | 4.1.2 | Meta-framework Vue.js con SSR/SSG |
 | [Vue 3](https://vuejs.org) | 3.x | Framework JavaScript reactivo |
 | [TypeScript](https://www.typescriptlang.org) | 5.x | Tipado estático |
 | [Vite](https://vitejs.dev) | 6.x | Build tool ultra-rápido |
@@ -122,6 +122,15 @@ Este proyecto es la **segunda versión del sitio web corporativo**, construido c
 |------------|---------|-----------|
 | [@vueuse/core](https://vueuse.org) | 13.9.0 | Colección de composables |
 | [@nuxt/image](https://image.nuxt.com) | 1.11.0 | Optimización de imágenes |
+| [@nuxtjs/sitemap](https://nuxtseo.com/sitemap) | 7.4.7 | Generación de sitemap.xml dinámico |
+
+### Seguridad y Validación
+
+| Tecnología | Versión | Propósito |
+|------------|---------|-----------|
+| [nuxt-api-shield](https://github.com/s00d/nuxt-api-shield) | 0.9.0 | Rate limiting y protección de APIs |
+| [dompurify](https://github.com/cure53/DOMPurify) | 3.3.0 | Sanitización de HTML |
+| [zod](https://zod.dev) | 4.1.12 | Validación de schemas TypeScript |
 
 ### Package Manager
 
@@ -153,7 +162,7 @@ git --version     # cualquier versión reciente
 
 ```bash
 git clone <repository-url>
-cd concentra.com.do\ v2
+cd concentra.com.do
 ```
 
 ### 2. Instalar dependencias
@@ -186,6 +195,9 @@ DIRECTUS_STATIC_TOKEN=tu_token_publico_aqui
 
 # Token privado (servidor - permisos completos)
 DIRECTUS_TOKEN=tu_token_privado_aqui
+
+# SEO Configuration
+NUXT_PUBLIC_SITE_URL=https://concentra.com.do
 ```
 
 > ⚠️ **Importante**: Nunca commitees el archivo `.env` al repositorio. Ya está incluido en `.gitignore`.
@@ -213,6 +225,7 @@ El sitio estará disponible en: **http://localhost:3000**
 | `NUXT_PUBLIC_DIRECTUS_URL` | Público | URL de la instancia de Directus |
 | `DIRECTUS_STATIC_TOKEN` | Público | Token de solo lectura para operaciones cliente |
 | `DIRECTUS_TOKEN` | Privado (Server) | Token con permisos completos para operaciones servidor |
+| `NUXT_PUBLIC_SITE_URL` | Público | URL base del sitio para canonical URLs y SEO |
 
 ### nuxt.config.ts
 
@@ -233,7 +246,9 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/motion/nuxt',
     '@nuxt/image',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    'nuxt-api-shield',
+    '@nuxtjs/sitemap'
   ],
 
   runtimeConfig: {
@@ -244,7 +259,8 @@ export default defineNuxtConfig({
     // Público (client + server)
     public: {
       directusUrl: process.env.NUXT_PUBLIC_DIRECTUS_URL,
-      directusStaticToken: process.env.DIRECTUS_STATIC_TOKEN  // Token público de solo lectura
+      directusStaticToken: process.env.DIRECTUS_STATIC_TOKEN,  // Token público de solo lectura
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://concentra.com.do'  // URL base para SEO
     }
   }
 })
@@ -297,7 +313,7 @@ yarn postinstall            # Genera tipos de TypeScript (automático tras insta
 
 ### Hot Module Replacement (HMR)
 
-Nuxt 3 ofrece HMR automático:
+Nuxt 4 ofrece HMR automático:
 - Cambios en componentes `.vue` se reflejan instantáneamente
 - Cambios en `nuxt.config.ts` requieren reiniciar el servidor
 - Cambios en `.env` requieren reiniciar el servidor
@@ -313,16 +329,16 @@ Nuxt DevTools está habilitado por defecto en desarrollo:
 ## 📁 Estructura del Proyecto
 
 ```
-concentra.com.do v2/
+concentra.com.do/
 │
 ├── .nuxt/                      # Archivos generados por Nuxt (gitignored)
 ├── .output/                    # Build de producción (gitignored)
 │
 ├── assets/                     # Assets procesados
 │   └── css/
-│       └── main.css            # Tailwind CSS + custom theme
+│       └── main.css            # Tailwind CSS v4 + custom theme
 │
-├── components/                 # 22 componentes Vue reutilizables
+├── components/                 # Componentes Vue reutilizables
 │   ├── Header/
 │   │   ├── Index.vue           # Header principal con navegación
 │   │   └── FloatMenu/
@@ -351,7 +367,9 @@ concentra.com.do v2/
 │   └── Isotipo.vue             # Isotipo de ConCentra (SVG)
 │
 ├── composables/                # Composables de Vue
-│   └── useDirectusSeo.ts       # Manejo de SEO dinámico desde Directus
+│   ├── useDirectusSeo.ts       # Manejo de SEO dinámico desde Directus
+│   ├── useOrganizationSchema.ts# Structured data (Schema.org)
+│   └── useSanitizeHtml.ts      # Sanitización de HTML con DOMPurify
 │
 ├── layouts/
 │   └── default.vue             # Layout principal (Header + Content + Footer)
@@ -386,27 +404,35 @@ concentra.com.do v2/
 │   └── WhatsApp.svg
 │
 ├── server/                     # Server-side code
-│   └── api/
-│       └── directus/           # 6 API routes server-side
-│           ├── init.post.js    # Carga inicial de datos base
-│           ├── getSingleton.js # Obtener singleton
-│           ├── getItems.post.js # Obtener items de colección
-│           ├── getItem.post.js # Obtener item por slug
-│           ├── createItem.post.js # Crear item (formularios)
-│           └── upload.post.js  # Subir archivos
+│   ├── api/
+│   │   └── directus/           # API routes para Directus
+│   │       ├── init.post.js    # Carga inicial de datos base
+│   │       ├── getSingleton.js # Obtener singleton
+│   │       ├── getItems.post.js # Obtener items de colección
+│   │       ├── getItem.post.js # Obtener item por slug
+│   │       ├── createItem.post.js # Crear item (formularios)
+│   │       └── upload.post.js  # Subir archivos
+│   └── tasks/
+│       └── shield/             # Scheduled tasks para API shield
+│           ├── cleanBans.ts    # Limpieza de bans expirados
+│           └── cleanIpData.ts  # Limpieza de datos de IPs
 │
 ├── stores/                     # Pinia stores
 │   └── data.js                 # Store global (solutions, services, etc.)
 │
+├── types/                      # Definiciones de tipos TypeScript
+│   ├── forms.ts                # Tipos para formularios
+│   └── schemas.ts              # Schemas de validación
+│
 ├── utils/                      # Funciones de utilidad
-│   ├── directusAsset.ts        # Helper para assets de Directus
 │   └── clients.ts              # Utilidades para clientes
 │
-├── .gitignore                  # Incluye CLAUDE.md
-├── nuxt.config.ts              # Configuración de Nuxt
-├── package.json
+├── .env.example                # Plantilla de variables de entorno
+├── .gitignore                  # Incluye CLAUDE.md y .env
+├── nuxt.config.ts              # Configuración de Nuxt 4
+├── package.json                # Dependencias y scripts
 ├── tsconfig.json               # Configuración de TypeScript
-├── yarn.lock
+├── yarn.lock                   # Lockfile de Yarn
 ├── CLAUDE.md                   # Contexto para IA (gitignored)
 └── README.md                   # Documentación principal
 ```
@@ -1289,6 +1315,7 @@ Asegúrate de configurar las variables de entorno en tu plataforma de hosting:
 NUXT_PUBLIC_DIRECTUS_URL=https://admin.concentra.com.do
 DIRECTUS_STATIC_TOKEN=tu_token_publico_de_produccion
 DIRECTUS_TOKEN=tu_token_privado_de_produccion
+NUXT_PUBLIC_SITE_URL=https://concentra.com.do
 ```
 
 ### Optimizaciones
@@ -1477,9 +1504,10 @@ nuxt prepare
 
 ---
 
-**Última actualización**: 2025-01-18
+**Última actualización**: 2025-01-19
 **Versión**: 2.0.0
-**Rama actual**: v2
+**Rama actual**: main
 **Rama principal**: main
+**Nuxt**: 4.1.2
 **Node**: >= 18.x
-**Yarn**: 1.22.x
+**Yarn**: 1.22.22
