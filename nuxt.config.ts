@@ -42,6 +42,81 @@ compatibilityDate: "22025-07-15",
 
   css: ["~/assets/css/main.css"],
 
+  image: {
+    // Provider personalizado de Directus
+    provider: 'directus',
+    providers: {
+      directus: {
+        provider: '~/providers/directus.ts',
+        options: {
+          baseURL: 'https://admin.concentra.com.do/assets'
+        }
+      }
+    },
+
+    // Formatos soportados (priorizar modernos para mejor compresión)
+    formats: ['webp', 'avif'],
+
+    // Calidad por defecto (balance entre calidad y tamaño)
+    quality: 80,
+
+    // Presets para casos comunes de uso
+    presets: {
+      logo: {
+        modifiers: {
+          format: 'webp',
+          fit: 'contain',
+          quality: 90
+        }
+      },
+      thumbnail: {
+        modifiers: {
+          format: 'webp',
+          width: 300,
+          height: 120,
+          fit: 'cover',
+          quality: 80
+        }
+      },
+      hero: {
+        modifiers: {
+          format: 'webp',
+          width: 1280,
+          fit: 'cover',
+          quality: 85
+        }
+      },
+      icon: {
+        modifiers: {
+          format: 'webp',
+          width: 160,
+          height: 160,
+          fit: 'cover',
+          quality: 85
+        }
+      },
+      logoSmall: {
+        modifiers: {
+          format: 'webp',
+          width: 45,
+          height: 45,
+          fit: 'cover',
+          quality: 90
+        }
+      }
+    },
+
+    // Breakpoints responsive (alineados con Tailwind)
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      '2xl': 1536
+    }
+  },
+
   runtimeConfig: {
     directusUrl: "https://admin.concentra.com.do",
     directusToken: "qatIDv-EeSN7j8OmRB8Ozl7IZ2qHcdWB",
