@@ -119,7 +119,7 @@ compatibilityDate: "22025-07-15",
 
   runtimeConfig: {
     directusUrl: "https://admin.concentra.com.do",
-    directusToken: "qatIDv-EeSN7j8OmRB8Ozl7IZ2qHcdWB",
+    directusToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
     public: {
       directusUrl: "https://admin.concentra.com.do",
       directusStaticToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
