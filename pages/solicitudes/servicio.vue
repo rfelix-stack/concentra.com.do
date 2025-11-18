@@ -26,7 +26,7 @@
                         v-motion-fadein-up-once>
                         {{ services[currentServiceIndex].label }}
                     </h2>
-                    <p class="mt-6 text-lg/8 text-gris-aluminio" v-motion-fadein-up-once>
+                    <!-- <p class="mt-6 text-lg/8 text-gris-aluminio" v-motion-fadein-up-once>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Error aspernatur hic debitis ratione.
                         Vel voluptatem illo nulla distinctio corporis explicabo consectetur veniam delectus
                         voluptatibus. Esse impedit harum odit.
@@ -34,7 +34,7 @@
                     <p class="mt-6 text-lg/8 text-gris-aluminio" v-motion-fadein-up-once>
                         Facilis dolores, labore vero laboriosam aliquid, vel
                         iure, ipsum saepe officiis voluptatem explicabo minima est? Qui, corrupti?
-                    </p>
+                    </p> -->
                     <!-- <dl class="mt-10 space-y-4 text-base/7 text-gray-600">
                         <div class="flex gap-x-4" v-motion-fadein-up-once>
                             <dt class="flex-none">

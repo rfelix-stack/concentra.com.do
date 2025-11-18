@@ -6,9 +6,9 @@
                     <p class="text-base/7 font-light text-primary tracking-wider uppercase" v-motion-fadein-up-once>
                         Nuestros aliados estratégicos
                     </p>
-                    <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
+                    <!-- <h1 class="mt-2 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
                         v-motion-fadein-up-once :delay="300">
-                        Lorem ipsum dolor sit amet.</h1>
+                        Lorem ipsum dolor sit amet.</h1> -->
 
                 </div>
                 <div class="md:col-span-2" v-motion-fadein-up-once>

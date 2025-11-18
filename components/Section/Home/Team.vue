@@ -9,7 +9,7 @@
                         <p class="text-4xl font-semibold tracking-tight text-secondary sm:text-5xl leading-tight"
                             v-motion-fadein-up-once>Nuestros
                             profesionales</p>
-                        <p class="mt-6 text-xl/8 text-gris-aluminio font-normal" v-motion-fadein-up-once>Quasi est quaerat. Sit
+                        <!-- <p class="mt-6 text-xl/8 text-gris-aluminio font-normal" v-motion-fadein-up-once>Quasi est quaerat. Sit
                             molestiae et. Provident
                             ad
                             dolorem occaecati eos iste. Soluta rerum quidem minus ut molestiae velit error quod.
@@ -18,7 +18,7 @@
                             ad ad non deserunt
                             sunt. Qui
                             irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat. Quasi
-                            aperiam sit non sit neque reprehenderit.</p>
+                            aperiam sit non sit neque reprehenderit.</p> -->
                         <div class="mt-10 flex" v-motion-fadein-up-once>
                             <a href="#"
                                 class="rounded-full bg-primary px-3.5 py-2.5 text-sm font-light text-white shadow-xs hover:bg-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary transition-colors duration-300 ease-in-out">Únete

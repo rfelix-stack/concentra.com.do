@@ -19,8 +19,8 @@
                 <div class="xl:grid xl:grid-cols-3 xl:gap-10">
                     <div>
                         <Logo class="h-12 brightness-0 invert" />
-                        <p class="mt-6 text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate
-                            ex quidem at</p>
+                        <!-- <p class="mt-6 text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate
+                            ex quidem at</p> -->
                     </div>
                     <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
                         <div class="md:grid md:grid-cols-2 md:gap-8">
@@ -109,8 +109,8 @@
                 <div class="mt-16 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
                     <div>
                         <h3 class="text-sm/6 font-semibold text-white">Suscríbete a nuestro boletín informativo</h3>
-                        <p class="mt-2 text-sm/6 text-gris-aluminio">Lorem ipsum dolor, sit amet consectetur adipisicing
-                            elit. Ut, ratione.</p>
+                        <!-- <p class="mt-2 text-sm/6 text-gris-aluminio">Lorem ipsum dolor, sit amet consectetur adipisicing
+                            elit. Ut, ratione.</p> -->
                     </div>
                     <form class="mt-6 sm:flex sm:max-w-md lg:mt-0">
                         <label for="email-address" class="sr-only">Email address</label>

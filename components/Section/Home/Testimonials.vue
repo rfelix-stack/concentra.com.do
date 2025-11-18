@@ -39,9 +39,9 @@
                             <figure v-motion-fadein-up-once
                                 class="rounded-2xl bg-white p-6 ring-1 shadow-lg ring-secondary/5">
                                 <blockquote class="text-secondary">
-                                    <p class="font-normal text-gris-aluminio">“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil.
+                                    <!-- <p class="font-normal text-gris-aluminio">“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil.
                                         Aut
-                                        enim doloremque et ipsam.”</p>
+                                        enim doloremque et ipsam.”</p> -->
                                 </blockquote>
                                 <figcaption class="mt-6 flex items-center gap-x-4">
                                     <img class="size-10 rounded-full bg-gray-50"
@@ -56,9 +56,9 @@
                             <figure v-motion-fadein-up-once
                                 class="rounded-2xl bg-white p-6 ring-1 shadow-lg ring-secondary/5">
                                 <blockquote class="text-secondary">
-                                    <p class="font-normal text-gris-aluminio">“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit
+                                    <!-- <p class="font-normal text-gris-aluminio">“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit
                                         incidunt
-                                        excepturi rerum voluptatem minus harum.”</p>
+                                        excepturi rerum voluptatem minus harum.”</p> -->
                                 </blockquote>
                                 <figcaption class="mt-6 flex items-center gap-x-4">
                                     <img class="size-10 rounded-full bg-gray-50"
@@ -128,9 +128,9 @@
                             <figure v-motion-fadein-up-once
                                 class="rounded-2xl bg-white p-6 ring-1 shadow-lg ring-secondary/5">
                                 <blockquote class="text-secondary">
-                                    <p class="font-normal text-gris-aluminio">“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit
+                                    <!-- <p class="font-normal text-gris-aluminio">“Molestias ea earum quos nostrum doloremque sed. Quaerat quasi aut velit
                                         incidunt
-                                        excepturi rerum voluptatem minus harum.”</p>
+                                        excepturi rerum voluptatem minus harum.”</p> -->
                                 </blockquote>
                                 <figcaption class="mt-6 flex items-center gap-x-4">
                                     <img class="size-10 rounded-full bg-gray-50"
@@ -146,9 +146,9 @@
                             <figure v-motion-fadein-up-once
                                 class="rounded-2xl bg-white p-6 ring-1 shadow-lg ring-secondary/5">
                                 <blockquote class="text-secondary">
-                                    <p class="font-normal text-gris-aluminio">“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil.
+                                    <!-- <p class="font-normal text-gris-aluminio">“Laborum quis quam. Dolorum et ut quod quia. Voluptas numquam delectus nihil.
                                         Aut
-                                        enim doloremque et ipsam.”</p>
+                                        enim doloremque et ipsam.”</p> -->
                                 </blockquote>
                                 <figcaption class="mt-6 flex items-center gap-x-4">
                                     <img class="size-10 rounded-full bg-gray-50"
