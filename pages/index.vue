@@ -1,7 +1,6 @@
 <script setup>
 import 'vue3-carousel/carousel.css'
 import { Carousel, Slide, Navigation, Pagination } from 'vue3-carousel'
-import { directusAsset } from '~/utils/directusAsset'
 
 const currentSlide = ref(0)
 // Slideshow items computed from Directus (home.slideshow -> slides)
@@ -97,7 +96,7 @@ slides = computed(() =>
                 button_link: i?.button_link || '#',
                 link_text: i?.link_text || 'Contáctanos',
                 link_url: i?.link_url || '#',
-                image: directusAsset(i?.image, { format: 'webp', fit: 'cover' })
+                image: i?.image
             }
         })
 )
@@ -112,7 +111,7 @@ const services = computed(() =>
             return {
                 title: i?.title || '',
                 description: i?.intro || '',
-                image: directusAsset(i?.icon, { format: 'webp' }),
+                image: i?.icon,
                 href: '#'
             }
         })
@@ -155,7 +154,14 @@ const clientIntro = computed(() => homeData.value?.client_intro || 'Empresas que
             <Carousel v-model="currentSlide" class="absolute inset-0 h-full w-full" v-bind="heroCarousel">
                 <Slide v-for="(f, idx) in slides" :key="idx">
                     <div class="h-full w-full flex items-center justify-center">
-                        <img :src="f.image" class="absolute inset-0 h-full w-full object-cover object-center" alt="" />
+                        <NuxtImg
+                            :src="f.image"
+                            provider="directus"
+                            preset="hero"
+                            sizes="100vw"
+                            class="absolute inset-0 h-full w-full object-cover object-center"
+                            alt=""
+                            loading="eager" />
 
                         <div
                             class="bg-gradient-to-r from-primary to-transparent h-full w-full absolute inset-0 pointer-events-none">
@@ -238,8 +244,13 @@ const clientIntro = computed(() => homeData.value?.client_intro || 'Empresas que
                                         {{ service.title }}
                                     </h3>
                                     <div class="mt-6">
-                                        <img :src="service.image" :alt="service.title"
-                                            class="w-full h-24 object-contain object-center transition-transform duration-300 ease-in-out group-hover:scale-105">
+                                        <NuxtImg
+                                            :src="service.image"
+                                            provider="directus"
+                                            preset="icon"
+                                            :alt="service.title"
+                                            class="w-full h-24 object-contain object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
+                                            loading="lazy" />
                                     </div>
                                     <div class="py-6 px-4 text-center group-hover:bg-muted">
                                         <p class="text-base font-normal text-paragraph px-4 py-2">
@@ -263,8 +274,13 @@ const clientIntro = computed(() => homeData.value?.client_intro || 'Empresas que
                                 {{ service.title }}
                             </h3>
                             <div class="mt-6">
-                                <img :src="service.image" :alt="service.title"
-                                    class="w-full h-24 object-contain object-center transition-transform duration-300 ease-in-out group-hover:scale-105">
+                                <NuxtImg
+                                    :src="service.image"
+                                    provider="directus"
+                                    preset="icon"
+                                    :alt="service.title"
+                                    class="w-full h-24 object-contain object-center transition-transform duration-300 ease-in-out group-hover:scale-105"
+                                    loading="lazy" />
                             </div>
                             <div class="py-6 px-4 text-center group-hover:bg-muted">
                                 <p class="text-base font-normal text-paragraph px-4 py-2">

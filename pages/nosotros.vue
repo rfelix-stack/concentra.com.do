@@ -1,6 +1,4 @@
 <script setup>
-import { directusAsset } from '~/utils/directusAsset'
-
 // Obtener singleton "nosotros" desde Directus
 const { data: aboutData } = await useAsyncData(
   'nosotros',
@@ -45,10 +43,8 @@ const heroBody = computed(() => {
     .map((t) => t.trim())
     .filter(Boolean)
 })
-const heroImage = computed(() => {
-  const id = aboutData.value?.image
-  return id ? directusAsset(id, { format: 'webp', fit: 'cover', width: 1280 }) : '/outsourcing.jpg'
-})
+const heroImage = computed(() => aboutData.value?.image || '/outsourcing.jpg')
+const isDirectusImage = computed(() => aboutData.value?.image ? true : false)
 
 const cards = computed(() => {
   const m2a = Array.isArray(aboutData.value?.content) ? aboutData.value.content : []
@@ -99,8 +95,21 @@ useDirectusSeo(
         </div>
 
         <div class="order-first lg:order-none">
-          <img :src="heroImage" alt="Equipo Concentra"
-            class="w-full h-72 lg:h-[360px] object-cover rounded-3xl shadow-md" />
+          <NuxtImg
+            v-if="isDirectusImage"
+            :src="heroImage"
+            provider="directus"
+            preset="hero"
+            sizes="xs:100vw sm:100vw md:50vw lg:50vw"
+            alt="Equipo Concentra"
+            class="w-full h-72 lg:h-[360px] object-cover rounded-3xl shadow-md"
+            loading="eager" />
+          <NuxtImg
+            v-else
+            :src="heroImage"
+            alt="Equipo Concentra"
+            class="w-full h-72 lg:h-[360px] object-cover rounded-3xl shadow-md"
+            loading="eager" />
         </div>
       </div>
     </section>

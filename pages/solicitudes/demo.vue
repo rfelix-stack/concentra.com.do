@@ -23,7 +23,14 @@
           </div>
 
           <div>
-            <img :src="items[currentIndex]?.image" class="h-12 w-auto object-cotain" v-motion-fadein-up-once alt="" />
+            <NuxtImg
+              :src="items[currentIndex]?.image"
+              provider="directus"
+              preset="logo"
+              class="h-12 w-auto object-contain"
+              v-motion-fadein-up-once
+              alt=""
+              loading="eager" />
           </div>
 
           <p class="mt-6" v-motion-fadein-up-once>
@@ -105,7 +112,6 @@
 </template>
 
 <script setup>
-import { directusAsset } from '~/utils/directusAsset'
 const route = useRoute()
 const dataStore = useDataStore()
 
@@ -140,7 +146,7 @@ useDirectusSeo(
 const mapRows = (rows) => (rows || []).map((s) => ({
   label: s.name,
   slug: s.slug,
-  image: directusAsset(s.isotipo, { format: 'webp', height: 160, fit: 'cover' }),
+  image: s.isotipo,
   intro: s.intro || ''
 }))
 
