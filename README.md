@@ -74,7 +74,7 @@ Este proyecto es la **segunda versión del sitio web corporativo**, construido c
 - **Headless CMS**: Contenido gestionable sin tocar código
 - **API Routes**: Endpoints server-side para operaciones seguras
 - **State Management**: Pinia para estado global
-- **Image Optimization**: Transformaciones automáticas con @nuxt/image
+- **Image Optimization**: @nuxt/image v1.11.0 con provider Directus, 5 presets configurados, srcset automático, WebP/AVIF
 - **Motion Animations**: Directivas personalizadas para animaciones
 - **Code Splitting**: Carga optimizada por rutas
 
@@ -760,30 +760,57 @@ const items = await $directus.request(readItems('solutions'))
 }
 ```
 
-### Utilidad: directusAsset
+### Optimización de Imágenes con @nuxt/image
 
-**Propósito**: Generar URLs optimizadas de assets de Directus
+**Sistema actual**: NuxtImg con provider de Directus + presets configurados
 
-**Uso**:
+**Configuración** (en `nuxt.config.ts`):
 
-```javascript
-import { directusAsset } from '~/utils/directusAsset'
-
-// Imagen optimizada
-const imageUrl = directusAsset(directusId, {
-  format: 'webp',
-  width: 800,
-  height: 600,
-  fit: 'cover',
-  quality: 80
-})
+```typescript
+image: {
+  directus: {
+    baseURL: 'https://admin.concentra.com.do/assets'
+  },
+  formats: ['webp', 'avif'],
+  quality: 80,
+  presets: {
+    logo: { modifiers: { format: 'webp', fit: 'contain', quality: 90 } },
+    thumbnail: { modifiers: { format: 'webp', width: 300, height: 120, fit: 'cover', quality: 80 } },
+    hero: { modifiers: { format: 'webp', width: 1280, fit: 'cover', quality: 85 } },
+    icon: { modifiers: { format: 'webp', width: 160, height: 160, fit: 'cover', quality: 85 } },
+    logoSmall: { modifiers: { format: 'webp', width: 45, height: 45, fit: 'cover', quality: 90 } }
+  }
+}
 ```
 
-**En template**:
+**Uso en componentes**:
 
 ```vue
-<img :src="directusAsset(item.logo, { width: 300, format: 'webp' })" />
+<template>
+  <!-- Uso básico con preset -->
+  <NuxtImg
+    :src="directusImageId"
+    provider="directus"
+    preset="hero"
+    alt="Descripción"
+    loading="lazy" />
+
+  <!-- Con sizes responsive -->
+  <NuxtImg
+    :src="item.logo"
+    provider="directus"
+    preset="logo"
+    sizes="xs:100vw sm:100vw md:50vw lg:50vw"
+    alt="Logo"
+    loading="eager" />
+</template>
 ```
+
+**Importante**:
+- NO usar el helper `directusAsset()` (deprecado)
+- Pasar IDs de Directus directos a NuxtImg
+- NuxtImg genera srcset automáticamente
+- Conversión a WebP/AVIF automática
 
 ### Colecciones de Directus
 
