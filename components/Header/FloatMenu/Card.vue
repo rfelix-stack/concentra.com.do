@@ -6,8 +6,14 @@ const emit = defineEmits(['closeDropdown']);
 <template>
     <div v-if="dataStore.menuCardItem" class="bg-white shadow-sm shadow-secondary/15 rounded-3xl">
         <div class="h-72 overflow-hidden rounded-t-lg">
-            <img class="h-full w-full object-cover object-center"
-                :src="directusAsset(dataStore.menuCardItem?.card_image)" :alt="dataStore.menuCardItem?.card_title" />
+            <NuxtImg
+                :src="dataStore.menuCardItem?.card_image"
+                provider="directus"
+                preset="hero"
+                sizes="sm:300px md:400px"
+                :alt="dataStore.menuCardItem?.card_title"
+                class="h-full w-full object-cover object-center"
+                loading="lazy" />
         </div>
 
         <div class="p-5">

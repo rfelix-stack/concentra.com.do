@@ -12,7 +12,13 @@
             <template v-else>
                 <Slide v-for="(logo, index) in logos.slice(0, 10)" :key="index">
                     <div class="carousel__item relative isolate h-24 md:h-28">
-                        <NuxtImg :src="logo" alt="Logo" class="max-h-full max-w-full object-contain" />
+                        <NuxtImg
+                            :src="logo"
+                            provider="directus"
+                            preset="thumbnail"
+                            alt="Logo"
+                            class="max-h-full max-w-full object-contain"
+                            loading="lazy" />
                     </div>
                 </Slide>
             </template>
@@ -35,7 +41,13 @@
             <template v-else>
                 <Slide v-for="(logo, index) in logos.slice(11, 20)" :key="index">
                     <div class="carousel__item relative isolate h-24 md:h-28">
-                        <NuxtImg :src="logo" alt="Logo" class="max-h-full max-w-full object-contain" />
+                        <NuxtImg
+                            :src="logo"
+                            provider="directus"
+                            preset="thumbnail"
+                            alt="Logo"
+                            class="max-h-full max-w-full object-contain"
+                            loading="lazy" />
                     </div>
                 </Slide>
             </template>
@@ -51,7 +63,6 @@
 <script setup>
 import 'vue3-carousel/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
-import { directusAsset } from '~/utils/directusAsset'
 
 const carouselConfig = {
     autoplay: 2000,
@@ -77,7 +88,7 @@ const loading = ref(false)
 
 const logos = computed(() =>
     (store.data.featuredClients || [])
-        .map((c) => directusAsset(c.logo, { width: 320, height: 160, fit: 'cover', format: 'webp' }))
+        .map((c) => c.logo)
         .filter(Boolean)
 )
 

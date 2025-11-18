@@ -38,8 +38,14 @@ const src = computed(() => {
         <div class="container mx-auto px-5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10 py-16">
                 <div class="">
-                    <img v-if="item?.logo" :src="directusAsset(item?.logo)" :alt="item?.name"
-                        class="h-12 w-auto" v-motion-fadein-up-once>
+                    <NuxtImg v-if="item?.logo"
+                        :src="item?.logo"
+                        provider="directus"
+                        preset="logo"
+                        :alt="item?.name"
+                        class="h-12 w-auto"
+                        loading="eager"
+                        v-motion-fadein-up-once />
 
                     <h1 v-if="item?.title"
                         class="mt-8 text-4xl font-semibold tracking-tight text-pretty text-secondary leading-tight sm:text-5xl"
@@ -57,8 +63,14 @@ const src = computed(() => {
                         <div v-if="item?.media_type === 'image'"
                             class="overflow-hidden isolate relative rounded-xl max-h-[50vvh] bg-secondary shadow-xl ring-1 ring-primary-50"
                             v-motion-fadein-up-once>
-                            <img class="w-full h-full object-center object-cover" :src="directusAsset(item?.image)"
-                                :alt="item?.title">
+                            <NuxtImg
+                                :src="item?.image"
+                                provider="directus"
+                                preset="hero"
+                                sizes="xs:100vw sm:100vw md:50vw lg:50vw"
+                                :alt="item?.title"
+                                class="w-full h-full object-center object-cover"
+                                loading="lazy" />
                         </div>
 
                         <iframe v-if="item?.media_type === 'video' && item?.video_type === 'youtube'"

@@ -8,8 +8,14 @@
                     <div :class="[
                         'flex size-20 flex-none items-center justify-center rounded-lg bg-primary-50 group-hover:bg-white',
                     ]">
-                        <img v-if="solution.related_solutions_id?.isotipo" :src="directusAsset(solution.related_solutions_id.isotipo)" :alt="solution.related_solutions_id?.slug"
-                            class="size-16 object-contain object-center">
+                        <NuxtImg
+                            v-if="solution.related_solutions_id?.isotipo"
+                            :src="solution.related_solutions_id.isotipo"
+                            provider="directus"
+                            preset="icon"
+                            :alt="solution.related_solutions_id?.slug"
+                            class="size-16 object-contain object-center"
+                            loading="lazy" />
                     </div>
                     <div class="flex-auto">
                         <p class="mt-1 text-gris-aluminio font-normal">{{ solution.related_solutions_id.intro }}</p>

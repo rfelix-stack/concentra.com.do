@@ -83,9 +83,13 @@
                                         <li v-for="(opt, j) in item.options" :key="`m-sub-${i}-${j}`">
                                             <NuxtLink :to="opt.hash" @click="closeMobile"
                                                 :class="['flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-gray-50', isActive(opt.hash) && 'bg-gray-50 text-primary font-medium']">
-                                                <img v-if="opt.image"
-                                                    :src="directusAsset(opt.image, { width: 45, height: 45, fit: 'cover' })"
-                                                    :alt="opt.label" class="h-7 w-7 object-cover" />
+                                                <NuxtImg v-if="opt.image"
+                                                    :src="opt.image"
+                                                    provider="directus"
+                                                    preset="logoSmall"
+                                                    :alt="opt.label"
+                                                    class="h-7 w-7 object-cover"
+                                                    loading="lazy" />
                                                 <span class="text-base text-paragraph">{{ opt.label }}</span>
                                             </NuxtLink>
                                         </li>
@@ -110,7 +114,7 @@
 
 const dataStore = useDataStore();
 const mobileOpen = ref(false)
-import { directusAsset } from '~/utils/directusAsset'
+// directusAsset removed - now using NuxtImg with directus provider
 const route = useRoute()
 
 // expose lists for mobile menu

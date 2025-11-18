@@ -58,8 +58,14 @@
                                         <Carousel class="mt-6" v-bind="certCarouselMobile">
                                             <Slide v-for="(c, idx) in certifications" :key="`m-${idx}`">
                                                 <div class="carousel__item relative isolate h-20">
-                                                    <NuxtImg v-if="c?.image" :src="c?.image" :alt="c?.name"
-                                                        class="max-h-full max-w-full object-contain" />
+                                                    <NuxtImg
+                                                        v-if="c?.image"
+                                                        :src="c?.image"
+                                                        provider="directus"
+                                                        preset="thumbnail"
+                                                        :alt="c?.name"
+                                                        class="max-h-full max-w-full object-contain"
+                                                        loading="lazy" />
                                                 </div>
                                             </Slide>
                                         </Carousel>
@@ -71,8 +77,13 @@
                                             <div v-for="(c, idx) in certificationsDesktop" :key="`d-${idx}`">
                                                 <div v-if="c && c.image"
                                                     class="h-20 lg:h-24 w-40 bg-white/5 rounded-3xl flex items-center justify-center">
-                                                    <NuxtImg :src="c.image" :alt="c.name"
-                                                        class="max-h-full max-w-full object-contain" />
+                                                    <NuxtImg
+                                                        :src="c.image"
+                                                        provider="directus"
+                                                        preset="thumbnail"
+                                                        :alt="c.name"
+                                                        class="max-h-full max-w-full object-contain"
+                                                        loading="lazy" />
                                                 </div>
                                             </div>
                                         </div>
@@ -80,8 +91,14 @@
                                             <Carousel class="mt-6" v-bind="certCarouselDesktop">
                                                 <Slide v-for="(c, idx) in certifications" :key="`d-slide-${idx}`">
                                                     <div class="carousel__item relative isolate h-20">
-                                                        <NuxtImg v-if="c?.image" :src="c?.image" :alt="c?.name"
-                                                            class="max-h-full max-w-full object-contain" />
+                                                        <NuxtImg
+                                                            v-if="c?.image"
+                                                            :src="c?.image"
+                                                            provider="directus"
+                                                            preset="thumbnail"
+                                                            :alt="c?.name"
+                                                            class="max-h-full max-w-full object-contain"
+                                                            loading="lazy" />
                                                     </div>
                                                 </Slide>
                                             </Carousel>
@@ -206,7 +223,6 @@
 <script setup>
 import 'vue3-carousel/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
-import { directusAsset } from '~/utils/directusAsset'
 import { h } from 'vue'
 const route = useRoute()
 const dataStore = useDataStore()
@@ -236,7 +252,7 @@ const certifications = computed(() => {
     const rows = Array.isArray(certsResp.value) ? certsResp.value : []
     return rows.map(r => ({
         name: r?.name || '',
-        image: r?.image ? directusAsset(r.image, { format: 'webp', width: 300, height: 120, fit: 'cover' }) : ''
+        image: r?.image || ''
     }))
 })
 
