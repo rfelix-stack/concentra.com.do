@@ -10,6 +10,8 @@
 </template>
 
 <script setup>
+// Agregar Organization Structured Data para SEO
+useOrganizationSchema()
 </script>
 
 <style>

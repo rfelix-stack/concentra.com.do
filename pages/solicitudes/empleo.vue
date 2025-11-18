@@ -75,18 +75,25 @@
                         <div>
                             <label for="first-name" class="block text-sm/6 font-semibold text-secondary">Nombres</label>
                             <div class="mt-2.5">
-                                <input v-model="form.name" required type="text" name="first-name" id="first-name"
+                                <input v-model="form.firstName" required type="text" name="first-name" id="first-name"
                                     autocomplete="given-name"
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
+                                    :class="[
+                                        'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                                        fieldErrors.firstName ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                                    ]">
+                                <p v-if="fieldErrors.firstName" class="mt-1 text-sm text-red-600">{{ fieldErrors.firstName }}</p>
                             </div>
                         </div>
                         <div>
-                            <label for="last-name"
-                                class="block text-sm/6 font-semibold text-secondary">Apellidos</label>
+                            <label for="last-name" class="block text-sm/6 font-semibold text-secondary">Apellidos</label>
                             <div class="mt-2.5">
-                                <input v-model="form.lastname" required type="text" name="last-name" id="last-name"
+                                <input v-model="form.lastName" required type="text" name="last-name" id="last-name"
                                     autocomplete="family-name"
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
+                                    :class="[
+                                        'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                                        fieldErrors.lastName ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                                    ]">
+                                <p v-if="fieldErrors.lastName" class="mt-1 text-sm text-red-600">{{ fieldErrors.lastName }}</p>
                             </div>
                         </div>
                         <div class="sm:col-span-2">
@@ -95,7 +102,11 @@
                             <div class="mt-2.5">
                                 <input v-model="form.email" required type="email" name="email" id="email"
                                     autocomplete="email"
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
+                                    :class="[
+                                        'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                                        fieldErrors.email ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                                    ]">
+                                <p v-if="fieldErrors.email" class="mt-1 text-sm text-red-600">{{ fieldErrors.email }}</p>
                             </div>
                         </div>
                         <div class="sm:col-span-2">
@@ -104,7 +115,11 @@
                             <div class="mt-2.5">
                                 <input v-model="form.phone" type="tel" name="phone-number" id="phone-number"
                                     autocomplete="tel"
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary">
+                                    :class="[
+                                        'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                                        fieldErrors.phone ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                                    ]">
+                                <p v-if="fieldErrors.phone" class="mt-1 text-sm text-red-600">{{ fieldErrors.phone }}</p>
                             </div>
                         </div>
 
@@ -133,24 +148,18 @@
                             <label for="location" class="block text-sm/6 font-medium text-secondary">Carrera /
                                 Profesión</label>
                             <div class="mt-2 grid grid-cols-1">
-                                <select id="location" name="location"
+                                <select id="location" name="location" v-model="form.position"
                                     class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6">
-                                    <option value="Estudiante de Sistemas">
-                                        Estudiante de Sistemas </option>
-                                    <option value="Ingeniería en Sistemas">
-                                        Ingeniería en Sistemas </option>
+                                    <option value="Estudiante de Sistemas">Estudiante de Sistemas</option>
+                                    <option value="Ingeniería en Sistemas">Ingeniería en Sistemas</option>
                                     <option value="Ingeniería en tecnología de la comunicación y de la información">
-                                        Ingeniería en tecnología de la comunicación y de la información </option>
-                                    <option value="Ingeniería en Software">
-                                        Ingeniería en Software </option>
+                                        Ingeniería en tecnología de la comunicación y de la información</option>
+                                    <option value="Ingeniería en Software">Ingeniería en Software</option>
                                     <option value="Ingeniería electrónica y comunicaciones">
-                                        Ingeniería electrónica y comunicaciones </option>
-                                    <option value="Ingeniería Industrial">
-                                        Ingeniería Industrial </option>
-                                    <option value="Licenciado en Sistemas">
-                                        Licenciado en Sistemas </option>
-                                    <option value="Otros">
-                                        Otros </option>
+                                        Ingeniería electrónica y comunicaciones</option>
+                                    <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                                    <option value="Licenciado en Sistemas">Licenciado en Sistemas</option>
+                                    <option value="Otros">Otros</option>
                                 </select>
                                 <svg class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
                                     viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-slot="icon">
@@ -164,8 +173,12 @@
                             <label for="message" class="block text-sm/6 font-semibold text-secondary">Áreas de
                                 experiencia</label>
                             <div class="mt-2.5">
-                                <textarea v-model="form.expertise" name="message" id="message" rows="2"
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary"></textarea>
+                                <textarea v-model="form.coverLetter" name="message" id="message" rows="2"
+                                    :class="[
+                                        'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                                        fieldErrors.coverLetter ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                                    ]"></textarea>
+                                <p v-if="fieldErrors.coverLetter" class="mt-1 text-sm text-red-600">{{ fieldErrors.coverLetter }}</p>
                             </div>
                         </div>
                         <div class="sm:col-span-2">
@@ -173,13 +186,17 @@
                                 Vitae</label>
                             <div class="mt-2.5">
                                 <label
-                                    class="block w-full rounded-md bg-white px-3.5 py-2 text-base outline-1 -outline-offset-1 outline-primary-100 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-primary cursor-pointer">
+                                    :class="[
+                                        'block w-full rounded-md bg-white px-3.5 py-2 text-base outline-1 -outline-offset-1 focus-within:outline-2 focus-within:-outline-offset-2 cursor-pointer',
+                                        fieldErrors.cv ? 'outline-red-300 focus-within:outline-red-500' : 'outline-primary-100 focus-within:outline-primary'
+                                    ]">
                                     <input @change="onFileChange" type="file" id="cv" accept="application/pdf"
                                         autocomplete="off" class="sr-only">
                                     <span :class="fileName ? 'text-secondary' : 'text-paragraph'">
-                                        {{ fileName || 'Sube un .pdf' }}
+                                        {{ fileName || 'Sube un .pdf (máx 5MB)' }}
                                     </span>
                                 </label>
+                                <p v-if="fieldErrors.cv" class="mt-1 text-sm text-red-600">{{ fieldErrors.cv }}</p>
                             </div>
                         </div>
                     </div>
@@ -196,7 +213,10 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { jobApplicationSchema } from '~/types/schemas'
+import type { ZodError } from 'zod'
+
 // Page content + SEO (singleton: empleo)
 const { data: empleoPage } = await useAsyncData(
   'empleo_page',
@@ -215,12 +235,22 @@ useDirectusSeo(
 const empleoTitle = computed(() => empleoPage.value?.title || 'ConCentra')
 const empleoIntro = computed(() => empleoPage.value?.intro || 'Somos una empresa de referencia en el sector de la externalización de servicios y en base a nuestro compromiso de Responsabilidad Social, queremos motivarte a enviar tu hoja de vida (CV) con la finalidad de ser evaluado para ocupar cualquiera de nuestras plazas vacantes a las que aplique tu perfil profesional.')
 
-const form = reactive({ name: '', lastname: '', email: '', phone: '', company: '', education: 'Técnico', profession: 'Estudiante de Sistemas', expertise: '' })
-const file = ref(null)
+const form = reactive({
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  position: 'Estudiante de Sistemas',
+  cv: '',
+  coverLetter: '',
+  education: 'Técnico'  // Extra field not in schema
+})
+const file = ref<File | null>(null)
 const fileName = computed(() => file.value?.name || '')
 const submitting = ref(false)
 const successMsg = ref('')
 const errorMsg = ref('')
+const fieldErrors = ref<Record<string, string>>({})
 
 // Contact info for empleo from configs
 const dataStore = useDataStore()
@@ -233,39 +263,113 @@ const empleoPhoneHref = computed(() => `tel:${String(empleoPhoneRaw.value).repla
 const empleoEmailHref = computed(() => `mailto:${empleoEmailRaw.value}`)
 const empleoAddressText = computed(() => cfg.value?.address || 'Acrópolis Center, Piso 8,\nAv. Winston Churchill, esquina Av. Rafael A. Sanchez\nSanto Domingo, República Dominicana')
 
-const onFileChange = (e) => {
-    const f = e?.target?.files?.[0]
-    if (!f) { file.value = null; return }
-    if (f.type !== 'application/pdf') { errorMsg.value = 'El CV debe ser un PDF.'; file.value = null; return }
-    errorMsg.value = ''
+const onFileChange = (e: Event) => {
+    const target = e?.target as HTMLInputElement
+    const f = target?.files?.[0]
+
+    if (!f) {
+        file.value = null
+        fieldErrors.value.cv = ''
+        return
+    }
+
+    // Validación de tipo y tamaño
+    if (f.type !== 'application/pdf') {
+        fieldErrors.value.cv = 'El CV debe ser un archivo PDF'
+        file.value = null
+        return
+    }
+
+    const maxSize = 5 * 1024 * 1024 // 5MB
+    if (f.size > maxSize) {
+        fieldErrors.value.cv = 'El archivo no debe superar 5MB'
+        file.value = null
+        return
+    }
+
+    fieldErrors.value.cv = ''
     file.value = f
 }
 
 const submit = async () => {
+    // Reset mensajes
     successMsg.value = ''
     errorMsg.value = ''
-    if (!form.name || !form.lastname || !form.email) { errorMsg.value = 'Completa los campos requeridos.'; return }
-    if (!file.value) { errorMsg.value = 'Adjunta tu CV en PDF.'; return }
+    fieldErrors.value = {}
+
+    // Validar archivo antes de submit
+    if (!file.value) {
+        errorMsg.value = 'Por favor adjunta tu CV en formato PDF.'
+        return
+    }
+
     try {
+        // 1. Subir archivo primero
         submitting.value = true
         const fd = new FormData()
         fd.append('file', file.value)
         const uploadResp = await $fetch('/api/directus/upload', { method: 'POST', body: fd })
         const fileId = uploadResp?.id || uploadResp?.data?.id
+
+        if (!fileId) {
+            throw new Error('Error al subir el archivo')
+        }
+
+        // 2. Validar datos del formulario con Zod (previene inyecciones)
+        const validatedData = jobApplicationSchema.parse({
+            firstName: form.firstName,
+            lastName: form.lastName,
+            email: form.email,
+            phone: form.phone || '',
+            position: form.position,
+            cv: fileId,
+            coverLetter: form.coverLetter || ''
+        })
+
+        // 3. Crear lead en Directus
         await $fetch('/api/directus/createItem', {
             method: 'POST',
             body: {
-                collection: 'job_leads', item: {
-                    status: 'published', name: form.name, lastname: form.lastname, email: form.email, phone: form.phone,
-                    company: form.company, Profession: form.profession, expertise: form.expertise, cv: fileId, technical_level: form.education
+                collection: 'job_leads',
+                item: {
+                    status: 'published',
+                    name: validatedData.firstName,
+                    lastname: validatedData.lastName,
+                    email: validatedData.email,
+                    phone: validatedData.phone,
+                    Profession: validatedData.position,
+                    expertise: validatedData.coverLetter,
+                    cv: validatedData.cv,
+                    technical_level: form.education
                 }
             }
         })
+
         successMsg.value = '¡Gracias! Hemos recibido tu aplicación.'
-        form.name = form.lastname = form.email = form.phone = form.company = form.expertise = ''
+
+        // Limpiar formulario
+        form.firstName = ''
+        form.lastName = ''
+        form.email = ''
+        form.phone = ''
+        form.position = 'Estudiante de Sistemas'
+        form.coverLetter = ''
+        form.education = 'Técnico'
         file.value = null
     } catch (e) {
-        errorMsg.value = 'No pudimos enviar tu aplicación. Inténtalo de nuevo.'
+        if ((e as any)?.issues) {
+            // Error de validación Zod
+            const zodError = e as ZodError
+            zodError.issues.forEach((issue) => {
+                if (issue.path[0]) {
+                    fieldErrors.value[issue.path[0] as string] = issue.message
+                }
+            })
+            errorMsg.value = 'Por favor corrige los errores en el formulario.'
+        } else {
+            // Error de red, servidor, o upload
+            errorMsg.value = 'No pudimos enviar tu aplicación. Inténtalo de nuevo.'
+        }
     } finally {
         submitting.value = false
     }

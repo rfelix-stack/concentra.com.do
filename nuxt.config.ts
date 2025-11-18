@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
+import { ofetch } from "ofetch";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -38,7 +39,113 @@ compatibilityDate: "22025-07-15",
     // "@nuxtjs/i18n",
     "@nuxt/image",
     "@pinia/nuxt",
+    "nuxt-api-shield",
+    "@nuxtjs/sitemap",
   ],
+
+  // Configuración de rate limiting para proteger endpoints
+  nuxtApiShield: {
+    limit: {
+      max: 100,           // Máximo 100 requests
+      duration: 900,      // Ventana de 15 minutos (900 segundos)
+      ban: 3600,          // Ban de 1 hora si excede el límite
+    },
+    delayOnBan: true,     // Delay de 1 segundo para IPs baneadas
+    errorMessage: "Demasiadas solicitudes. Por favor, inténtalo más tarde.",
+    retryAfterHeader: true, // Incluir header Retry-After
+    log: {
+      path: "logs",
+      attempts: 50,       // Registrar IPs con 50+ intentos
+    },
+  },
+
+  // Configuración de Nitro para storage y scheduled tasks
+  nitro: {
+    storage: {
+      shield: {
+        driver: "memory"  // Almacenamiento en memoria (considerar Redis en producción)
+      }
+    },
+    experimental: {
+      tasks: true         // Habilitar scheduled tasks
+    },
+    scheduledTasks: {
+      "*/15 * * * *": ["shield:cleanBans"],      // Limpieza de bans cada 15 minutos
+      "0 0 * * *": ["shield:cleanIpData"]        // Limpieza de datos de IPs diariamente
+    }
+  },
+
+  // Configuración de Sitemap para SEO
+  sitemap: {
+    hostname: 'https://concentra.com.do',
+    gzip: true,
+    defaults: {
+      changefreq: 'weekly',
+      priority: 0.7,
+    },
+    // Generar URLs dinámicas desde Directus
+    urls: async () => {
+      const baseUrl = process.env.NUXT_PUBLIC_DIRECTUS_URL || 'https://admin.concentra.com.do'
+      const token = process.env.DIRECTUS_TOKEN || ''
+
+      if (!token) {
+        console.warn('DIRECTUS_TOKEN no configurado, sitemap no incluirá rutas dinámicas')
+        return []
+      }
+
+      try {
+        // Fetch solutions, services, and consultancies
+        const [solutions, services, consultancies] = await Promise.all([
+          ofetch<{ data: Array<{ slug: string; date_updated?: string }> }>(`${baseUrl}/items/solutions`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+            query: { fields: 'slug,date_updated', filter: { status: { _eq: 'published' } } }
+          }),
+          ofetch<{ data: Array<{ slug: string; date_updated?: string }> }>(`${baseUrl}/items/services`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+            query: { fields: 'slug,date_updated', filter: { status: { _eq: 'published' } } }
+          }),
+          ofetch<{ data: Array<{ slug: string; date_updated?: string }> }>(`${baseUrl}/items/consultancies`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+            query: { fields: 'slug,date_updated', filter: { status: { _eq: 'published' } } }
+          }),
+        ])
+
+        const urls: any[] = []
+
+        // Add solution URLs
+        solutions.data?.forEach((item) => {
+          urls.push({
+            loc: `/soluciones/${item.slug}`,
+            lastmod: item.date_updated,
+            priority: 0.8,
+          })
+        })
+
+        // Add service URLs
+        services.data?.forEach((item) => {
+          urls.push({
+            loc: `/servicios/${item.slug}`,
+            lastmod: item.date_updated,
+            priority: 0.8,
+          })
+        })
+
+        // Add consultancy URLs
+        consultancies.data?.forEach((item) => {
+          urls.push({
+            loc: `/consultorias/${item.slug}`,
+            lastmod: item.date_updated,
+            priority: 0.6,
+          })
+        })
+
+        return urls
+      } catch (error) {
+        console.error('Error fetching sitemap URLs from Directus:', error)
+        return []
+      }
+    },
+  },
 
   css: ["~/assets/css/main.css"],
 
@@ -118,11 +225,16 @@ compatibilityDate: "22025-07-15",
   },
 
   runtimeConfig: {
-    directusUrl: "https://admin.concentra.com.do",
-    directusToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
+    // Server-only variables (NUNCA expuestas al cliente)
+    // Lee desde: NUXT_PUBLIC_DIRECTUS_URL, DIRECTUS_TOKEN
+    directusUrl: process.env.NUXT_PUBLIC_DIRECTUS_URL || "https://admin.concentra.com.do",
+    directusToken: process.env.DIRECTUS_TOKEN || "",
     public: {
+      // Variables públicas (accesibles desde el cliente)
+      // Auto-mapeadas desde: NUXT_PUBLIC_DIRECTUS_URL, DIRECTUS_STATIC_TOKEN, NUXT_PUBLIC_SITE_URL
       directusUrl: "https://admin.concentra.com.do",
-      directusStaticToken: "PnaJ58-mXSHQTY5LP9rKJ6qL2Hbpzoy2",
+      directusStaticToken: process.env.DIRECTUS_STATIC_TOKEN || "",
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://concentra.com.do",
       motion: {
         directives: {
           "fadein-once": {

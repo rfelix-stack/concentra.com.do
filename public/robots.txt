@@ -1,1 +1,16 @@
+# robots.txt para ConCentra.com.do
+# ===================================
+# Configuración de rastreo para motores de búsqueda
 
+# Permitir acceso a todos los bots
+User-agent: *
+Allow: /
+
+# Bloquear API endpoints (no indexar)
+Disallow: /api/
+
+# Bloquear formularios de solicitudes (no indexar)
+Disallow: /solicitudes/
+
+# Sitemap principal (se generará con @nuxtjs/sitemap)
+Sitemap: https://concentra.com.do/sitemap.xml

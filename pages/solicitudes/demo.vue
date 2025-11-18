@@ -59,7 +59,11 @@
               <div class="mt-2.5">
                 <input v-model="form.firstName" required type="text" name="first-name" id="first-name"
                   autocomplete="given-name"
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.firstName ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.firstName" class="mt-1 text-sm text-red-600">{{ fieldErrors.firstName }}</p>
               </div>
             </div>
             <div>
@@ -67,21 +71,33 @@
               <div class="mt-2.5">
                 <input v-model="form.lastName" required type="text" name="last-name" id="last-name"
                   autocomplete="family-name"
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.lastName ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.lastName" class="mt-1 text-sm text-red-600">{{ fieldErrors.lastName }}</p>
               </div>
             </div>
             <div class="sm:col-span-2">
               <label for="email" class="block text-sm/6 font-semibold text-secondary">Email</label>
               <div class="mt-2.5">
                 <input v-model="form.email" required type="email" name="email" id="email" autocomplete="email"
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.email ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.email" class="mt-1 text-sm text-red-600">{{ fieldErrors.email }}</p>
               </div>
             </div>
             <div>
               <label for="phone" class="block text-sm/6 font-semibold text-secondary">Teléfono</label>
               <div class="mt-2.5">
                 <input v-model="form.phone" type="text" name="phone" id="phone"
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.phone ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.phone" class="mt-1 text-sm text-red-600">{{ fieldErrors.phone }}</p>
               </div>
             </div>
             <div>
@@ -95,7 +111,11 @@
               <label for="message" class="block text-sm/6 font-semibold text-secondary">Mensaje</label>
               <div class="mt-2.5">
                 <textarea v-model="form.message" name="message" id="message" rows="4"
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2 focus:outline-primary"></textarea>
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-gris-aluminio focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.message ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]"></textarea>
+                <p v-if="fieldErrors.message" class="mt-1 text-sm text-red-600">{{ fieldErrors.message }}</p>
               </div>
             </div>
           </div>
@@ -111,7 +131,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { demoBookingSchema } from '~/types/schemas'
+import type { DemoBookingFormData } from '~/types/schemas'
+import type { ZodError } from 'zod'
+
 const route = useRoute()
 const dataStore = useDataStore()
 
@@ -170,21 +194,28 @@ watch([selectedSlug, src], () => {
 })
 
 // form state + submit
-const form = reactive({ firstName: '', lastName: '', email: '', phone: '', company: '', message: '' })
+const form = reactive<DemoBookingFormData>({ firstName: '', lastName: '', email: '', phone: '', company: '', message: '' })
 const submitting = ref(false)
 const successMsg = ref('')
 const errorMsg = ref('')
+const fieldErrors = ref<Record<string, string>>({})
 
 const bookingType = computed(() => src.value === 'services' ? 'service' : src.value === 'consultancies' ? 'Training' : 'solution')
 
 const submit = async () => {
+  // Reset mensajes
   successMsg.value = ''
   errorMsg.value = ''
-  if (!form.firstName || !form.lastName || !form.email || !selectedSlug.value) {
-    errorMsg.value = 'Completa los campos requeridos.'
-    return
-  }
+  fieldErrors.value = {}
+
   try {
+    // Validar datos con Zod (previene inyecciones)
+    const validatedData = demoBookingSchema.parse({
+      ...form,
+      type: src.value as 'solutions' | 'services' | 'consultancies',
+      item: selectedSlug.value
+    })
+
     submitting.value = true
     await $fetch('/api/directus/createItem', {
       method: 'POST',
@@ -192,22 +223,41 @@ const submit = async () => {
         collection: 'demo_booking',
         item: {
           status: 'published',
-          name: form.firstName,
-          lastname: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          company: form.company,
-          message: form.message,
+          name: validatedData.firstName,
+          lastname: validatedData.lastName,
+          email: validatedData.email,
+          phone: validatedData.phone || '',
+          company: validatedData.company || '',
+          message: validatedData.message || '',
           booking_type: bookingType.value,
           item: items.value[currentIndex.value]?.label || ''
         }
       }
     })
+
     successMsg.value = '¡Gracias! Hemos recibido tu solicitud.'
-    // clear
-    form.firstName = form.lastName = form.email = form.phone = form.company = form.message = ''
+
+    // Limpiar formulario
+    form.firstName = ''
+    form.lastName = ''
+    form.email = ''
+    form.phone = ''
+    form.company = ''
+    form.message = ''
   } catch (e) {
-    errorMsg.value = 'No pudimos enviar tu solicitud. Inténtalo de nuevo.'
+    if ((e as any)?.issues) {
+      // Error de validación Zod
+      const zodError = e as ZodError
+      zodError.issues.forEach((issue) => {
+        if (issue.path[0]) {
+          fieldErrors.value[issue.path[0] as string] = issue.message
+        }
+      })
+      errorMsg.value = 'Por favor corrige los errores en el formulario.'
+    } else {
+      // Error de red o servidor
+      errorMsg.value = 'No pudimos enviar tu solicitud. Inténtalo de nuevo.'
+    }
   } finally {
     submitting.value = false
   }

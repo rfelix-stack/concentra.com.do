@@ -14,7 +14,9 @@ const { data } = await useAsyncData(
 )
 
 const title = computed(() => data.value?.title || 'Políticas de Privacidad')
-const html = computed(() => data.value?.content || '')
+
+// Sanitizar HTML para prevenir XSS
+const sanitizedHtml = useSanitizeHtml(() => data.value?.content)
 
 // SEO integration
 useDirectusSeo(
@@ -29,7 +31,7 @@ useDirectusSeo(
       <div class="container mx-auto px-5 max-w-5xl">
         <h1 class="text-secondary font-semibold tracking-tight">{{ title }}</h1>
         <div class="mt-8">
-          <div class="content max-w-none space-y-6" v-html="html"></div>
+          <div class="content max-w-none space-y-6" v-html="sanitizedHtml"></div>
         </div>
       </div>
     </section>

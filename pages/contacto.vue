@@ -71,7 +71,11 @@
               <label for="name" class="block text-sm/6 font-semibold text-secondary">Nombre</label>
               <div class="mt-2.5">
                 <input v-model="form.name" type="text" id="name" name="name" autocomplete="given-name" required
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.name ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.name" class="mt-1 text-sm text-red-600">{{ fieldErrors.name }}</p>
               </div>
             </div>
 
@@ -79,7 +83,11 @@
               <label for="lastname" class="block text-sm/6 font-semibold text-secondary">Apellido</label>
               <div class="mt-2.5">
                 <input v-model="form.lastname" type="text" id="lastname" name="lastname" autocomplete="family-name" required
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.lastname ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.lastname" class="mt-1 text-sm text-red-600">{{ fieldErrors.lastname }}</p>
               </div>
             </div>
 
@@ -87,15 +95,23 @@
               <label for="email" class="block text-sm/6 font-semibold text-secondary">Email</label>
               <div class="mt-2.5">
                 <input v-model="form.email" type="email" id="email" name="email" autocomplete="email" required
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.email ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.email" class="mt-1 text-sm text-red-600">{{ fieldErrors.email }}</p>
               </div>
             </div>
 
             <div class="sm:col-span-2">
               <label for="phone" class="block text-sm/6 font-semibold text-secondary">Teléfono</label>
               <div class="mt-2.5">
-                <input v-model="form.phone" type="tel" id="phone" name="phone" autocomplete="tel" 
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary" />
+                <input v-model="form.phone" type="tel" id="phone" name="phone" autocomplete="tel"
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.phone ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]" />
+                <p v-if="fieldErrors.phone" class="mt-1 text-sm text-red-600">{{ fieldErrors.phone }}</p>
               </div>
             </div>
 
@@ -103,7 +119,11 @@
               <label for="message" class="block text-sm/6 font-semibold text-secondary">Mensaje</label>
               <div class="mt-2.5">
                 <textarea v-model="form.message" id="message" name="message" rows="4" required
-                  class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 outline-primary-100 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2 focus:outline-primary"></textarea>
+                  :class="[
+                    'block w-full rounded-md bg-white px-3.5 py-2 text-base text-secondary outline-1 -outline-offset-1 placeholder:text-paragraph focus:outline-2 focus:-outline-offset-2',
+                    fieldErrors.message ? 'outline-red-300 focus:outline-red-500' : 'outline-primary-100 focus:outline-primary'
+                  ]"></textarea>
+                <p v-if="fieldErrors.message" class="mt-1 text-sm text-red-600">{{ fieldErrors.message }}</p>
               </div>
             </div>
           </div>
@@ -120,7 +140,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { contactSchema } from '~/types/schemas'
+import type { ContactFormData } from '~/types/schemas'
+import type { ZodError } from 'zod'
+
 // Fetch SEO singleton for Contacto (if present)
 const { data: contacto } = await useAsyncData(
   'contacto',
@@ -139,10 +163,11 @@ useDirectusSeo(
 const contactTitle = computed(() => contacto.value?.title || 'Contáctanos')
 const contactIntro = computed(() => contacto.value?.intro || '¿Tienes alguna consulta o requieres información? Completa el formulario y nuestro equipo se pondrá en contacto contigo.')
 
-const form = reactive({ name: '', lastname: '', email: '', phone: '', message: '' })
+const form = reactive<ContactFormData>({ name: '', lastname: '', email: '', phone: '', message: '' })
 const submitting = ref(false)
 const successMsg = ref('')
 const errorMsg = ref('')
+const fieldErrors = ref<Record<string, string>>({})
 
 // Contact info from configs
 const dataStore = useDataStore()
@@ -156,13 +181,15 @@ const contactPhoneHref = computed(() => `tel:${String(contactPhoneRaw.value).rep
 const contactEmailHref = computed(() => `mailto:${contactEmailRaw.value}`)
 
 const submit = async () => {
+  // Reset mensajes
   successMsg.value = ''
   errorMsg.value = ''
-  if (!form.name || !form.lastname || !form.email || !form.message) {
-    errorMsg.value = 'Por favor completa los campos requeridos.'
-    return
-  }
+  fieldErrors.value = {}
+
   try {
+    // Validar datos con Zod (previene inyecciones)
+    const validatedData = contactSchema.parse(form)
+
     submitting.value = true
     await $fetch('/api/directus/createItem', {
       method: 'POST',
@@ -170,22 +197,33 @@ const submit = async () => {
         collection: 'contact_leads',
         item: {
           status: 'published',
-          name: form.name,
-          lastname: form.lastname,
-          email: form.email,
-          phone: form.phone,
-          message: form.message
+          ...validatedData
         }
       }
     })
+
     successMsg.value = '¡Gracias! Hemos recibido tu mensaje.'
+
+    // Limpiar formulario
     form.name = ''
     form.lastname = ''
     form.email = ''
     form.phone = ''
     form.message = ''
   } catch (e) {
-    errorMsg.value = 'No pudimos enviar tu mensaje. Inténtalo nuevamente.'
+    if ((e as any)?.issues) {
+      // Error de validación Zod
+      const zodError = e as ZodError
+      zodError.issues.forEach((issue) => {
+        if (issue.path[0]) {
+          fieldErrors.value[issue.path[0] as string] = issue.message
+        }
+      })
+      errorMsg.value = 'Por favor corrige los errores en el formulario.'
+    } else {
+      // Error de red o servidor
+      errorMsg.value = 'No pudimos enviar tu mensaje. Inténtalo nuevamente.'
+    }
   } finally {
     submitting.value = false
   }

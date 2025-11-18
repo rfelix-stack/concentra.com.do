@@ -1,10 +1,11 @@
 <script setup>
-defineProps({
+const props = defineProps({
     item: {
         type: Object,
         required: true
     }
 })
+
 const route = useRoute()
 const src = computed(() => {
     if (route.path.startsWith('/soluciones')) return 'solutions'
@@ -12,6 +13,9 @@ const src = computed(() => {
     if (route.path.startsWith('/consultorias')) return 'consultancies'
     return 'solutions'
 })
+
+// Sanitizar HTML para prevenir XSS
+const sanitizedContent = useSanitizeHtml(() => props.item?.content)
 </script>
 
 <template>
@@ -53,7 +57,7 @@ const src = computed(() => {
                         {{ item?.title }}
                     </h1>
                     <div v-if="item?.content" class="mt-6 text-base/7 text-paragraph font-normal space-y-6 content"
-                        v-html="item?.content" v-motion-fadein-up-once>
+                        v-html="sanitizedContent" v-motion-fadein-up-once>
                     </div>
                 </div>
 
